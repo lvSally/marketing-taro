@@ -1,0 +1,39 @@
+page {
+  background: #fff;
+}
+.page-login {
+  padding: 120px 30px 0;
+  text-align: center;
+}
+
+.protocol-wrap {
+  position: fixed;
+  bottom: 54px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 22px;
+  color: #ccc;
+  .icon {
+    width: 28px;
+    height: 28px;
+    position: relative;
+    top: 6px;
+  }
+  .link {
+    color: #999;
+    padding: 0 4px;
+  }
+}
+
+.logo {
+  margin: 30px auto 120px auto;
+  width: 200px;
+  height: 200px;
+}
+
+.title {
+  color: #333;
+  font-size: 32px;
+  margin-bottom: 92px;
+}

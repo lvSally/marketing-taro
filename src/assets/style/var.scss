@@ -1,0 +1,21 @@
+// 主题颜色
+$color-primary: #49C58C;
+$color-bg: #f0f7f7;
+$color-gray-1: #333333;
+$color-gray-2: #5C5C5C;
+$color-gray-3: #888888;
+
+// 改变主题变量，具体变量名可查看 taro-ui/dist/style/variables/default.scss 文件
+$hd: 2 !default; // 基本单位
+$color-brand: $color-primary;
+$border-radius-lg: 6px;
+$border-radius-sm: 6px;
+$border-radius-md: 6px;
+$border-radius-circle: 43px;
+$color-border-base: #F3F4F5;
+$font-size-lg: 30px; // 常规标题
+// $at-input-label-color: $color-text-base !default;
+$at-input-text-color: #1D222F;
+$at-button-height: 90px;
+$at-input-font-size: 30px;
+$at-input-placeholder-color: #CCC;

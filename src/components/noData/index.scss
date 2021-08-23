@@ -1,0 +1,23 @@
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.no-data {
+  width: 450px;
+  height: 225px;
+}
+
+.no-data-text {
+  font-size:28px;
+  font-family:PingFangHK-Regular,PingFangHK;
+  font-weight:400;
+  color:rgba(136,136,136,1);
+  margin-top: 32px;
+}
