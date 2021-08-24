@@ -1,0 +1,46 @@
+.custom-pop-wrap {
+  position: fixed;
+  z-index: 200;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  max-height: 96%;
+  min-height: 300px;
+  padding: 30px 0;
+  // border-top-left-radius: 20px;
+  // border-top-right-radius: 20px;
+  animation: moveBox 0.2s;
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 32px;
+    font-size: 36px;
+    color: #666;
+  }
+  .title {
+    padding: 0 24px;
+    text-align: center;
+  }
+}
+.pop-mask {
+  position: fixed;
+  z-index: 180;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  opacity: 0.5;
+}
+
+@keyframes moveBox {
+  0% {
+    bottom: -100%;
+  }
+  
+  100% {
+    bottom: 0;
+  }
+}

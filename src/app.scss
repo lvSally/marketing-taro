@@ -1,6 +1,11 @@
 @import "@style/var";
 @import "~taro-ui/dist/style/index.scss";
 
+// reset style
+.at-button--primary {
+  background: linear-gradient(to right,#eeb367,#ec9567);
+}
+
 page {
   background: $color-bg;
 }
