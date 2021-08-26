@@ -7,12 +7,13 @@
   display: flex;
   font-size: 20px;
   background: #fff;
-  padding: 8px 0;
+  padding: 16px 0;
   color: #888;
   font-weight: 400;
+  border-top: 1px solid #f0f0f0;
   &.bottom-IPX {
     /* iPhone X 内容往上偏移 46px */
-    bottom: 46px;
+    padding-bottom: 46px;
   }
   .navbar-block {
     width: 50%;

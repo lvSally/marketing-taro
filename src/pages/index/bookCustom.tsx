@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { AtButton } from 'taro-ui'
 import { View, Text } from '@tarojs/components'
 

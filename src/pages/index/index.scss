@@ -78,6 +78,7 @@ page {
   }
   .blod {
     color: #333;
+    font-weight: 500;
   }
   .book-btn {
     margin-top: 80px;
@@ -115,5 +116,38 @@ page {
     color: #000;
     font-weight: 500;
     margin-top: 12px;
+  }
+}
+
+.introduce-content {
+  padding: 48px 24px 200px 24px;
+  .title {
+    font-weight: 500px;
+    color: #333;
+    font-size: 30px;
+    margin-bottom: 32px;
+  }
+  .block-list {
+    display: flex;
+    align-items: center;
+    color: #666;
+    line-height: 40px;
+    font-size: 26px;
+    margin-bottom: 24px;
+    .sub-title {
+      font-size: 28px;
+      font-weight: 500;
+    }
+    .left {
+      width: 240px;
+      height: 180px;
+      margin-right: 40px;
+    }
+  }
+  .tip {
+    padding: 60px 0;
+    font-size: 24px;
+    color: #999;
+    text-align: center;
   }
 }
