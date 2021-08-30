@@ -4,7 +4,7 @@ import { AtButton } from 'taro-ui'
 import { View } from '@tarojs/components'
 import StoreListPop from './storeListPop'
 // import ProjectListPop from './projectListPop'
-import TimeListPop from './TimeListPop'
+import TimeListPop, {selectTimeType} from './TimeListPop'
 
 
 import './index.scss'
@@ -17,7 +17,7 @@ export interface IStore {
 
 export default function BookNormal() {
   const [store, setStore] = useState<IStore | undefined>(undefined)
-  const [time, setTime] = useState('')
+  const [time, setTime] = useState<selectTimeType>()
   const [showStore, setShowStore] = useState(false)
   const [showTime, setShowTime] = useState(false)
   const [storeList, setStoreList] = useState([
@@ -28,7 +28,7 @@ export default function BookNormal() {
 
   // 监听store变化时清空time中的内容
   useEffect(() => {
-    setTime('')
+    setTime(undefined)
   }, [store])
 
   const showTimeFn = () => {
@@ -53,6 +53,11 @@ export default function BookNormal() {
     setShowStore(false)
   }
 
+  const timeCloseFn = (val) => {
+    setTime(val)
+    setShowTime(false)
+  }
+
   const bookBtn = () => {
     console.log(store, time)
   }
@@ -65,13 +70,13 @@ export default function BookNormal() {
       </View>
       <View className='normal-list'>
         <View>到店时间:</View>
-        <View className={`${time ? '' : 'empty'} content`} onClick={showTimeFn}>{time || '请选择'}</View>
+        <View className={`${time?.time ? '' : 'empty'} content`} onClick={showTimeFn}>{time?.type === 'tomorrowList' ? '明天 ' : ''}{time?.time || '请选择'}</View>
       </View>
       <AtButton className='book-btn' type='primary' circle onClick={bookBtn}>预约</AtButton>
 
       <StoreListPop visible={showStore} list={storeList} maskClick onClose={storeCloseFn} onOk={storeCloseFn} select={store?.id} />
       {/* <ProjectListPop visible list={storeList} onClose={storeCloseFn} onOk={storeCloseFn} select={store?.id} /> */}
-      <TimeListPop visible={showTime} timeStart='22:00' timeEnd='次日01:00' />
+      <TimeListPop visible={showTime} select={time} timeStart='22:00' timeEnd='次日01:00' onClose={timeCloseFn} onOk={timeCloseFn} />
     </View>
   )
 }

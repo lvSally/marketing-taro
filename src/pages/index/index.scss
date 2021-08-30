@@ -208,9 +208,47 @@ page {
 }
 
 .custom-book-pop-wrap2 {
-  padding: 24px;
+  margin: 24px;
   height: 52vh;
   overflow: auto;
-  padding-bottom: 100px;
   box-sizing: border-box;
+  display: flex;
+  border: 1px solid #f2f2f2;
+  border-radius: 16px;
+  .time-bar-wrap {
+    height: 100%;
+    background: #f2f2f2;
+  }
+  .time-bar {
+    padding: 32px 0;
+    color: #333;
+    width: 240px;
+    text-align: center;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    &.active {
+      background: #fff;
+    }
+  }
+  .time-btn-wrap {
+    padding: 32px 0;
+  }
+
+  .time-btn {
+    width: 176px;
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+    background: #f2f2f2;
+    color: #333;
+    display: inline-block;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    margin-left: 32px;
+    border: 1px solid #f2f2f2;
+    &.active {
+      border-color: #f5b060;
+      background: #fef5ec;
+    }
+  }
 }
