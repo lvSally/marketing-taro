@@ -1,0 +1,54 @@
+.page-store {
+  .bg-img {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+  }
+  .desc-wrap {
+    background: #fff;
+    border-radius: 32px;
+    margin: 32px;
+    box-shadow: 2px 8px 20px 0 rgba(150, 159, 175, 0.35);
+    margin-top: 220px;
+    padding: 40px 32px;
+    .title {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+    .img-wrap {
+      overflow-x: auto;
+      width: 100%;
+      white-space: nowrap;
+      margin: 32px 0;
+      .img {
+        height: 160px;
+        display: inline-block;
+        width: auto;
+        margin-right: 16px;
+      }
+    }
+    .detail-wrap {
+      display: flex;
+      align-items: center;
+      .left {
+        flex: 1;
+        line-height: 40px;
+        padding-right: 32px;
+      }
+      .right {
+        width: 160px;
+        min-width: 160px;
+      }
+    }
+  }
+
+  .form-wrap {
+    .tab-wrap {
+      border-radius: 32px;
+    }
+  }
+  .p16 {
+    padding: 16px;
+  }
+}

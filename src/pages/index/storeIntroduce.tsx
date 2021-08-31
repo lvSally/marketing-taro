@@ -1,11 +1,18 @@
+import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import defaultImg from '@image/default1.png'
 import './index.scss'
 
 export default function StoreIntroduce() {
-  return <View className='introduce-content'>
+  const linkTo = function(id) {
+    Taro.navigateTo({
+      url: `/pages/store/index?id=${id}`
+    })
+  }
+
+  return <View className='custom-introduce-content'>
     <View className='title'>门店介绍</View>
-    <View className='block-list'>
+    <View className='block-list' onClick={() => linkTo(123)}>
       <Image className='left' src={defaultImg} />
       <View className='right'>
         <View className='sub-title'>来一桶旗舰店</View>

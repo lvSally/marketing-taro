@@ -29,6 +29,18 @@
           "pathName": "pages/index/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/store/index",
+          "pathName": "pages/store/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/storeDetail/index",
+          "pathName": "pages/storeDetail/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

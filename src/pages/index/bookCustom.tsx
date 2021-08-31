@@ -6,7 +6,7 @@ import './index.scss'
 export default function BookCustom() {
   
   return (
-    <View className='book-custom'>
+    <View className='custon-book-custom'>
       <View className='desc'>
         可以<Text className='blod'>自由定制选择服务项目、技师和时间</Text>点击下方按钮立即开始定制吧~
       </View>

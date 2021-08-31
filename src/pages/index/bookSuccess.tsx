@@ -6,7 +6,7 @@ import './index.scss'
 export default function BookSuccess() {
   
   return (
-    <View className='book-success'>
+    <View className='custon-book-success'>
       <View className='title'><Image className='icon' src={successIcon} />预约成功</View>
       <View className='desc'>请准时前往，到店前台告知手机号即可如有疑问或需要取消预约，请致电对应门店咨询</View>
       <View className='content'>

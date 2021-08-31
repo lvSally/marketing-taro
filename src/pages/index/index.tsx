@@ -13,8 +13,8 @@ export default function Home() {
         <Image className='bg-img' src={defaultImg} mode='widthFix' />
       </View>
       <Reserve className='form-wrap' />
-      <CustomTabar active='home' />
       <StoreIntroduce />
+      <CustomTabar active='home' />
     </View>
   )
 }

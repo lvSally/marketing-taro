@@ -64,7 +64,7 @@ export default function BookNormal() {
   }
   
   return (
-    <View className='book-normal'>
+    <View className='custom-book-normal'>
       <View className='normal-list mb40'>
         <View>预约门店:</View>
         <View className={`${store ? '' : 'empty'} content`} onClick={() => setShowStore(true)}>{store?.name || '请选择'}</View>
