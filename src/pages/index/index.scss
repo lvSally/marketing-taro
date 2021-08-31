@@ -220,7 +220,8 @@ page {
     background: #f2f2f2;
   }
   .time-bar {
-    padding: 32px 0;
+    padding: 32px;
+    box-sizing: border-box;
     color: #333;
     width: 240px;
     text-align: center;
@@ -229,6 +230,32 @@ page {
     &.active {
       background: #fff;
     }
+  }
+  .person-desc {
+    padding: 32px 32px 0 32px;
+    .img-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 24px 0;
+    }
+    .left {
+      width: 240px;
+      min-width: 240px;
+      height: 180px;
+      margin-right: 40px;
+    }
+    .right {
+      flex: 1;
+    }
+    .collapse {
+      color: #f5b060;
+    }
+  }
+
+  .time-title {
+    padding: 32px 32px 0 32px;
+    color: #333;
   }
   .time-btn-wrap {
     padding: 32px 0;
@@ -250,5 +277,9 @@ page {
       border-color: #f5b060;
       background: #fef5ec;
     }
+  }
+
+  .custom-empty {
+    left: 66%;
   }
 }

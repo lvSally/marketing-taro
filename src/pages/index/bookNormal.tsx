@@ -5,6 +5,7 @@ import { View } from '@tarojs/components'
 import StoreListPop from './storeListPop'
 // import ProjectListPop from './projectListPop'
 import TimeListPop, {selectTimeType} from './TimeListPop'
+// import PersonAndTimePop from './personAndTimePop'
 
 
 import './index.scss'
@@ -77,6 +78,7 @@ export default function BookNormal() {
       <StoreListPop visible={showStore} list={storeList} maskClick onClose={storeCloseFn} onOk={storeCloseFn} select={store?.id} />
       {/* <ProjectListPop visible list={storeList} onClose={storeCloseFn} onOk={storeCloseFn} select={store?.id} /> */}
       <TimeListPop visible={showTime} select={time} timeStart='22:00' timeEnd='次日01:00' onClose={timeCloseFn} onOk={timeCloseFn} />
+      {/* <PersonAndTimePop visible select={undefined} onClose={timeCloseFn} onOk={(select) => console.log(select)} /> */}
     </View>
   )
 }
