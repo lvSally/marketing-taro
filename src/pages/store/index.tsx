@@ -1,5 +1,6 @@
 import defaultImg1 from '@image/default1.png'
 import defaultImg from '@image/default.png'
+import Taro from '@tarojs/taro'
 import { useState } from 'react'
 import { View, Image } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
@@ -13,17 +14,22 @@ import './index.scss'
 export default function Home() {
   const [showBookAlert, setShowBookAlert] = useState(false)
   const [curentList, setCurentList] = useState<'project' | 'person'>('project')
+
+  const linkToImg = function(id) {
+    Taro.navigateTo({
+      url: `/pages/store/imageList?id=${id}`
+    })
+  }
+
   return (
     <View className='page-store'>
-      <View className='bg-wrap'>
-        <Image className='bg-img' src={defaultImg} mode='widthFix' />
-      </View>
-      <View className='desc-wrap'>
+      <Image className='bg-img' src={defaultImg} mode='widthFix' />
+      <View className='desc-wrap desc-card'>
         <View className='title'>来一桶足浴旗舰店</View>
         <View className='img-wrap'>
-          <Image className='img' mode='heightFix' src={defaultImg1} />
-          <Image className='img' mode='heightFix' src={defaultImg1} />
-          <Image className='img' mode='heightFix' src={defaultImg1} />
+          <Image className='img' onClick={() => linkToImg(0)} mode='heightFix' src={defaultImg1} />
+          <Image className='img' onClick={() => linkToImg(1)} mode='heightFix' src={defaultImg1} />
+          <Image className='img' onClick={() => linkToImg(2)} mode='heightFix' src={defaultImg1} />
         </View>
         <View className='detail-wrap'>
           <View className='left'>

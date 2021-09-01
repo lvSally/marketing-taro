@@ -1,5 +1,6 @@
 import { View } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
+
 import './index.scss'
 
 interface Iprops {

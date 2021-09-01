@@ -1,5 +1,6 @@
 import { View } from '@tarojs/components'
-import './index.scss'
+// 编译冲突和pop引用同一份样式文件
+import '../customPop/index.scss'
 
 interface Iprops {
   visible?: boolean,
@@ -22,10 +23,10 @@ export default function CustomAlert(props: Iprops) {
     }
   }
   return (
-    <View>
-      {visible && <View onClick={maskClickFn} className='pop-mask'></View>}
+    <View className='test'>
+      {visible && <View onClick={maskClickFn} className='custom-alert-mask'></View>}
       {
-        visible && <View className='custom-alet-wrap'>
+        visible && <View className='custom-alert-wrap'>
           <View className='pop-body'>{props.children}</View>
           <View className='at-icon at-icon-close-circle' onClick={closeFn}></View>
         </View>

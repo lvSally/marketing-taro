@@ -6,7 +6,7 @@ import './index.scss'
 export default function PersonList() {
   const linkTo = function(id) {
     Taro.navigateTo({
-      url: `/pages/store/index?id=${id}`
+      url: `/pages/store/detail?type=person&id=${id}`
     })
   }
 

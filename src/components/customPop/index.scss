@@ -8,8 +8,6 @@
   max-height: 96%;
   min-height: 300px;
   padding-bottom: 30px;
-  // border-top-left-radius: 20px;
-  // border-top-right-radius: 20px;
   animation: moveBox 0.2s;
   
   .header {
@@ -37,6 +35,37 @@
 .custom-pop-mask {
   position: fixed;
   z-index: 180;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  opacity: 0.5;
+}
+
+.custom-alert-wrap {
+  position: fixed;
+  z-index: 100;
+  top: 256px;
+  left: 32px;
+  right: 32px;
+  padding: 30px 0;
+  
+  .pop-body {
+    background: #fff;
+    border-radius: 32px;
+  }
+  .at-icon-close-circle {
+    font-size: 40px;
+    margin-top: 160px;
+    color: #fff;
+    position: relative;
+    left: 50%;
+  }
+}
+.custom-alert-mask {
+  position: fixed;
+  z-index: 90;
   top: 0;
   bottom: 0;
   left: 0;

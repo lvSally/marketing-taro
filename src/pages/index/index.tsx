@@ -9,9 +9,7 @@ import './index.scss'
 export default function Home() {
   return (
     <View className='page-home'>
-      <View className='bg-wrap'>
-        <Image className='bg-img' src={defaultImg} mode='widthFix' />
-      </View>
+      <Image className='bg-img' src={defaultImg} mode='widthFix' />
       <Reserve className='form-wrap' />
       <StoreIntroduce />
       <CustomTabar active='home' />
