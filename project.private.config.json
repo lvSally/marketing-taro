@@ -47,6 +47,12 @@
           "pathName": "pages/store/imageList",
           "query": "id=0",
           "scene": null
+        },
+        {
+          "name": "pages/discount/index",
+          "pathName": "pages/discount/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

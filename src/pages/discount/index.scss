@@ -1,0 +1,99 @@
+page {
+  background: #f0f7f7;
+}
+.page-discount {
+  width: 100%;
+  height: 100vh;
+  padding: 32px;
+  box-sizing: border-box;
+  padding-bottom: 160px;
+  .title {
+    font-size: 32px 24px;
+    margin-bottom: 32px;
+  }
+  .list-block {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    height: 180px;
+    border-radius: 16px;
+    position: relative;
+    &.border {
+      border: 1px solid #ccc;
+    }
+    .inner-title {
+      font-size: 30px;
+      color: #333;
+      margin-bottom: 16px;
+    }
+    .left {
+      width: 180px;
+      min-width: 180px;
+      height: 100%;
+      line-height: 180px;
+      text-align: center;
+      background: linear-gradient(to bottom,#e98b7b,#da4f41);
+      border-radius: 16px;
+      color: #fff;
+      font-size: 48px;
+    }
+    .center {
+      box-sizing: border-box;
+      padding: 24px;
+      color: #666;
+      font-size: 24px;
+      white-space: nowrap;
+    }
+    .right {
+      text-align: center;
+      padding-right: 32px;
+      white-space: nowrap;
+      min-width: 180px;
+      .active {
+        padding: 8px 16px;
+        border-radius: 48px;
+        color: #fff;
+        background: linear-gradient(to bottom,#e98b7b,#da4f41);
+      }
+      .have {
+        color: #e5867c;
+      }
+      .none {
+        padding: 8px 16px;
+        border-radius: 48px;
+        color: #fff;
+        background: #f0f0f0;
+      }
+    }
+    .relative {
+      position: absolute;
+      color: #e5867c;
+      top: 8px;
+      right: 12px;
+      text-align: right;
+    }
+  }
+  .no-more {
+    padding: 32px;
+    text-align: center;
+    color: #ccc;
+  }
+
+  .pop-content {
+    padding: 48px 32px;
+    .title {
+      text-align: center;
+      color: #da4f41;
+      font-size: 32px;
+      margin-top: 12px;
+      margin-bottom: 48px;
+    }
+    .desc {
+      font-size: 24px;
+      color: #666;
+      margin-top: 24px;
+    }
+  }
+}

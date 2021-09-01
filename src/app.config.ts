@@ -1,14 +1,31 @@
 export default {
   pages: [
     'pages/index/index',
-    'pages/store/index',
-    'pages/store/detail',
-    'pages/store/imageList',
     'pages/demo/index',
     'pages/login/index',
     'pages/protocol/index',
-    'pages/discount/index',
-    'pages/my/index'
+  ],
+  subPackages: [
+    {
+      "root": "pages/store/",
+      "pages": [
+        "index",
+        "detail",
+        "imageList"
+      ]
+    },
+    {
+      "root": "pages/discount/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/my/",
+      "pages": [
+        "index"
+      ]
+    },
   ],
   window: {
     backgroundTextStyle: 'light',
