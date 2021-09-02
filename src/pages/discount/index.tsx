@@ -20,7 +20,7 @@ function Index() {
       // onScroll={nScroll}
     >
       <View className='title'>到店优惠券</View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -31,7 +31,7 @@ function Index() {
           <Text className='active'>立即领取</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7.5折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -42,7 +42,7 @@ function Index() {
         <Text className='have'>已领取</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -53,7 +53,7 @@ function Index() {
           <Text className='none'>已抢光</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -64,7 +64,7 @@ function Index() {
           <Text className='active'>立即领取</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7.5折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -75,7 +75,7 @@ function Index() {
         <Text className='have'>已领取</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -86,7 +86,7 @@ function Index() {
           <Text className='none'>已抢光</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -97,7 +97,7 @@ function Index() {
           <Text className='active'>立即领取</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7.5折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -108,7 +108,7 @@ function Index() {
         <Text className='have'>已领取</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -119,7 +119,7 @@ function Index() {
           <Text className='none'>已抢光</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -130,7 +130,7 @@ function Index() {
           <Text className='active'>立即领取</Text>
         </View>
       </View>
-      <View className='list-block'>
+      <View className='custom-discount-list-block'>
         <View className='left'>7.5折</View>
         <View className='center'>
           <View className='inner-title'>足浴优惠券</View>
@@ -146,7 +146,7 @@ function Index() {
       <CustomAlert visible={visibleAlert} onClose={() => setVisibleAlert(false)}>
         <View className='pop-content'>
           <View className='title'>领取成功</View>
-          <View className='list-block border'>
+          <View className='custom-discount-list-block border'>
             <View className='left'>7.5折</View>
             <View className='center'>
               <View className='inner-title'>足浴优惠券</View>

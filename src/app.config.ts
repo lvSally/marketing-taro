@@ -23,7 +23,10 @@ export default {
     {
       "root": "pages/my/",
       "pages": [
-        "index"
+        "index",
+        "grade",
+        "record",
+        "discount",
       ]
     },
   ],

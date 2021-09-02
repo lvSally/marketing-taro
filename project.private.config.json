@@ -59,6 +59,24 @@
           "pathName": "pages/my/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/my/grade",
+          "pathName": "pages/my/grade",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/my/record",
+          "pathName": "pages/my/record",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/my/discount",
+          "pathName": "pages/my/discount",
+          "query": "",
+          "scene": null
         }
       ]
     }

@@ -1,0 +1,46 @@
+page {
+  background: #f0f7f7;
+}
+
+.page-record {
+  box-sizing: border-box;
+  padding: 32px;
+  .list-block {
+    padding: 32px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fff;
+    margin-bottom: 32px;
+    border-radius: 16px;
+    .title {
+      color: #666;
+      font-weight: 500;
+      position: relative;
+      &.orange::after {
+        background: #f4b04f;
+      }
+      &.blue::after {
+        background: #6e9af8;
+      }
+      &::after{
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: -32px;
+        display: inline-block;
+        width: 16px;
+        height: 32px;
+      }
+    }
+    .light {
+      color: #999;
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .time {
+      margin-top: 24px;
+    }
+  }
+}
