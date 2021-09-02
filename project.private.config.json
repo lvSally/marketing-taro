@@ -53,6 +53,12 @@
           "pathName": "pages/discount/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/my/index",
+          "pathName": "pages/my/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

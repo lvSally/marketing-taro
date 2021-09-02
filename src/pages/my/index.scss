@@ -1,0 +1,55 @@
+page {
+  background: #f0f7f7;
+}
+.page-user {
+  padding: 24px 32px;
+  .user-card {
+    padding: 48px 32px;
+    border-radius: 16px;
+    background: #fff;
+  }
+  .user-basic {
+    display: flex;
+    align-items: center;
+    image {
+      width: 80px;
+      height: 80px;
+      border-radius: 80px;
+      margin-right: 32px;
+    }
+    .degree {
+      background: linear-gradient(to bottom,#dfc0b2,#ec9567);
+      border-radius: 8px;
+      color: #fff;
+      padding: 4px 8px;
+      margin-left: 32px;
+    }
+  }
+  .bottom-content {
+    display: flex;
+    margin-top: 32px;
+    padding-top: 48px;
+    border-top: 1px solid #f0f0f0;
+    .block {
+      width: 50%;
+      text-align: center;
+      &:first-child {
+        border-right: 1px solid #ccc;
+      }
+    }
+    .number {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+  }
+  .book-record {
+    padding: 32px;
+    border-radius: 16px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 32px;
+    margin-top: 48px;
+  }
+}

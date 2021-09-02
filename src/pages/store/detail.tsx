@@ -1,7 +1,6 @@
-import defaultImg1 from '@image/default1.png'
 import defaultImg from '@image/default.png'
-import Taro, {useRouter} from '@tarojs/taro'
-import { useEffect, useState } from 'react'
+import {useRouter} from '@tarojs/taro'
+import { useState } from 'react'
 import { View, Image } from '@tarojs/components'
 
 import './index.scss'
@@ -9,12 +8,6 @@ import './index.scss'
 export default function StoreDetail() {
   const history = useRouter()
   const [pageType] = useState(history.params.type)
-
-  useEffect(() => {
-    Taro.setNavigationBarTitle({
-      title: '详情'
-    })
-  }, [])
 
   return (
     <View className='page-store'>
