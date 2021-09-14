@@ -43,8 +43,7 @@ const globalData = {
   userInfo: {
     uid: '',
     phone: '',
-    nickName: '',
-    avatar: ''
+    nickName: ''
   },
   isIPX: false,
   phoneModel: '', // 手机类型

@@ -1,13 +1,15 @@
 import { useEffect } from 'react'
-import Taro from '@tarojs/taro'
+import Taro, {useRouter} from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import httpRequest from '@http'
+import { setGlobalData } from '@globalData'
 // import selectIcon from '@image/select.png'
 import logo from '@image/logo.png'
 import './index.scss'
 
 export default function Login() {
+  const history = useRouter()
   useEffect(() => {
     Taro.login({
       success: res => {
@@ -22,21 +24,33 @@ export default function Login() {
   const getPhoneNumber = (e) => {
     console.log(e)
     const { iv, encryptedData } = e.detail
-    console.log(`code: ${Taro.getStorageSync('code')}, iv: ${iv}, encryptedData: ${encryptedData}`)
     const options = {
-      method: 'POST',
-      url: '/api/user/miniLogin',
+      method: 'post',
+      url: '/mock/api/user/miniLogin',
       data: {
         code: Taro.getStorageSync('code'),
         iv,
         encryptedData
       }
     }
-    httpRequest(options).then(res => {
-      Taro.setStorageSync('token', res.data)
-      Taro.reLaunch({
-        url: '/pages/home/index'
+    httpRequest(options).then(data => {
+      Taro.setStorageSync('token', data.token)
+      setGlobalData('userInfo', {
+        uid: data.externalAuthId,
+        phone: data.phone,
+        nickName: data.nickName
       })
+
+      const redirectUrl = history.params.redirect
+      if (redirectUrl) {
+        Taro.reLaunch({
+          url: '/' + redirectUrl
+        })
+      } else {
+        Taro.reLaunch({
+          url: '/pages/index/index'
+        })
+      }
     })
   }
 

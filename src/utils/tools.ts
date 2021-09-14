@@ -92,4 +92,8 @@ function minutesFormat(time, type: 'start' | 'end') { // time: 22: 01
   return { hour, minute }
 }
 
-export { formatDate, getTimeList }
+function encryptPhone(str) {
+  return str.length === 11 ? str.substr(0,4) + '***' + str.substr(7,11) : '--';
+}
+
+export { formatDate, getTimeList, encryptPhone }

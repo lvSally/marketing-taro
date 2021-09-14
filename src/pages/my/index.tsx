@@ -1,10 +1,35 @@
 import { View, Text, Image } from '@tarojs/components'
+import { useEffect, useState } from 'react'
 import CustomTabar from '@src/components/customTabar'
 import Taro from '@tarojs/taro'
 import avatar from '@image/avatar.png'
+import httpRequest from '@http'
+import { encryptPhone } from '@src/utils/tools'
 import './index.scss'
 
 function Index() {
+  const [userInfo, setUserInfo] = useState({
+    couponCount: '--',
+    credits: '--',
+    phone: '--'
+  })
+  useEffect(() => {
+    getUserInfo()
+  }, [])
+
+  const getUserInfo = () => {
+    httpRequest({
+      method: 'get',
+      url: '/mock/api/user/myInfo',
+      data: {}
+    }).then(data => {
+      setUserInfo({
+        couponCount: data.couponCount,
+        credits: data.credits,
+        phone: data.phone
+      })
+    })
+  }
   const linkTo = function(url) {
     Taro.navigateTo({
       url
@@ -16,16 +41,16 @@ function Index() {
       <View className='user-card'>
         <View className='user-basic'>
           <Image src={avatar} />
-          <Text>188****4421</Text>
+          <Text>{encryptPhone(userInfo.phone)}</Text>
           <Text className='degree'>会员</Text>
         </View>
         <View className='bottom-content'>
           <View className='block' onClick={() => linkTo('/pages/my/grade')}>
-            <View className='number'>500</View>
+            <View className='number'>{userInfo.credits}</View>
             <View>积分</View>
           </View>
           <View className='block' onClick={() => linkTo('/pages/my/discount')}>
-            <View className='number'>1</View>
+            <View className='number'>{userInfo.couponCount}</View>
             <View>优惠券</View>
           </View>
         </View>
