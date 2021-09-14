@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import navigationLoading from './navigation-loading'
 
-const baseUrl = ''
+const baseUrl = 'https://api.utoohappy.com'
 
 export default (options = { method: 'GET', data: {}}) => {
   navigationLoading.start()

@@ -43,15 +43,15 @@ export default function CustomTabar(props: Iprops) {
     <View className={`customTabar-wrapper ${getGlobalData('isIPX') ? 'bottom-IPX' : ''} ${className || ''}`}>
       <View className={`navbar-block ${active === 'home' ? 'active' : ''}`} onClick={() => navbarFn('home')}>
         <Image className='tab-img' src={active === 'home' ? homeActiveIcon : homeIcon} />
-        <View>首页</View>
+        <View className='font'>首页</View>
       </View>
       <View className={`navbar-block ${active === 'discount' ? 'active' : ''}`} onClick={() => navbarFn('discount')}>
         <Image className='tab-img' src={active === 'discount' ? discountActiveIcon : discountIcon} />
-        <View>优惠</View>
+        <View className='font'>优惠</View>
       </View>
       <View className={`navbar-block ${active === 'my' ? 'active' : ''}`} onClick={() => navbarFn('my')}>
         <Image className='tab-img' src={active === 'my' ? myActiveIcon : myIcon} />
-        <View>我的</View>
+        <View className='font'>我的</View>
       </View>
     </View>
   )

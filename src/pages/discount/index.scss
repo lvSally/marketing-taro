@@ -6,7 +6,9 @@ page {
   height: 100vh;
   padding: 32px;
   box-sizing: border-box;
-  padding-bottom: 160px;
+  .pb160 {
+    padding-bottom: 160px;
+  }
   .title {
     font-size: 32px 24px;
     margin-bottom: 32px;
