@@ -1,44 +1,45 @@
+import { useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
+import http from '@http'
 import defaultImg from '@image/default1.png'
 import './index.scss'
 
 export default function StoreIntroduce() {
+  const [dataList, setDatalist] = useState([])
+  useEffect(() => {
+    queryShopList()
+  }, [])
+
   const linkTo = function(id) {
     Taro.navigateTo({
-      url: `/pages/store/index?id=${id}`
+      url: `/pages/store/index?shopId=${id}`
+    })
+  }
+
+  const queryShopList = () => {
+    http({
+      method: 'get',
+      url: '/admin/shop/list',
+      data: {}
+    }).then(data => {
+      setDatalist(data.records || [])
     })
   }
 
   return <View className='custom-introduce-content'>
     <View className='title'>门店介绍</View>
-    <View className='block-list' onClick={() => linkTo(123)}>
-      <Image className='left' src={defaultImg} />
-      <View className='right'>
-        <View className='sub-title'>来一桶旗舰店</View>
-        <View>联系电话：021-88888888</View>
-        <View>营业时间：13:00-23:00</View>
-        <View>地址：上海市浦东新区高行镇巨峰路111号路对面</View>
-      </View>
-    </View>
-    <View className='block-list'>
-      <Image className='left' src={defaultImg} />
-      <View className='right'>
-        <View className='sub-title'>来一桶旗舰店</View>
-        <View>联系电话：021-88888888</View>
-        <View>营业时间：13:00-23:00</View>
-        <View>地址：上海市浦东新区高行镇巨峰路111号路对面</View>
-      </View>
-    </View>
-    <View className='block-list'>
-      <Image className='left' src={defaultImg} />
-      <View className='right'>
-        <View className='sub-title'>来一桶旗舰店</View>
-        <View>联系电话：021-88888888</View>
-        <View>营业时间：13:00-23:00</View>
-        <View>地址：上海市浦东新区高行镇巨峰路111号路对面</View>
-      </View>
-    </View>
+    {
+      dataList.map(item => <View key={item.shopId} className='block-list' onClick={() => linkTo(item.shopId)}>
+        <Image className='left' src={item.pic?.length ? item.pic[0].url :  defaultImg} />
+        <View className='right'>
+          <View className='sub-title'>{item.name}</View>
+          <View>联系电话：{item.phoneNum}</View>
+          <View>营业时间：{item.busiHours}</View>
+          <View>地址：{item.address}</View>
+        </View>
+      </View>)
+    }
     <View className='tip'>更多门店陆续开放中，敬请期待</View>
   </View>
 }

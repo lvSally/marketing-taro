@@ -1,7 +1,8 @@
 import defaultImg1 from '@image/default1.png'
 import defaultImg from '@image/default.png'
-import Taro from '@tarojs/taro'
-import { useState } from 'react'
+import Taro, {useRouter} from '@tarojs/taro'
+import { useState, useEffect } from 'react'
+import http from '@http'
 import { View, Image } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import CustomAlert from '@src/components/customAlert'
@@ -12,8 +13,36 @@ import PersonList from './personList'
 import './index.scss'
 
 export default function Home() {
+  const history = useRouter()
   const [showBookAlert, setShowBookAlert] = useState(false)
   const [curentList, setCurentList] = useState<'project' | 'person'>('project')
+  const [shopInfo, setShopInfo] = useState({
+    info: {} as any,
+    pic: [],
+    projectList: [],
+    personList: [],
+  })
+
+  useEffect(() => {
+    queryShopList()
+  }, [])
+
+  const queryShopList = () => {
+    http({
+      method: 'get',
+      url: '/api/shop/queryById',
+      data: {
+        shopId: history.params.shopId
+      }
+    }).then(data => {
+      setShopInfo({
+        info: data,
+        pic: data.pic || [],
+        projectList: data.shopProjects || [],
+        personList: data.shopWorkers || [],
+      })
+    })
+  }
 
   const linkToImg = function(id) {
     Taro.navigateTo({
@@ -23,19 +52,17 @@ export default function Home() {
 
   return (
     <View className='page-store'>
-      <Image className='bg-img' src={defaultImg} mode='widthFix' />
+      <Image className='bg-img' src={shopInfo.pic.length ? shopInfo.pic[0].url  : defaultImg} mode='widthFix' />
       <View className='desc-wrap desc-card'>
         <View className='title'>来一桶足浴旗舰店</View>
-        <View className='img-wrap'>
-          <Image className='img' onClick={() => linkToImg(0)} mode='heightFix' src={defaultImg1} />
-          <Image className='img' onClick={() => linkToImg(1)} mode='heightFix' src={defaultImg1} />
-          <Image className='img' onClick={() => linkToImg(2)} mode='heightFix' src={defaultImg1} />
-        </View>
+        {!!shopInfo.pic.length && <View className='img-wrap'>
+          {shopInfo.pic.map((item, idx) => <Image key={idx} className='img' onClick={() => linkToImg(idx)} mode='heightFix' src={item.url} />)}
+        </View>}
         <View className='detail-wrap'>
           <View className='left'>
-            <View>联系电话：021-88888888</View>
-            <View>营业时间：13:00-23:00</View>
-            <View>地址：上海市浦东新区高行镇巨峰路111号路对面</View>
+            <View>联系电话：{shopInfo.info.phoneNum}</View>
+            <View>营业时间：{shopInfo.info.busiHours}</View>
+            <View>地址：{shopInfo.info.address}</View>
           </View>
           <AtButton className='right' type='primary' onClick={() => setShowBookAlert(true)}>预约</AtButton>
         </View>
@@ -45,8 +72,8 @@ export default function Home() {
           <View className={`tab ${curentList === 'project' ? 'active' : ''}`} onClick={() => setCurentList('project')}>项目</View>
           <View  className={`tab ${curentList === 'person' ? 'active' : ''}`} onClick={() => setCurentList('person')}>技师</View>
         </View>
-        {curentList === 'project' && <ProjectList />}
-        {curentList === 'person' && <PersonList />}
+        {curentList === 'project' && <ProjectList list={shopInfo.projectList} />}
+        {curentList === 'person' && <PersonList list={shopInfo.personList} />}
       </View>
       <CustomAlert visible={showBookAlert} onClose={() => setShowBookAlert(false)}>
         <Reserve className='form-wrap' />

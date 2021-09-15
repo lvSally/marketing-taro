@@ -19,11 +19,8 @@ export default (options = { method: 'GET', data: {}}) => {
     method: options.method.toUpperCase(),
   }).then((res) => {
     navigationLoading.done()
-    const { status, data } = res
-    if (status >= 200 && status < 300) {
-      if (+data.code !== 200) {
-        return Promise.reject(res)
-      }
+    const { status, data } = res.data || {}
+    if (status === 200) {
       return data
     } else {
       return Promise.reject(res)

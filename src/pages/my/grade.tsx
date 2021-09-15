@@ -1,7 +1,26 @@
+import { useEffect, useState } from 'react'
 import { View, ScrollView } from '@tarojs/components'
+import http from '@http'
+
 import './grade.scss'
 
 export default function Grade() {
+  const [dataList, setDataList] = useState([])
+  useEffect(() => {
+    queryCreditsTrans()
+  }, [])
+
+  const queryCreditsTrans = () => {
+    http({
+      method: 'get',
+      url: '/mock/api/credits/queryCreditsTrans',
+      data: {}
+    }).then(data => {
+      console.log(data)
+      // setDataList(data)
+    })
+  }
+  
   const onScrollToLower = () => {
     console.log('end')
   }

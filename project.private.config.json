@@ -27,7 +27,7 @@
         {
           "name": "pages/store/index",
           "pathName": "pages/store/index",
-          "query": "",
+          "query": "shopId=887468399848017920",
           "scene": null
         },
         {

@@ -68,7 +68,7 @@ export default {
         "string"
       ],
       "condition": {},
-      "current": 0,
+      "current": 50,
       "desc": [
         "string"
       ],
@@ -79,11 +79,11 @@ export default {
       "pages": 0,
       "records": [
         {
-          "action": "string",
+          "action": "消费赠送",
           "actionType": "string",
-          "amount": 0,
-          "creditId": "string",
-          "transDate": "2021-09-14T10:26:26.070Z"
+          "amount": 50,
+          "creditId": "01",
+          "transDate": "1631673840007"
         }
       ],
       "searchCount": true,
@@ -232,6 +232,48 @@ export default {
           "workerId": "string"
         }
       ]
+    },
+    "message": "string",
+    "status": 0,
+    "success": true
+  },
+  "/mock/admin/shop/list": {
+    "data": {
+      "asc": [
+        "string"
+      ],
+      "condition": {},
+      "current": 0,
+      "desc": [
+        "string"
+      ],
+      "limit": 0,
+      "offset": 0,
+      "openSort": true,
+      "orderByField": "string",
+      "pages": 0,
+      "records": [
+        {
+          "address": "string",
+          "busiHours": "string",
+          "createTime": 0,
+          "desc": "string",
+          "name": "string",
+          "phoneNum": "string",
+          "pic": [
+            {
+              "order": 0,
+              "url": "string"
+            }
+          ],
+          "shopId": "string",
+          "status": 0,
+          "updateTime": 0
+        }
+      ],
+      "searchCount": true,
+      "size": 0,
+      "total": 0
     },
     "message": "string",
     "status": 0,

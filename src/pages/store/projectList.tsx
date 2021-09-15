@@ -3,43 +3,29 @@ import { View, Image } from '@tarojs/components'
 import defaultImg from '@image/default1.png'
 import './index.scss'
 
-export default function ProjectList() {
-  const linkTo = function(id) {
+interface Iprops {
+  list: any[]
+}
+export default function ProjectList(props: Iprops) {
+  let {list = []} = props
+  const linkTo = function(obj) {
     Taro.navigateTo({
-      url: `/pages/store/detail?type=project&id=${id}`
+      url: `/pages/store/detail?type=project&obj=${JSON.stringify(obj)}`
     })
   }
 
   return <View className='custom-introduce-content'>
-    <View className='block-list' onClick={() => linkTo(123)}>
-      <Image className='left' src={defaultImg} />
+    {
+      list.map(item => <View key={item.projectId} className='block-list' onClick={() => linkTo(item)}>
+      <Image className='left' src={item.pic || defaultImg} />
       <View className='flex-column'>
         <View>
-          <View>经典足道</View>
-          <View>揉、刮、搓三大特色手法</View>
+          <View>{item.name}</View>
+          <View>{item.desc}</View>
         </View>
-        <View>￥158 / 60分钟</View>
+        <View>￥{item.price} / {item.duration}分钟</View>
       </View>
-    </View>
-    <View className='block-list' onClick={() => linkTo(123)}>
-      <Image className='left' src={defaultImg} />
-      <View className='flex-column'>
-        <View>
-          <View>经典足道</View>
-          <View>揉、刮、搓三大特色手法</View>
-        </View>
-        <View>￥158 / 60分钟</View>
-      </View>
-    </View>
-    <View className='block-list' onClick={() => linkTo(123)}>
-      <Image className='left' src={defaultImg} />
-      <View className='flex-column'>
-        <View>
-          <View>经典足道</View>
-          <View>揉、刮、搓三大特色手法</View>
-        </View>
-        <View>￥158 / 60分钟</View>
-      </View>
-    </View>
+    </View>)
+    }
   </View>
 }
