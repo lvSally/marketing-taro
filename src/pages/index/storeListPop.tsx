@@ -31,7 +31,7 @@ export default function StoreListPop(props: Iprops) {
     <View className='custom-book-pop-wrap'>
       {
         list.map((item, idx) => <View className={`block-list ${select === item.shopId ? 'active' : ''}`} key={`${idx}-store`} onClick={() => selectFn(item.shopId)}>
-          <Image className='left' src={item.pic.length ? item.pic[0].url : defaultImg} />
+          <Image className='left' src={item.pic?.length ? item.pic[0].url : defaultImg} />
           <View className='center'>
             <View className='sub-title'>{item.name}</View>
             <View>联系电话：{item.phoneNum}</View>

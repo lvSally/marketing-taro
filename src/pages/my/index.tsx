@@ -41,7 +41,7 @@ function Index() {
       <View className='user-card'>
         <View className='user-basic'>
           <Image src={avatar} />
-          <Text>{encryptPhone(userInfo.phone)}</Text>
+          <Text>{encryptPhone(userInfo.phone || '')}</Text>
           <Text className='degree'>会员</Text>
         </View>
         <View className='bottom-content'>

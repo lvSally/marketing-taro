@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { View, ScrollView } from '@tarojs/components'
+import dayjs from 'dayjs'
 import http from '@http'
 
 import './grade.scss'
@@ -16,8 +17,7 @@ export default function Grade() {
       url: '/mock/api/credits/queryCreditsTrans',
       data: {}
     }).then(data => {
-      console.log(data)
-      // setDataList(data)
+      setDataList(data.records)
     })
   }
   
@@ -34,34 +34,13 @@ export default function Grade() {
       onScrollToLower={onScrollToLower}
     >
       <View className='title'>当前积分：500</View>
-      <View className='list-block'>
+      {dataList.map((item, idx) => <View key={idx} className='list-block'>
         <View className='left'>
-          <View>消费赠送</View>
-          <View className='time'>2020/04/10 12:22</View>
+          <View>{item.action}</View>
+          <View className='time'>{item.transDate ? dayjs(item.transDate).format('DD/MM/YYYY HH:mm') : '--'}</View>
         </View>
-        <View className='right'>+50</View>
-      </View>
-      <View className='list-block'>
-        <View className='left'>
-          <View>消费赠送</View>
-          <View className='time'>2020/04/10 12:22</View>
-        </View>
-        <View className='right'>-50</View>
-      </View>
-      <View className='list-block'>
-        <View className='left'>
-          <View>消费赠送</View>
-          <View className='time'>2020/04/10 12:22</View>
-        </View>
-        <View className='right'>+50</View>
-      </View>
-      <View className='list-block'>
-        <View className='left'>
-          <View>消费赠送</View>
-          <View className='time'>2020/04/10 12:22</View>
-        </View>
-        <View className='right'>+50</View>
-      </View>
+        <View className='right'>{item.amount > 0 ? `+${item.amount}` : item.amount}</View>
+      </View>)}
     </ScrollView>
   )
 }

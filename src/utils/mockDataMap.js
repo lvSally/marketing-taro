@@ -84,6 +84,13 @@ export default {
           "amount": 50,
           "creditId": "01",
           "transDate": "1631673840007"
+        },
+        {
+          "action": "xx消费",
+          "actionType": "string",
+          "amount": -100,
+          "creditId": "01",
+          "transDate": "1631673840007"
         }
       ],
       "searchCount": true,
@@ -275,6 +282,52 @@ export default {
       "size": 0,
       "total": 0
     },
+    "message": "string",
+    "status": 0,
+    "success": true
+  },
+  '/mock/api/coupon/info/listConfigCoupon': {
+    "data": [
+      {
+        "amount": 99,
+        "couponId": "1",
+        "couponName": "足浴优惠券1",
+        "discount": 7.5,
+        "exchangeTime": "1631720825230",
+        "expireTime": "1631720825230",
+        "packageId": "string",
+        "paidAmount": 0,
+        "status": "active",
+        "usedTime": "1631720825230",
+        "userPhone": "string"
+      },
+      {
+        "amount": 9,
+        "couponId": "2",
+        "couponName": "足浴优惠券2",
+        "discount": 7.5,
+        "exchangeTime": "1631720825230",
+        "expireTime": "1631720825230",
+        "packageId": "string",
+        "paidAmount": 0,
+        "status": "have",
+        "usedTime": "1631720825230",
+        "userPhone": "string"
+      },
+      {
+        "amount": 0,
+        "couponId": "3",
+        "couponName": "足浴优惠券3",
+        "discount": 7.5,
+        "exchangeTime": "1631720825230",
+        "expireTime": "1631720825230",
+        "packageId": "string",
+        "paidAmount": 0,
+        "status": "none",
+        "usedTime": "1631720825230",
+        "userPhone": "string"
+      }
+    ],
     "message": "string",
     "status": 0,
     "success": true
