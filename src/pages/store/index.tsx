@@ -24,10 +24,10 @@ export default function Home() {
   })
 
   useEffect(() => {
-    queryShopList()
+    queryShopInfo()
   }, [])
 
-  const queryShopList = () => {
+  const queryShopInfo = () => {
     http({
       method: 'get',
       url: '/api/shop/queryById',
@@ -54,7 +54,7 @@ export default function Home() {
     <View className='page-store'>
       <Image className='bg-img' src={shopInfo.pic.length ? shopInfo.pic[0].url  : defaultImg} mode='widthFix' />
       <View className='desc-wrap desc-card'>
-        <View className='title'>来一桶足浴旗舰店</View>
+        <View className='title'>{shopInfo.info.name}</View>
         {!!shopInfo.pic.length && <View className='img-wrap'>
           {shopInfo.pic.map((item, idx) => <Image key={idx} className='img' onClick={() => linkToImg(idx)} mode='heightFix' src={item.url} />)}
         </View>}

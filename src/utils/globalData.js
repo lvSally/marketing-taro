@@ -45,6 +45,11 @@ const globalData = {
     phone: '',
     nickName: ''
   },
+  order: {
+    name: '',
+    address: '',
+    busiHours: '',
+  },
   isIPX: false,
   phoneModel: '', // 手机类型
 }

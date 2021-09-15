@@ -2,18 +2,21 @@ import Taro from '@tarojs/taro'
 import { useState, useEffect } from 'react'
 import { AtButton } from 'taro-ui'
 import { View } from '@tarojs/components'
+import dayjs from 'dayjs'
+import http from '@http'
 import StoreListPop from './storeListPop'
-// import ProjectListPop from './projectListPop'
 import TimeListPop, {selectTimeType} from './TimeListPop'
-// import PersonAndTimePop from './personAndTimePop'
 
 
 import './index.scss'
 
 export interface IStore {
-  id: string,
+  shopId: string,
   name: string,
-  address?: string
+  address?: string,
+  pic: any[],
+  phoneNum?: string
+  busiHours?: string
 }
 
 export default function BookNormal() {
@@ -21,16 +24,26 @@ export default function BookNormal() {
   const [time, setTime] = useState<selectTimeType>()
   const [showStore, setShowStore] = useState(false)
   const [showTime, setShowTime] = useState(false)
-  const [storeList, setStoreList] = useState([
-    {id: '001', name: '店面1', address: '地址1'},
-    {id: '002', name: '店面2', address: '地址2'},
-    {id: '003', name: '店面3', address: '地址3'},
-  ])
+  const [storeList, setStoreList] = useState([])
+
+  useEffect(() => {
+    queryShopList()
+  }, [])
 
   // 监听store变化时清空time中的内容
   useEffect(() => {
     setTime(undefined)
   }, [store])
+
+  const queryShopList = () => {
+    http({
+      method: 'get',
+      url: '/admin/shop/list',
+      data: {}
+    }).then(data => {
+      setStoreList(data.records || [])
+    })
+  }
 
   const showTimeFn = () => {
     if(!store) {
@@ -46,7 +59,7 @@ export default function BookNormal() {
 
   const storeCloseFn = (val) => {
     storeList.forEach(item => {
-      if(item.id === val) {
+      if(item.shopId === val) {
         setStore(item)
       }
     })
@@ -60,7 +73,37 @@ export default function BookNormal() {
   }
 
   const bookBtn = () => {
-    console.log(store, time)
+    let entryDate = -1
+    if(time.type === 'todayList') {
+      entryDate = dayjs().startOf('d').valueOf() // 当天凌晨的时间戳
+    } else {
+      entryDate = dayjs(+new Date + 86400000).startOf('d').valueOf() // 次日凌晨的时间戳
+    }
+    entryDate += hourToMillisecond(time.time)
+
+    // {type: "todayList", time: "05:00"}
+    dayjs().startOf('d').valueOf()
+    http({
+      method: 'post',
+      url: '/api/shop/book',
+      data: {
+        bookType: 'FAST',
+        shopId: store.shopId,
+        entryDate,
+      }
+    }).then(() => {
+      // todo: 更新订单信息
+    })
+  }
+
+  const hourToMillisecond = (timeStr) => {
+    const timeArr = timeStr.split(':')
+    if(timeArr.length !== 2) return 0
+    let hour = +timeArr[0]
+    if(+timeArr[1] === 30) {
+      hour += 0.5
+    }
+    return hour*3600*1000
   }
   
   return (
@@ -75,10 +118,8 @@ export default function BookNormal() {
       </View>
       <AtButton className='book-btn' type='primary' circle onClick={bookBtn}>预约</AtButton>
 
-      <StoreListPop visible={showStore} list={storeList} maskClick onClose={storeCloseFn} onOk={storeCloseFn} select={store?.id} />
-      {/* <ProjectListPop visible list={storeList} onClose={storeCloseFn} onOk={storeCloseFn} select={store?.id} /> */}
-      <TimeListPop visible={showTime} select={time} timeStart='22:00' timeEnd='次日01:00' onClose={timeCloseFn} onOk={timeCloseFn} />
-      {/* <PersonAndTimePop visible select={undefined} onClose={timeCloseFn} onOk={(select) => console.log(select)} /> */}
+      <StoreListPop visible={showStore} list={storeList} maskClick onClose={storeCloseFn} onOk={storeCloseFn} select={store?.shopId} />
+      {!!store && <TimeListPop visible={showTime} select={time} timeStart={(store.busiHours || '').split('-')[0]} timeEnd={(store.busiHours || '').split('-')[1]} onClose={timeCloseFn} onOk={timeCloseFn} />}
     </View>
   )
 }
