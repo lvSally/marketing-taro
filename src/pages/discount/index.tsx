@@ -90,7 +90,7 @@ function Index() {
               </View>
               <View className='right'></View>
               <View className='relative'>
-                <View className='have'>{currentCoupon.expireTime ? dayjs(currentCoupon.expireTime).format('DD/MM/YYYY HH:mm') : '--'}</View>
+                <View className='have'>{currentCoupon.expireTime ? dayjs(currentCoupon.expireTime).format('YYYY/MM/DD HH:mm') : '--'}</View>
                 <View className='have'>过期</View>
               </View>
             </View>

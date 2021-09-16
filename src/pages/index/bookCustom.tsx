@@ -24,7 +24,6 @@ export default function BookCustom() {
   const [select, setSelect] = useState({
     shopId: undefined,
     projectId: undefined,
-    workerId: undefined,
     personAndTime: undefined,
     step: 'store' as Istep
   })
@@ -87,7 +86,9 @@ export default function BookCustom() {
     }
     setSelect({
       ...select,
-      shopId: val
+      shopId: val,
+      projectId: undefined,
+      personAndTime: undefined,
     })
     setShowPopFn({
       'store': false,
@@ -106,7 +107,8 @@ export default function BookCustom() {
     }
     setSelect({
       ...select,
-      projectId: val
+      projectId: val,
+      personAndTime: undefined,
     })
     setShowPopFn({
       'project': false,

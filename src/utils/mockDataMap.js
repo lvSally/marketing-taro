@@ -23,17 +23,43 @@ export default {
     "data": [
       {
         "amount": 0,
-        "couponId": "string",
-        "couponName": "string",
-        "discount": 0,
-        "exchangeTime": "2021-09-14T10:24:56.457Z",
-        "expireTime": "2021-09-14T10:24:56.457Z",
+        "couponId": "202108241234",
+        "couponName": "足浴优惠券",
+        "discount": 7,
+        "exchangeTime": 1631770062145,
+        "expireTime": 1631770062145,
         "packageId": "string",
         "paidAmount": 0,
-        "status": "string",
-        "usedTime": "2021-09-14T10:24:56.457Z",
+        "status": "USEABLE",
+        "usedTime": 1631770062145,
         "userPhone": "string"
-      }
+      },
+      {
+        "amount": 0,
+        "couponId": "202108241235",
+        "couponName": "xx优惠券",
+        "discount": 7.5,
+        "exchangeTime": 1631770062145,
+        "expireTime": 1631770062145,
+        "packageId": "string",
+        "paidAmount": 0,
+        "status": "EXPIRE",
+        "usedTime": 1631770062145,
+        "userPhone": "string"
+      },
+      {
+        "amount": 0,
+        "couponId": "202108241236",
+        "couponName": "优惠券1",
+        "discount": 7,
+        "exchangeTime": 1631770062145,
+        "expireTime": 1631770062145,
+        "packageId": "string",
+        "paidAmount": 0,
+        "status": "USED",
+        "usedTime": 1631770062145,
+        "userPhone": "string"
+      },
     ],
     "message": "string",
     "status": 0,
@@ -169,20 +195,40 @@ export default {
       "pages": 0,
       "records": [
         {
-          "bookTime": "string",
-          "bookType": "string",
-          "projectName": "string",
+          "bookData": 1631770062145,
+          "bookTime": "23:00-次日01:00",
+          "bookType": "SPECIAL",
+          "projectName": "项目名称",
           "shopInfoVO": {
-            "address": "string",
-            "busiHours": "string",
+            "address": "地址",
+            "busiHours": "23:00-次日01:00",
             "desc": "string",
-            "name": "string",
+            "name": "店名",
             "phoneNum": "string",
             "shopId": "string"
           },
-          "shopName": "string",
+          "shopName": "店名",
           "status": "SUCCESS",
-          "workerName": "string"
+          "workerName": "店员",
+          createTime: 1631770062145
+        },
+        {
+          "entryDate": 1631770062145,
+          "bookTime": 1631770062145,
+          "bookType": "FAST",
+          "projectName": "项目名称",
+          "shopInfoVO": {
+            "address": "地址",
+            "busiHours": "23:00-次日01:00",
+            "desc": "string",
+            "name": "店名",
+            "phoneNum": "string",
+            "shopId": "string"
+          },
+          "shopName": "店名",
+          "status": "CANCEL",
+          "workerName": "店员",
+          createTime: 1631770062145
         }
       ],
       "searchCount": true,
