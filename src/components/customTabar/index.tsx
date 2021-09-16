@@ -1,12 +1,6 @@
 import { View, Image } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { getGlobalData } from '@globalData'
-import homeIcon from '@image/home.png'
-import myIcon from '@image/my.png'
-import discountIcon from '@image/discount.png'
-import homeActiveIcon from '@image/active-home.png'
-import myActiveIcon from '@image/active-my.png'
-import discountActiveIcon from '@image/active-discount.png'
 import './index.scss'
 
 type activeType = 'home' | 'discount' | 'my'
@@ -15,6 +9,12 @@ interface Iprops {
   className?: string
 }
 
+const homeIcon = 'https://cdn.utoohappy.com/mini/home.png'
+const myIcon = 'https://cdn.utoohappy.com/mini/my.png'
+const discountIcon = 'https://cdn.utoohappy.com/mini/discount.png'
+const homeActiveIcon = 'https://cdn.utoohappy.com/mini/active-home.png'
+const myActiveIcon = 'https://cdn.utoohappy.com/mini/active-my.png'
+const discountActiveIcon = 'https://cdn.utoohappy.com/mini/active-discount.png'
 export default function CustomTabar(props: Iprops) {
   let {active, className} = props
 

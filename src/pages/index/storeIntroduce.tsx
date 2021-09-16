@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import http from '@http'
-import defaultImg from '@image/default1.png'
 import './index.scss'
 
+const defaultImg = 'https://cdn.utoohappy.com/mini/default1.png'
 export default function StoreIntroduce() {
   const [dataList, setDatalist] = useState([])
   useEffect(() => {

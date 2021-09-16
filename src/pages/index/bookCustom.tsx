@@ -6,7 +6,6 @@ import http from '@http'
 import StoreListPop from './storeListPop'
 import ProjectListPop from './projectListPop'
 import PersonAndTimePop from './personAndTimePop'
-// import defaultImg from '@image/default1.png'
 
 import './index.scss'
 

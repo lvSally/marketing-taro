@@ -1,10 +1,10 @@
-import defaultImg from '@image/default.png'
 import {useRouter} from '@tarojs/taro'
 import { useMemo } from 'react'
 import { View, Image } from '@tarojs/components'
 
 import './index.scss'
 
+const defaultImg = 'https://cdn.utoohappy.com/mini/default.png'
 export default function StoreDetail() {
   const history = useRouter()
   const paramData = useMemo(() => {

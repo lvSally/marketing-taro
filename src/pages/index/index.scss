@@ -3,6 +3,9 @@ page {
 }
 
 .page-home {
+  position: relative;
+  padding-top: 1px;
+  height: 100%;
   .bg-img {
     width: 100%;
     position: absolute;

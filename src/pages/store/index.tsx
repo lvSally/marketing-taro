@@ -1,5 +1,3 @@
-import defaultImg1 from '@image/default1.png'
-import defaultImg from '@image/default.png'
 import Taro, {useRouter} from '@tarojs/taro'
 import { useState, useEffect } from 'react'
 import http from '@http'
@@ -12,6 +10,7 @@ import PersonList from './personList'
 
 import './index.scss'
 
+const defaultImg = 'https://cdn.utoohappy.com/mini/default.png'
 export default function Home() {
   const history = useRouter()
   const [showBookAlert, setShowBookAlert] = useState(false)

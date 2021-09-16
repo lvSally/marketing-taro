@@ -1,8 +1,7 @@
 import { View, Image } from '@tarojs/components'
-import successIcon from '@image/success.png'
-
 import './index.scss'
 
+const successIcon = 'https://cdn.utoohappy.com/mini/success.png'
 export default function BookSuccess() {
   
   return (

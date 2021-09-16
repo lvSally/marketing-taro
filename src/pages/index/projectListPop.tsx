@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { View, Image } from '@tarojs/components'
 import CustomPop from '@src/components/customPop'
 import Nodata from '@src/components/noData'
-import defaultImg from '@image/default1.png'
-import successIcon from '@image/success.png'
 
+const defaultImg = 'https://cdn.utoohappy.com/mini/default1.png'
+const successIcon = 'https://cdn.utoohappy.com/mini/success.png'
 interface Iprops {
   visible?: boolean
   onClose?: (id) => void

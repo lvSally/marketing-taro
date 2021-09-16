@@ -19,7 +19,6 @@ const config = {
     '@src': path.resolve(__dirname, '..', 'src'),
     '@http': path.resolve(__dirname, '..', 'src/utils/http'),
     '@globalData': path.resolve(__dirname, '..', 'src/utils/globalData'),
-    '@image': path.resolve(__dirname, '..', 'src/assets/image'),
     '@style': path.resolve(__dirname, '..', 'src/assets/style'),
   },
   copy: {

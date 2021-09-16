@@ -19,7 +19,6 @@
       "@src/*": ["src/*"],
       "@http": ["src/utils/http"],
       "@globalData": ["src/utils/globalData"],
-      "@image/*": ["src/assets/image/*"],
       "@style/*": ["src/assets/style/*"]
     },
     "jsx": "react-jsx",

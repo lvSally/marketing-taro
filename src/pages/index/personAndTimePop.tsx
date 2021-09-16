@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import dayjs from 'dayjs'
 import CustomPop from '@src/components/customPop'
-import defaultImg from '@image/default1.png'
 
+const defaultImg = 'https://cdn.utoohappy.com/mini/default1.png'
 type dayType = 'todayList'|'tomorrowList'
 export interface ISelect {
   personId: string,

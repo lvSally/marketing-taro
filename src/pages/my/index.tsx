@@ -2,11 +2,11 @@ import { View, Text, Image } from '@tarojs/components'
 import { useEffect, useState } from 'react'
 import CustomTabar from '@src/components/customTabar'
 import Taro from '@tarojs/taro'
-import avatar from '@image/avatar.png'
 import httpRequest from '@http'
 import { encryptPhone } from '@src/utils/tools'
 import './index.scss'
 
+const avatar = 'https://cdn.utoohappy.com/mini/avatar.png'
 function Index() {
   const [userInfo, setUserInfo] = useState({
     couponCount: '--',

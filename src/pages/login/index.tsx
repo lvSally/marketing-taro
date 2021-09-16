@@ -4,10 +4,9 @@ import { View, Text, Image } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import httpRequest from '@http'
 import { setGlobalData } from '@globalData'
-// import selectIcon from '@image/select.png'
-import logo from '@image/logo.png'
 import './index.scss'
 
+const logo = 'https://cdn.utoohappy.com/mini/logo.png'
 export default function Login() {
   const history = useRouter()
   useEffect(() => {

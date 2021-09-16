@@ -1,11 +1,11 @@
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
-import defaultImg from '@image/default1.png'
 import './index.scss'
 
 interface Iprops {
   list: any[]
 }
+const defaultImg = 'https://cdn.utoohappy.com/mini/default1.png'
 export default function ProjectList(props: Iprops) {
   let {list = []} = props
   const linkTo = function(obj) {
