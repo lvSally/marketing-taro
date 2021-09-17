@@ -43,9 +43,9 @@ export default function Home() {
     })
   }
 
-  const linkToImg = function(id) {
+  const linkToImg = function(id, picList) {
     Taro.navigateTo({
-      url: `/pages/store/imageList?id=${id}`
+      url: `/pages/store/imageList?id=${id}&picList=${JSON.stringify(picList)}`
     })
   }
 
@@ -55,7 +55,7 @@ export default function Home() {
       <View className='desc-wrap desc-card'>
         <View className='title'>{shopInfo.info.name}</View>
         {!!shopInfo.pic.length && <View className='img-wrap'>
-          {shopInfo.pic.map((item, idx) => <Image key={idx} className='img' onClick={() => linkToImg(idx)} mode='heightFix' src={item.url} />)}
+          {shopInfo.pic.map((item, idx) => <Image key={idx} className='img' onClick={() => linkToImg(idx, shopInfo.pic)} mode='heightFix' src={item.url} />)}
         </View>}
         <View className='detail-wrap'>
           <View className='left'>

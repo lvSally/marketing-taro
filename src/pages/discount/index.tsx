@@ -14,21 +14,6 @@ function Index() {
   const [currentCoupon, setCurrentCoupon] = useState(undefined)
   const [loading, setLoading] = useState(false)
 
-  const statusMap = {
-    1: {
-      type: 'active',
-      txt: '立即领取',
-    },
-    2: {
-      type: 'have',
-      txt: '已领取',
-    },
-    4: {
-      type: 'none',
-      txt: '已抢光',
-    },
-  }
-
   const onScrollToLower = () => {
     console.log('end')
   }
@@ -48,20 +33,21 @@ function Index() {
   }
 
   const getCoupon = (item) => {
-    if(item.status !== '1') {
-      return
-    }
     linkToLogin('pages/discount/index') // 处理token为空
 
+    if(item.currentStock === 0 || item.isReceive === 1) {
+      return
+    }
     if(loading) {
       return
     }
     setLoading(true)
     http({
       method: 'post',
-      url: `/api/coupon/info/receive/${item.couponId}`,
+      url: `/api/coupon/info/receive/${item.packageId}`,
       data: {}
-    }).then(data => {
+    }).then((data) => {
+      queryCouponList() // 刷新优惠券列表
       setCurrentCoupon(data)
       setVisibleAlert(true)
     }).finally(() => {
@@ -80,7 +66,7 @@ function Index() {
       >
         <View className='title'>到店优惠券</View>
         {
-          couponList.map(item => <View key={item.couponId} className='custom-discount-list-block'>
+          couponList.map(item => <View key={item.packageId} className='custom-discount-list-block'>
           <View className='left'>{item.discount}折</View>
           <View className='center'>
             <View className='inner-title'>{item.couponName}</View>
@@ -88,7 +74,7 @@ function Index() {
             <View>每人限领1张，到店前台使用</View>
           </View>
           <View className='right'>
-            <Text className={statusMap[item.status]?.type} onClick={() => getCoupon(item)}>{statusMap[item.status]?.txt}</Text>
+            <Text className={item.currentStock === 0 ? 'none' : item.isReceive === 1 ? 'have' : 'active'} onClick={() => getCoupon(item)}>{item.currentStock === 0 ? '已抢光' : item.isReceive === 1 ? '已领取' : '立即领取'}</Text>
           </View>
         </View>)
         }

@@ -5,19 +5,19 @@ import dayjs from 'dayjs'
 import NoData from '@src/components/noData'
 import './discount.scss'
 
-type Istatus = 'useable' | 'used' | 'expire'
+type Istatus = 'USABLE' | 'USED' | 'EXPIRE'
 export default function Discount() {
-  const [curentTab, setCurentTab] = useState<Istatus>('useable')
+  const [curentTab, setCurentTab] = useState<Istatus>('USABLE')
   const [dataList, setDataList] = useState({
-    useable: {
+    USABLE: {
       list: [],
       pageNo: 1
     },
-    used: {
+    USED: {
       list: [],
       pageNo: 1
     },
-    expire: {
+    EXPIRE: {
       list: [],
       pageNo: 1
     }
@@ -30,19 +30,19 @@ export default function Discount() {
   }
 
   useEffect(() => {
-    queryMyCoupon('useable')
+    queryMyCoupon('USABLE')
   }, [])
 
-  const queryMyCoupon = (type:Istatus) => {
+  const queryMyCoupon = (status:Istatus) => {
     http({
       method: 'get',
-      url: '/mock/api/coupon/info/queryMyCoupon',
+      url: '/api/coupon/info/queryMyCoupon',
       data: {
-        type
+        status
       }
     }).then(data => {
       const newDataList = {...dataList}
-      newDataList[type].list = data || []
+      newDataList[status].list = data || []
       setDataList({
         ...dataList,
         ...newDataList
@@ -64,9 +64,9 @@ export default function Discount() {
   return (
     <View className='page-discount'>
       <View className='custom-tab-wrap around'>
-        <View className={`tab ${curentTab === 'useable' ? 'active' : ''}`} onClick={() => changeCoupon('useable')}>可使用</View>
-        <View className={`tab ${curentTab === 'used' ? 'active' : ''}`} onClick={() => changeCoupon('used')}>已使用</View>
-        <View className={`tab ${curentTab === 'expire' ? 'active' : ''}`} onClick={() => changeCoupon('expire')}>已过期</View>
+        <View className={`tab ${curentTab === 'USABLE' ? 'active' : ''}`} onClick={() => changeCoupon('USABLE')}>可使用</View>
+        <View className={`tab ${curentTab === 'USED' ? 'active' : ''}`} onClick={() => changeCoupon('USED')}>已使用</View>
+        <View className={`tab ${curentTab === 'EXPIRE' ? 'active' : ''}`} onClick={() => changeCoupon('EXPIRE')}>已过期</View>
       </View>
       <ScrollView
         className='list-content'

@@ -20,7 +20,7 @@ function Index() {
   const getUserInfo = () => {
     httpRequest({
       method: 'get',
-      url: '/mock/api/user/myInfo',
+      url: '/api/user/myInfo',
       data: {}
     }).then(data => {
       setUserInfo({
@@ -47,11 +47,11 @@ function Index() {
         </View>
         <View className='bottom-content'>
           <View className='block' onClick={() => linkTo('/pages/my/grade')}>
-            <View className='number'>{userInfo.credits}</View>
+            <View className='number'>{userInfo.credits || '-'}</View>
             <View>积分</View>
           </View>
           <View className='block' onClick={() => linkTo('/pages/my/discount')}>
-            <View className='number'>{userInfo.couponCount}</View>
+            <View className='number'>{userInfo.couponCount || '-'}</View>
             <View>优惠券</View>
           </View>
         </View>

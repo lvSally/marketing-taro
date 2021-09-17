@@ -25,7 +25,7 @@ export default function Login() {
     const { iv, encryptedData } = e.detail
     const options = {
       method: 'post',
-      url: '/mock/api/user/miniLogin',
+      url: '/api/user/miniLogin',
       data: {
         code: Taro.getStorageSync('code'),
         iv,

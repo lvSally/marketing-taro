@@ -1,16 +1,16 @@
 import {useRouter} from '@tarojs/taro'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { View, Text, Image, Swiper, SwiperItem } from '@tarojs/components'
 
 import './index.scss'
 
-const defaultImg = 'https://cdn.utoohappy.com/mini/default.png'
-const defaultImg1 = 'https://cdn.utoohappy.com/mini/default1.png'
-const defaultImg2 = 'https://cdn.utoohappy.com/mini/default2.png'
-const defaultImg3 = 'https://cdn.utoohappy.com/mini/default3.png'
 export default function ImageList() {
-  const history = useRouter()
-  const [currentNum, setCurrentNum] = useState(Number(history.params.id))
+  const {id, picList} = useRouter().params
+
+  const [currentNum, setCurrentNum] = useState(Number(id))
+  const imgList = useMemo(() => {
+    return JSON.parse(picList || '[]')
+  }, [picList])
 
   const changeFn = (e) => {
     setCurrentNum(e.detail.current)
@@ -24,20 +24,13 @@ export default function ImageList() {
         onChange={changeFn}
         current={currentNum}
       >
-        <SwiperItem>
-          <Image src={defaultImg} mode='widthFix' />
-        </SwiperItem>
-        <SwiperItem>
-          <Image src={defaultImg1} mode='widthFix' />
-        </SwiperItem>
-        <SwiperItem>
-          <Image src={defaultImg2} mode='widthFix' />
-        </SwiperItem>
-        <SwiperItem>
-          <Image src={defaultImg3} mode='widthFix' />
-        </SwiperItem>
+        {
+          imgList.map((item, idx) => <SwiperItem key={idx}>
+            <Image src={item.url} mode='widthFix' />
+          </SwiperItem>)
+        }
       </Swiper>
-      <View className='number-content'><Text className='current'>{currentNum+1}</Text>/{4}</View>
+      <View className='number-content'><Text className='current'>{currentNum+1}</Text>/{imgList.length}</View>
     </View>
   )
 }

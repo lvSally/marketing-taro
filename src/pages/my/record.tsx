@@ -14,7 +14,7 @@ export default function Record() {
   const bookHistory = () => {
     http({
       method: 'get',
-      url: '/mock/api/shop/bookHistory',
+      url: '/api/shop/bookHistory',
       data: {}
     }).then(data => {
       setDataList(data.records)
