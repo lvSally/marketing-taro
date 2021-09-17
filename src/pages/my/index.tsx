@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import CustomTabar from '@src/components/customTabar'
 import Taro from '@tarojs/taro'
 import httpRequest from '@http'
-import { encryptPhone } from '@src/utils/tools'
+import { encryptPhone, linkToLogin } from '@src/utils/tools'
 import './index.scss'
 
 const avatar = 'https://cdn.utoohappy.com/mini/avatar.png'
@@ -31,6 +31,7 @@ function Index() {
     })
   }
   const linkTo = function(url) {
+    linkToLogin('pages/my/index') // 处理token为空
     Taro.navigateTo({
       url
     })

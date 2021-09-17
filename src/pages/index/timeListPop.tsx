@@ -1,8 +1,10 @@
+import Taro from '@tarojs/taro'
 import { useState, useEffect } from 'react'
 import { View, Text } from '@tarojs/components'
 import CustomPop from '@src/components/customPop'
 import Nodata from '@src/components/noData'
-import { formatDate, getTimeList } from '@src/utils/tools'
+import dayjs from 'dayjs'
+import { formatDate, getTimeList, hourToMillisecond } from '@src/utils/tools'
 
 type dayType = 'todayList'|'tomorrowList'
 export type selectTimeType = {type: dayType, time: string} | undefined
@@ -51,6 +53,16 @@ export default function TimeListPop(props: Iprops) {
   }, [timeStart, timeEnd])
 
   const selectFn = (val) => {
+    const bookTime = dayjs().startOf('d').valueOf() + hourToMillisecond(val)
+    if(daySelect === 'todayList' && bookTime < +new Date()) {
+      Taro.showToast({
+        title: '该时间不可预约',
+        icon: 'none',
+        mask: false,
+      })
+      return
+    }
+
     setSelect({
       type: daySelect,
       time: val
@@ -67,7 +79,7 @@ export default function TimeListPop(props: Iprops) {
       {
         Object.values(dayMap).map(value => daySelect === value ? <View key={value} className='time-btn-wrap'>
           {
-            timeList[value].map((item, idx) => <Text onClick={() => selectFn(item)} key={`${idx}-time`} className={`time-btn ${select?.time === item ? 'active' : ''}`}>{item}</Text>)
+            timeList[value].map((item, idx) => <Text onClick={() => selectFn(item)} key={`${idx}-time`} className={`time-btn ${(dayjs().startOf('d').valueOf() + hourToMillisecond(item) < +new Date()) && daySelect === 'todayList' ? 'disabled' : ''} ${select?.time === item ? 'active' : ''}`}>{item}</Text>)
           }
         </View> : null)
       }

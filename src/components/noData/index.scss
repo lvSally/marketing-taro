@@ -7,17 +7,33 @@
 	top: 40%;
 	left: 50%;
 	transform: translate(-50%,-50%);
+  .no-data {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .no-data-text {
+    font-size:28px;
+    font-family:PingFangHK-Regular,PingFangHK;
+    font-weight:400;
+    color:rgba(136,136,136,1);
+    margin-top: 32px;
+  }
 }
+.custom-empty1 {
+  text-align: center;
+  margin-top: 40px;
 
-.no-data {
-  width: 200px;
-  height: 200px;
-}
-
-.no-data-text {
-  font-size:28px;
-  font-family:PingFangHK-Regular,PingFangHK;
-  font-weight:400;
-  color:rgba(136,136,136,1);
-  margin-top: 32px;
+  .no-data {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .no-data-text {
+    font-size:28px;
+    font-family:PingFangHK-Regular,PingFangHK;
+    font-weight:400;
+    color:rgba(136,136,136,1);
+    margin-top: 32px;
+  }
 }

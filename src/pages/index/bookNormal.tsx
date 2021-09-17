@@ -4,6 +4,7 @@ import { AtButton } from 'taro-ui'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import http from '@http'
+import {hourToMillisecond, linkToLogin} from "@src/utils/tools"
 import StoreListPop from './storeListPop'
 import TimeListPop, {selectTimeType} from './TimeListPop'
 
@@ -25,6 +26,7 @@ export default function BookNormal() {
   const [showStore, setShowStore] = useState(false)
   const [showTime, setShowTime] = useState(false)
   const [storeList, setStoreList] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     queryShopList()
@@ -46,6 +48,7 @@ export default function BookNormal() {
   }
 
   const showTimeFn = () => {
+    linkToLogin('pages/index/index') // 处理token为空
     if(!store) {
       Taro.showToast({
         title: '请先选择门店',
@@ -73,6 +76,20 @@ export default function BookNormal() {
   }
 
   const bookBtn = () => {
+    linkToLogin('pages/index/index') // 处理token为空
+
+    if(!store || !time) {
+      Taro.showToast({
+        title: '门店和到店时间不能为空',
+        icon: 'none',
+        mask: false,
+      })
+      return
+    }
+    if(loading) {
+      return
+    }
+    setLoading(true)
     let entryDate = -1
     if(time.type === 'todayList') {
       entryDate = dayjs().startOf('d').valueOf() // 当天凌晨的时间戳
@@ -93,24 +110,20 @@ export default function BookNormal() {
       }
     }).then(() => {
       // todo: 更新订单信息
+    }).finally(() => {
+      setLoading(false)
     })
-  }
-
-  const hourToMillisecond = (timeStr) => {
-    const timeArr = timeStr.split(':')
-    if(timeArr.length !== 2) return 0
-    let hour = +timeArr[0]
-    if(+timeArr[1] === 30) {
-      hour += 0.5
-    }
-    return hour*3600*1000
   }
   
   return (
     <View className='custom-book-normal'>
       <View className='normal-list mb40'>
         <View>预约门店:</View>
-        <View className={`${store ? '' : 'empty'} content`} onClick={() => setShowStore(true)}>{store?.name || '请选择'}</View>
+        <View className={`${store ? '' : 'empty'} content`} onClick={() => {
+          linkToLogin('pages/index/index') // 处理token为空
+          setShowStore(true)
+        }}
+        >{store?.name || '请选择'}</View>
       </View>
       <View className='normal-list'>
         <View>到店时间:</View>

@@ -298,16 +298,36 @@
     height: 52px;
     line-height: 52px;
     text-align: center;
-    background: #f2f2f2;
+    background: #fff;
     color: #333;
     display: inline-block;
     border-radius: 8px;
     margin-bottom: 24px;
     margin-left: 32px;
     border: 1px solid #f2f2f2;
+    
     &.active {
       border-color: #f5b060;
       background: #fef5ec;
+    }
+    &.disabled {
+      background: #f2f2f2;
+    }
+    &.isbook {
+      position: relative;
+      &::after {
+        content: '已被预约';
+        line-height: 30px;
+        display: inline-block;
+        position: absolute;
+        top: -22px;
+        right: -16px;
+        font-size: 20px;
+        padding: 0 8px;
+        background: #ccc;
+        color: #fff;
+        border-radius: 6px;
+      }
     }
   }
 

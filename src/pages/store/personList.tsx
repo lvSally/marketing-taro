@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
+import Nodata from '@src/components/noData'
 import './index.scss'
 
 interface Iprops {
@@ -22,5 +23,6 @@ export default function PersonList(props: Iprops) {
         <View>{item.desc}</View>
       </View>
     </View>)}
+    {list.length === 0 && <Nodata className='custom-empty1' />}
   </View>
 }

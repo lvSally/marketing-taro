@@ -4,23 +4,26 @@ import CustomAlert from '@src/components/customAlert'
 import { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import http from '@http'
+import Nodata from '@src/components/noData'
+import { linkToLogin } from '@src/utils/tools'
 import './index.scss'
 
 function Index() {
   const [visibleAlert, setVisibleAlert] = useState(false)
   const [couponList, setCouponList] = useState([])
   const [currentCoupon, setCurrentCoupon] = useState(undefined)
+  const [loading, setLoading] = useState(false)
 
   const statusMap = {
-    active: {
+    1: {
       type: 'active',
       txt: '立即领取',
     },
-    have: {
+    2: {
       type: 'have',
       txt: '已领取',
     },
-    none: {
+    4: {
       type: 'none',
       txt: '已抢光',
     },
@@ -37,7 +40,7 @@ function Index() {
   const queryCouponList = () => {
     http({
       method: 'get',
-      url: '/mock/api/coupon/info/listConfigCoupon',
+      url: '/api/coupon/info/listConfigCoupon',
       data: {}
     }).then(data => {
       setCouponList(data || [])
@@ -45,12 +48,25 @@ function Index() {
   }
 
   const getCoupon = (item) => {
-    if(item.status !== 'active') {
+    if(item.status !== '1') {
       return
     }
-    // todo: 调用领取接口
-    setCurrentCoupon(item)
-    setVisibleAlert(true)
+    linkToLogin('pages/discount/index') // 处理token为空
+
+    if(loading) {
+      return
+    }
+    setLoading(true)
+    http({
+      method: 'post',
+      url: `/api/coupon/info/receive/${item.couponId}`,
+      data: {}
+    }).then(data => {
+      setCurrentCoupon(data)
+      setVisibleAlert(true)
+    }).finally(() => {
+      setLoading(false)
+    })
   }
 
   return (
@@ -68,7 +84,7 @@ function Index() {
           <View className='left'>{item.discount}折</View>
           <View className='center'>
             <View className='inner-title'>{item.couponName}</View>
-            <View>剩余{item.amount}张</View>
+            <View>剩余{item.currentStock}张</View>
             <View>每人限领1张，到店前台使用</View>
           </View>
           <View className='right'>
@@ -77,9 +93,10 @@ function Index() {
         </View>)
         }
         
-        <View className='no-more'>没有更多了</View>
-
-        {!!currentCoupon && <CustomAlert visible={visibleAlert} onClose={() => setVisibleAlert(false)}>
+        {false && <View className='no-more'>没有更多了</View>}
+      </ScrollView>
+      {couponList.length === 0 && <Nodata />}
+      {!!currentCoupon && <CustomAlert visible={visibleAlert} onClose={() => setVisibleAlert(false)}>
           <View className='pop-content'>
             <View className='title'>领取成功</View>
             <View className='custom-discount-list-block border'>
@@ -101,8 +118,6 @@ function Index() {
             </View>
           </View>
         </CustomAlert>}
-        
-      </ScrollView>
       <CustomTabar active='discount' />
     </View>
   )

@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
+import Nodata from '@src/components/noData'
 import './index.scss'
 
 interface Iprops {
@@ -27,5 +28,6 @@ export default function ProjectList(props: Iprops) {
       </View>
     </View>)
     }
+    {list.length === 0 && <Nodata className='custom-empty1' />}
   </View>
 }

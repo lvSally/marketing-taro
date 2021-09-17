@@ -240,55 +240,78 @@ export default {
     "success": true
   },
   '/mock/api/shop/queryById': { // 查询门店通过门店ID
-    "data": {
-      "address": "string",
-      "busiHours": "string",
-      "desc": "string",
-      "name": "string",
-      "phoneNum": "string",
-      "pic": [
-        {
-          "order": 0,
-          "url": "string"
-        }
+    status: 200,
+    message: "操作成功!",
+    success: true,
+    data: {
+      shopId: "887850325471100928",
+      name: "来一桶",
+      desc: "来一桶",
+      busiHours: "00:00-21:00",
+      address: "北纬路甲一号",
+      phoneNum: "110",
+      pic: [
+      {
+      url: "https://cdn.utoohappy.com/887085503469363200.jpg",
+      order: 0
+      }
       ],
-      "shopId": "string",
-      "shopProjects": [
+      shopProjects: [
         {
-          "createTime": "2021-09-14T10:28:52.090Z",
-          "deleteFlag": 0,
-          "desc": "string",
+          "projectId": "001",
+          "shopId": "887850325471100928",
+          "name": "项目1",
+          "pic": "https://cdn.utoohappy.com/887085503469363200.jpg",
           "duration": 0,
-          "id": 0,
-          "name": "string",
-          "pic": "string",
           "price": 0,
-          "projectId": "string",
-          "shopId": "string",
+          "desc": "ss",
           "status": 0,
-          "updateTime": "2021-09-14T10:28:52.090Z"
+          "createTime": 0,
+          "updateTime": 0
         }
       ],
-      "shopWorkers": [
+      shopWorkers: [
         {
-          "bookTime": "string",
-          "createTime": "2021-09-14T10:28:52.090Z",
-          "deleteFlag": 0,
-          "desc": "string",
-          "id": 0,
-          "name": "string",
-          "pic": "string",
-          "projectId": "string",
-          "shopId": "string",
+          "workerId": "001",
+          "shopId": "887850325471100928",
+          "name": "编号001",
+          "pic": "https://cdn.utoohappy.com/887085503469363200.jpg",
+          "desc": "xx00",
           "status": 0,
-          "updateTime": "2021-09-14T10:28:52.090Z",
-          "workerId": "string"
-        }
+          "workerSchedule": [
+            {
+              "bookDate": 1631808000000,
+              "bookDateTime": [
+                {
+                  "bookTime": "08:30-23:00",
+                  "isBooked": false
+                },
+                {
+                  "bookTime": "08:30-23:00",
+                  "isBooked": true
+                },
+                {
+                  "bookTime": "11:30-23:00",
+                  "isBooked": false
+                }
+              ]
+            },
+            {
+              "bookDate": 1631894400000,
+              "bookDateTime": [
+                {
+                  "bookTime": "08:30-23:00",
+                  "isBooked": false
+                }
+              ]
+            },
+            
+          ],        
+          "createTime": 0,
+          "updateTime": 0
+        }    
       ]
-    },
-    "message": "string",
-    "status": 0,
-    "success": true
+    }
   },
   "/mock/admin/shop/list": {
     "data": {

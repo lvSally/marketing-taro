@@ -16,7 +16,7 @@ export default function Grade() {
   const queryCreditsTrans = () => {
     http({
       method: 'get',
-      url: '/mock/api/credits/queryCreditsTrans',
+      url: '/api/credits/queryCreditsTrans',
       data: {}
     }).then(data => {
       setCurrentGrade(data.current)

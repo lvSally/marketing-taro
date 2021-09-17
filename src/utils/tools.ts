@@ -1,3 +1,5 @@
+import Taro from '@tarojs/taro'
+
 function formatDate(date?: number) {
   const newData = date ? new Date(date) : new Date()
   const day =newData.getDate()
@@ -96,4 +98,21 @@ function encryptPhone(str) {
   return str.length === 11 ? str.substr(0,4) + '***' + str.substr(7,11) : '--';
 }
 
-export { formatDate, getTimeList, encryptPhone }
+const hourToMillisecond = (timeStr) => {
+  const timeArr = timeStr.split(':')
+  if(timeArr.length !== 2) return 0
+  let hour = +timeArr[0]
+  let mins = +timeArr[1]
+  return hour*60*60*1000 + mins*60*1000
+}
+
+const linkToLogin = (redirect) => {
+  if(!Taro.getStorageSync('token')) {
+    Taro.navigateTo({
+      url: `/pages/login/index?redirect=${redirect}`,
+    })
+    return
+  }
+}
+
+export { formatDate, getTimeList, encryptPhone, hourToMillisecond, linkToLogin }

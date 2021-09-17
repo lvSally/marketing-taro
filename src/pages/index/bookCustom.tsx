@@ -3,6 +3,7 @@ import { AtButton } from 'taro-ui'
 import { View, Text } from '@tarojs/components'
 import { useState, useEffect } from 'react'
 import http from '@http'
+import {linkToLogin} from "@src/utils/tools"
 import StoreListPop from './storeListPop'
 import ProjectListPop from './projectListPop'
 import PersonAndTimePop from './personAndTimePop'
@@ -27,6 +28,7 @@ export default function BookCustom() {
     personAndTime: undefined,
     step: 'store' as Istep
   })
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if(!select.shopId) {
@@ -70,6 +72,7 @@ export default function BookCustom() {
   }
 
   const startBtnFn = () => {
+    linkToLogin('pages/index/index') // 处理token为空
     setShowPopFn({
       [select.step]: true
     })
@@ -125,6 +128,10 @@ export default function BookCustom() {
       })
       return
     }
+    if(loading) {
+      return
+    }
+    setLoading(true)
     const postData = {
       ...select,
       personAndTime: val
@@ -144,6 +151,8 @@ export default function BookCustom() {
     }).then(() => {
       // todo: 更新订单信息
       setShowPopFn({'personAndTime': false})
+    }).finally(() => {
+      setLoading(false)
     })
   }
 
