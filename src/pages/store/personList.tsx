@@ -5,13 +5,14 @@ import './index.scss'
 
 interface Iprops {
   list: any[]
+  storeFirstPic: string
 }
 const defaultImg = 'https://cdn.utoohappy.com/mini/default1.png'
 export default function PersonList(props: Iprops) {
-  let {list = []} = props
+  let {list = [], storeFirstPic} = props
   const linkTo = function(obj) {
     Taro.navigateTo({
-      url: `/pages/store/detail?type=person&obj=${JSON.stringify(obj)}`
+      url: `/pages/store/detail?type=person&obj=${JSON.stringify(obj)}&storeFirstPic=${storeFirstPic}`
     })
   }
 
@@ -19,7 +20,7 @@ export default function PersonList(props: Iprops) {
     {list.map(item => <View key={item.workerId} className='block-list flex-start' onClick={() => linkTo(item)}>
       <Image className='left' src={item.pic || defaultImg} />
       <View className='right'>
-        <View className='sub-title'>{item.name}</View>
+        <View className='sub-title'>{item.name || '-'}</View>
         <View>{item.desc}</View>
       </View>
     </View>)}

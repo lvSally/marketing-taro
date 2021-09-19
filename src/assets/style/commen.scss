@@ -239,26 +239,38 @@
 .custom-book-pop-wrap2 {
   margin: 24px;
   height: 52vh;
-  overflow: auto;
+  // overflow: auto;
   box-sizing: border-box;
   display: flex;
   border: 1px solid #f2f2f2;
   border-radius: 16px;
+  &.date-wrap {
+    height: 52vh;
+    .custom-empty {
+      left: 50%;
+    }
+  }
   .time-bar-wrap {
     height: 100%;
     background: #f2f2f2;
+    min-width: 240px;
+    overflow-y: auto;
   }
   .time-bar {
     padding: 32px;
     box-sizing: border-box;
     color: #333;
-    width: 240px;
+    width: 100%;
     text-align: center;
     border-top-left-radius: 16px;
     border-bottom-left-radius: 16px;
     &.active {
       background: #fff;
     }
+  }
+  .person-wrap {
+    overflow-y: auto;
+    width: 100%;
   }
   .person-desc {
     padding: 32px 32px 0 32px;
@@ -291,12 +303,15 @@
   .time-btn-wrap {
     padding: 32px 0;
     text-align: left;
+    overflow-y: auto;
   }
 
   .time-btn {
     width: 176px;
-    height: 52px;
-    line-height: 52px;
+    font-size: 20px;
+    // height: 52px;
+    // line-height: 52px;
+    padding: 4px;
     text-align: center;
     background: #fff;
     color: #333;
@@ -438,8 +453,9 @@
   .relative {
     position: absolute;
     color: #e5867c;
-    top: 8px;
-    right: 12px;
+    top: 12px;
+    font-size: 24px;
+    right: 24px;
     text-align: right;
   }
 }

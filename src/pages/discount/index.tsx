@@ -33,7 +33,7 @@ function Index() {
   }
 
   const getCoupon = (item) => {
-    linkToLogin('pages/discount/index') // 处理token为空
+    if(linkToLogin('pages/discount/index')) return // 处理token为空
 
     if(item.currentStock === 0 || item.isReceive === 1) {
       return
@@ -93,8 +93,7 @@ function Index() {
               </View>
               <View className='right'></View>
               <View className='relative'>
-                <View className='have'>{currentCoupon.expireTime ? dayjs(currentCoupon.expireTime).format('YYYY/MM/DD HH:mm') : '--'}</View>
-                <View className='have'>过期</View>
+                <View className='have'>{currentCoupon.expireTime ? dayjs(currentCoupon.expireTime).format('YYYY/MM/DD HH:mm') : '--'} 过期</View>
               </View>
             </View>
             <View className='desc'>

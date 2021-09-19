@@ -24,14 +24,14 @@ function Index() {
       data: {}
     }).then(data => {
       setUserInfo({
-        couponCount: data.couponCount,
-        credits: data.credits,
-        phone: data.phone
+        couponCount: data?.couponCount,
+        credits: data?.credits,
+        phone: data?.phone
       })
     })
   }
   const linkTo = function(url) {
-    linkToLogin('pages/my/index') // 处理token为空
+    if(linkToLogin('pages/my/index')) return // 处理token为空
     Taro.navigateTo({
       url
     })

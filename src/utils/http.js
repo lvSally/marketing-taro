@@ -14,7 +14,7 @@ export default (options = { method: 'GET', data: {}}) => {
     data: options.data,
     header: {
       'content-Type': 'application/json',
-      'X-Access-Token': Taro.getStorageSync('token')
+      'token': Taro.getStorageSync('token')
     },
     method: options.method.toUpperCase(),
   }).then((res) => {
@@ -28,8 +28,8 @@ export default (options = { method: 'GET', data: {}}) => {
   }).catch((err) => {
     navigationLoading.done()
     let msg = '服务异常'
-    if (err.data && err.data.msg) {
-      msg = err.data.msg
+    if (err.data && err.data.message) {
+      msg = err.data.message
     } else if (err.status === 403) {
       msg = '登录过期, 请重新登录'
       setTimeout(() => {

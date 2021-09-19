@@ -45,11 +45,7 @@ const globalData = {
     phone: '',
     nickName: ''
   },
-  order: {
-    name: '',
-    address: '',
-    busiHours: '',
-  },
+  bookData: {}, // 最新的预约记录
   isIPX: false,
   phoneModel: '', // 手机类型
 }

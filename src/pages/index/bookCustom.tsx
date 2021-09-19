@@ -1,17 +1,24 @@
 import Taro from '@tarojs/taro'
 import { AtButton } from 'taro-ui'
 import { View, Text } from '@tarojs/components'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import http from '@http'
-import {linkToLogin} from "@src/utils/tools"
+import {linkToLogin, notOpenDate, queryNewBook} from "@src/utils/tools"
 import StoreListPop from './storeListPop'
 import ProjectListPop from './projectListPop'
 import PersonAndTimePop from './personAndTimePop'
+import {IStore} from './bookNormal'
 
 import './index.scss'
 
-type Istep = 'store' | 'project' | 'personAndTime'
-export default function BookCustom() {
+// type Istep = 'store' | 'project' | 'personAndTime'
+
+interface Iprops {
+  className?: string
+  store?: IStore
+}
+
+export default function BookCustom(props:Iprops) {
   const [showPop, setShowPop] = useState({
     store: false,
     project: false,
@@ -23,10 +30,10 @@ export default function BookCustom() {
     shopWorkers: []
   })
   const [select, setSelect] = useState({
-    shopId: undefined,
+    shopId: props.store?.shopId,
     projectId: undefined,
     personAndTime: undefined,
-    step: 'store' as Istep
+    step: props.store ? 'project' : 'store'
   })
   const [loading, setLoading] = useState(false)
 
@@ -72,7 +79,9 @@ export default function BookCustom() {
   }
 
   const startBtnFn = () => {
-    linkToLogin('pages/index/index') // 处理token为空
+    if(notOpenDate()) return // 校验是否到开放时间
+    if(linkToLogin('pages/index/index')) return // 处理token为空
+
     setShowPopFn({
       [select.step]: true
     })
@@ -149,7 +158,7 @@ export default function BookCustom() {
         bookTime: postData.personAndTime.bookTime
       }
     }).then(() => {
-      // todo: 更新订单信息
+      queryNewBook()
       setShowPopFn({'personAndTime': false})
     }).finally(() => {
       setLoading(false)
@@ -197,7 +206,7 @@ export default function BookCustom() {
       <AtButton className='book-btn' type='primary' circle onClick={startBtnFn}>开始定制预约</AtButton>
 
       <StoreListPop OkBtnTxt='确定，下一步' visible={showPop.store} list={storeList} maskClick onClose={() => setShowPopFn({'store': false})} onOk={storeFn} select={select.shopId} />
-      <ProjectListPop onBack={() => backFn('project')}  OkBtnTxt='确定，下一步' visible={showPop.project} list={selectStoreInfo.shopProjects} onClose={() => setShowPopFn({'project': false})} onOk={projectFn} select={select.projectId} />
+      <ProjectListPop onBack={props.store ? null : () => backFn('project')}  OkBtnTxt='确定，下一步' visible={showPop.project} list={selectStoreInfo.shopProjects} onClose={() => setShowPopFn({'project': false})} onOk={projectFn} select={select.projectId} />
       <PersonAndTimePop list={selectStoreInfo.shopWorkers} onBack={() => backFn('personAndTime')} visible={showPop.personAndTime} select={select.personAndTime} onClose={() => setShowPopFn({'personAndTime': false})} onOk={personAndTimeFn} />
     </View>
   )

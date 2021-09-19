@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import dayjs from 'dayjs'
 import CustomPop from '@src/components/customPop'
-import {hourToMillisecond} from '@src/utils/tools'
+import {hourToMillisecond, dateTypeStr} from '@src/utils/tools'
+import Nodata from '@src/components/noData'
 
 const defaultImg = 'https://cdn.utoohappy.com/mini/default1.png'
 type dayType = 'todayList'|'tomorrowList'
@@ -77,13 +78,13 @@ export default function PersonAndTimePop(props: Iprops) {
   }
 
   return <CustomPop title='选择技师、时段' onBack={props.onBack} headBorder={false} visible={props.visible} onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select)}>
-    {person && <View className='custom-book-pop-wrap2'>
+    {person ? <View className='custom-book-pop-wrap2'>
       <View className='time-bar-wrap'>
         {
-          props.list.map((item, idx) => <View onClick={() => selectPersonFn(item)} key={`${idx}-person`} className={`time-bar ${item?.workerId === person?.workerId ? 'active' : ''}`}>{item.name}</View>)
+          props.list.map((item, idx) => <View onClick={() => selectPersonFn(item)} key={`${idx}-person`} className={`time-bar ${item?.workerId === person?.workerId ? 'active' : ''}`}>{item.name || '-'}</View>)
         }
       </View>
-      <View>
+      <View className='person-wrap'>
         <View className='person-desc'>
           <View>技师介绍</View>
           <View className='img-wrap'>
@@ -99,7 +100,7 @@ export default function PersonAndTimePop(props: Iprops) {
         </View>
         {
           person?.workerSchedule.map((item, idx) => <View key={`bookList${idx}`}>
-            <View className='time-title'>{dayjs(item.bookDate).format('MM/DD')}</View>
+            <View className='time-title'>{dateTypeStr(item.bookDate)} {dayjs(item.bookDate).format('MM/DD')}</View>
             <View className='time-btn-wrap'>
               {
                 item.bookDateTime.map((subItem, subIdx) => <Text onClick={() => selectTimeFn(item, subItem)} key={`${subIdx}-time`} className={`time-btn ${subItem.isBooked ? 'disabled isbook' : ''} ${caculTimeLabelStatus(item.bookDate, subItem.bookTime)} ${(select?.bookDate === item.bookDate && select?.bookTime === subItem.bookTime &&  select?.personId === person?.workerId)? 'active' : ''}`}>{subItem.bookTime}</Text>)
@@ -108,6 +109,6 @@ export default function PersonAndTimePop(props: Iprops) {
           </View>)
         }
       </View>
-    </View>}
+    </View> : <View className='custom-book-pop-wrap2 date-wrap'><Nodata /></View>}
   </CustomPop>
 }

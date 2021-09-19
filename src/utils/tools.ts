@@ -1,4 +1,7 @@
 import Taro from '@tarojs/taro'
+import dayjs from 'dayjs'
+import http from '@http'
+import { setGlobalData } from '@globalData'
 
 function formatDate(date?: number) {
   const newData = date ? new Date(date) : new Date()
@@ -76,6 +79,9 @@ function minutesFormat(time, type: 'start' | 'end') { // time: 22: 01
   }
   let hour = +time.split(':')[0]
   let minute = +time.split(':')[1]
+  if(hour>24 || hour<0 || minute>60 || minute<0) {
+    return
+  }
   if(type === 'start') { // 开始时间
     if(minute > 30) { // 超过30分钟，分置位0，时加1
       hour = hour + 1
@@ -106,13 +112,47 @@ const hourToMillisecond = (timeStr) => {
   return hour*60*60*1000 + mins*60*1000
 }
 
+const dateTypeStr = (date) => {
+  if(!date) return ''
+  if(dayjs(date).startOf('d').valueOf() === dayjs().startOf('d').valueOf()) {
+    return '今天'
+  }
+  if(dayjs(date).startOf('d').valueOf() === (dayjs().startOf('d').valueOf() + 24*60*60*1000)) {
+    return '明天'
+  }
+}
+
 const linkToLogin = (redirect) => {
   if(!Taro.getStorageSync('token')) {
     Taro.navigateTo({
       url: `/pages/login/index?redirect=${redirect}`,
     })
-    return
+    return true
   }
+  return false
 }
 
-export { formatDate, getTimeList, encryptPhone, hourToMillisecond, linkToLogin }
+const notOpenDate = () => {
+  return false
+  if(+new Date() < dayjs('2021-10-01').valueOf()) {
+    Taro.showToast({
+      title: '10月1日正式开放预约，敬请期待',
+      icon: 'none',
+      mask: false,
+    })
+    return true
+  }
+  return false
+}
+
+const queryNewBook = () => {
+  http({
+    method: 'get',
+    url: '/api/shop/queryNew',
+    data: {}
+  }).then(data => {
+    setGlobalData('bookData', data || {})
+  })
+}
+
+export { formatDate, getTimeList, encryptPhone, hourToMillisecond, linkToLogin, notOpenDate, queryNewBook, dateTypeStr }

@@ -1,10 +1,11 @@
 import Taro, {useRouter} from '@tarojs/taro'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import http from '@http'
 import { View, Image } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import CustomAlert from '@src/components/customAlert'
 import Reserve from '@src/pages/index/bookPanel'
+import {linkToLogin, notOpenDate} from "@src/utils/tools"
 import ProjectList from './projectList'
 import PersonList from './personList'
 
@@ -25,6 +26,10 @@ export default function Home() {
   useEffect(() => {
     queryShopInfo()
   }, [])
+
+  const storeFirstPic = useMemo(() => {
+    return shopInfo.pic.length ? shopInfo.pic[0].url  : defaultImg
+  }, [shopInfo])
 
   const queryShopInfo = () => {
     http({
@@ -49,33 +54,41 @@ export default function Home() {
     })
   }
 
+  const showBookContent = () => {
+    if(notOpenDate()) return // 校验是否到开放时间
+    if(linkToLogin('pages/index/index')) return // 处理token为空
+    setShowBookAlert(true)
+  }
+
   return (
     <View className='page-store'>
-      <Image className='bg-img' src={shopInfo.pic.length ? shopInfo.pic[0].url  : defaultImg} mode='widthFix' />
-      <View className='desc-wrap desc-card'>
-        <View className='title'>{shopInfo.info.name}</View>
-        {!!shopInfo.pic.length && <View className='img-wrap'>
-          {shopInfo.pic.map((item, idx) => <Image key={idx} className='img' onClick={() => linkToImg(idx, shopInfo.pic)} mode='heightFix' src={item.url} />)}
-        </View>}
-        <View className='detail-wrap'>
-          <View className='left'>
-            <View>联系电话：{shopInfo.info.phoneNum}</View>
-            <View>营业时间：{shopInfo.info.busiHours}</View>
-            <View>地址：{shopInfo.info.address}</View>
+      <Image className='bg-img' src={storeFirstPic} mode='aspectFit' />
+      <View>
+        <View className='desc-wrap desc-card'>
+          <View className='title'>{shopInfo.info.name}</View>
+          {!!shopInfo.pic.length && <View className='img-wrap'>
+            {shopInfo.pic.map((item, idx) => <Image key={idx} className='img' onClick={() => linkToImg(idx, shopInfo.pic)} mode='heightFix' src={item.url} />)}
+          </View>}
+          <View className='detail-wrap'>
+            <View className='left'>
+              <View>联系电话：{shopInfo.info.phoneNum}</View>
+              <View>营业时间：{shopInfo.info.busiHours}</View>
+              <View>地址：{shopInfo.info.address}</View>
+            </View>
+            <AtButton className='right' type='primary' onClick={showBookContent}>预约</AtButton>
           </View>
-          <AtButton className='right' type='primary' onClick={() => setShowBookAlert(true)}>预约</AtButton>
         </View>
-      </View>
-      <View className='p16'>
-        <View className='custom-tab-wrap'>
-          <View className={`tab ${curentList === 'project' ? 'active' : ''}`} onClick={() => setCurentList('project')}>项目</View>
-          <View  className={`tab ${curentList === 'person' ? 'active' : ''}`} onClick={() => setCurentList('person')}>技师</View>
+        <View className='p16'>
+          <View className='custom-tab-wrap'>
+            <View className={`tab ${curentList === 'project' ? 'active' : ''}`} onClick={() => setCurentList('project')}>项目</View>
+            <View  className={`tab ${curentList === 'person' ? 'active' : ''}`} onClick={() => setCurentList('person')}>技师</View>
+          </View>
+          {curentList === 'project' && <ProjectList list={shopInfo.projectList} storeFirstPic={storeFirstPic} />}
+          {curentList === 'person' && <PersonList list={shopInfo.personList} storeFirstPic={storeFirstPic} />}
         </View>
-        {curentList === 'project' && <ProjectList list={shopInfo.projectList} />}
-        {curentList === 'person' && <PersonList list={shopInfo.personList} />}
       </View>
       <CustomAlert visible={showBookAlert} onClose={() => setShowBookAlert(false)}>
-        <Reserve className='form-wrap' />
+        <Reserve className='form-wrap' store={shopInfo.info} />
       </CustomAlert>
     </View>
   )

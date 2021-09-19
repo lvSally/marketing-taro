@@ -8,7 +8,7 @@ import './index.scss'
 export default function Home() {
   return (
     <View className='page-home'>
-      <Image className='bg-img' src='https://cdn.utoohappy.com/mini/home-bg1.jpg' mode='widthFix' />
+      <Image className='bg-img' src='https://cdn.utoohappy.com/mini/home-bg2.jpg' mode='widthFix' />
       <Reserve className='form-wrap' />
       <StoreIntroduce />
       <CustomTabar active='home' />

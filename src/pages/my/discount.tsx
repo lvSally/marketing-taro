@@ -84,8 +84,7 @@ export default function Discount() {
             </View>
             <View className='right'></View>
             <View className='relative'>
-              <View className='have'>{item.status === 'USED' ? item.usedTime && dayjs(item.usedTime).format('YYYY/MM/DD HH:mm') : item.expireTime && dayjs(item.expireTime).format('YYYY/MM/DD HH:mm')}</View>
-              <View className='have'>{item.status === 'USED' ? '已使用' : '过期'}</View>
+              <View className='have'>{item.status === 'USED' ? item.usedTime && dayjs(item.usedTime).format('YYYY/MM/DD HH:mm') : item.expireTime && dayjs(item.expireTime).format('YYYY/MM/DD HH:mm')} {item.status === 'USED' ? '已使用' : '过期'}</View>
             </View>
           </View>)
         }

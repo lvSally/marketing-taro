@@ -1,10 +1,20 @@
 .page-store {
   .bg-img {
     width: 100%;
+    max-height: 400px;
     position: absolute;
     top: 0;
     z-index: -1;
   }
+
+  .white-bg {
+    background: #fff;
+  }
+
+  // .desc-card-wrap {
+  //   background: #fff;
+  //   height: 100vh;
+  // }
 
   .desc-card {
     background: #fff;

@@ -21,11 +21,11 @@ export default function Login() {
 
   //微信手机号登录
   const getPhoneNumber = (e) => {
-    console.log(e)
     const { iv, encryptedData } = e.detail
+    console.log(`${iv}***${encryptedData}***${Taro.getStorageSync('code')}`)
     const options = {
       method: 'post',
-      url: '/api/user/miniLogin',
+      url: '/api/user/simple/login',
       data: {
         code: Taro.getStorageSync('code'),
         iv,

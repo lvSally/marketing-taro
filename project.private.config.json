@@ -31,12 +31,6 @@
           "scene": null
         },
         {
-          "name": "pages/storeDetail/index",
-          "pathName": "pages/storeDetail/index",
-          "query": "",
-          "scene": null
-        },
-        {
           "name": "pages/store/imageList",
           "pathName": "pages/store/imageList",
           "query": "id=0",

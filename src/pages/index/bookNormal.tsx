@@ -4,7 +4,7 @@ import { AtButton } from 'taro-ui'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import http from '@http'
-import {hourToMillisecond, linkToLogin} from "@src/utils/tools"
+import {hourToMillisecond, linkToLogin, notOpenDate, queryNewBook} from "@src/utils/tools"
 import StoreListPop from './storeListPop'
 import TimeListPop, {selectTimeType} from './TimeListPop'
 
@@ -19,9 +19,12 @@ export interface IStore {
   phoneNum?: string
   busiHours?: string
 }
-
-export default function BookNormal() {
-  const [store, setStore] = useState<IStore | undefined>(undefined)
+interface Iprops {
+  className?: string
+  store?: IStore
+}
+export default function BookNormal(props:Iprops) {
+  const [store, setStore] = useState<IStore | undefined>(props.store)
   const [time, setTime] = useState<selectTimeType>()
   const [showStore, setShowStore] = useState(false)
   const [showTime, setShowTime] = useState(false)
@@ -48,7 +51,8 @@ export default function BookNormal() {
   }
 
   const showTimeFn = () => {
-    linkToLogin('pages/index/index') // 处理token为空
+    if(notOpenDate()) return // 校验是否到开放时间
+    if(linkToLogin('pages/index/index')) return // 处理token为空
     if(!store) {
       Taro.showToast({
         title: '请先选择门店',
@@ -58,6 +62,13 @@ export default function BookNormal() {
       return
     }
     setShowTime(true)
+  }
+
+  const showStoreFn = () => {
+    if(notOpenDate()) return // 校验是否到开放时间
+    if(linkToLogin('pages/index/index')) return // 处理token为空
+    if(props.store) return // 如果由店铺进入禁用门店选择
+    setShowStore(true)
   }
 
   const storeCloseFn = (val) => {
@@ -76,7 +87,8 @@ export default function BookNormal() {
   }
 
   const bookBtn = () => {
-    linkToLogin('pages/index/index') // 处理token为空
+    if(notOpenDate()) return // 校验是否到开放时间
+    if(linkToLogin('pages/index/index')) return // 处理token为空
 
     if(!store || !time) {
       Taro.showToast({
@@ -109,7 +121,7 @@ export default function BookNormal() {
         entryDate,
       }
     }).then(() => {
-      // todo: 更新订单信息
+      queryNewBook()
     }).finally(() => {
       setLoading(false)
     })
@@ -119,11 +131,7 @@ export default function BookNormal() {
     <View className='custom-book-normal'>
       <View className='normal-list mb40'>
         <View>预约门店:</View>
-        <View className={`${store ? '' : 'empty'} content`} onClick={() => {
-          linkToLogin('pages/index/index') // 处理token为空
-          setShowStore(true)
-        }}
-        >{store?.name || '请选择'}</View>
+        <View className={`${store ? '' : 'empty'} content`} onClick={showStoreFn}>{store?.name || '请选择'}</View>
       </View>
       <View className='normal-list'>
         <View>到店时间:</View>
