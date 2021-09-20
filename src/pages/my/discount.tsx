@@ -52,9 +52,7 @@ export default function Discount() {
 
   const changeCoupon = (type:Istatus) => {
     setCurentTab(type)
-    if(!dataList[type].list.length) {
-      queryMyCoupon(type)
-    }
+    queryMyCoupon(type)
   }
 
   const onScrollToLower = () => {

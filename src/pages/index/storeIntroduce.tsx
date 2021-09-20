@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
+import Skeleton from 'taro-skeleton'
 import PhoneCall from '@src/components/phoneCall'
 import http from '@http'
 import './index.scss'
@@ -8,6 +9,7 @@ import './index.scss'
 const defaultImg = 'https://cdn.utoohappy.com/mini/default1.png'
 export default function StoreIntroduce() {
   const [dataList, setDatalist] = useState([])
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     queryShopList()
   }, [])
@@ -19,6 +21,7 @@ export default function StoreIntroduce() {
   }
 
   const queryShopList = () => {
+    setLoading(true)
     http({
       method: 'get',
       url: '/api/shop/list',
@@ -28,6 +31,8 @@ export default function StoreIntroduce() {
       }
     }).then(data => {
       setDatalist(data.records || [])
+    }).finally(() => {
+      setLoading(false)
     })
   }
 
@@ -44,6 +49,8 @@ export default function StoreIntroduce() {
         </View>
       </View>)
     }
+    {loading && [1,2].map(idx => <Skeleton key={idx} title avatar avatarShape='square' row={4} />)}
+    
     <View className='tip'>更多门店陆续开放中，敬请期待</View>
   </View>
 }

@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { useEffect } from 'react'
 import { setGlobalData } from '@globalData'
+import 'taro-skeleton/dist/index.css'
 
 import './app.scss'
 

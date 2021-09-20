@@ -1,6 +1,7 @@
 import { View, Text, ScrollView } from '@tarojs/components'
 import CustomTabar from '@src/components/customTabar'
 import CustomAlert from '@src/components/customAlert'
+import Skeleton from 'taro-skeleton'
 import { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import http from '@http'
@@ -13,6 +14,7 @@ function Index() {
   const [couponList, setCouponList] = useState([])
   const [currentCoupon, setCurrentCoupon] = useState(undefined)
   const [loading, setLoading] = useState(false)
+  const [getCouponLoading, setGetCouponLoading] = useState(false)
 
   const onScrollToLower = () => {
     console.log('end')
@@ -23,11 +25,14 @@ function Index() {
   }, [])
 
   const queryCouponList = () => {
+    setLoading(true)
     http({
       method: 'get',
       url: '/api/coupon/info/listConfigCoupon',
     }).then(data => {
       setCouponList(data || [])
+    }).finally(() => {
+      setLoading(false)
     })
   }
 
@@ -37,10 +42,10 @@ function Index() {
     if(item.currentStock === 0 || item.isReceive === 1) {
       return
     }
-    if(loading) {
+    if(getCouponLoading) {
       return
     }
-    setLoading(true)
+    setGetCouponLoading(true)
     http({
       method: 'post',
       url: `/api/coupon/info/receive/${item.packageId}`,
@@ -50,7 +55,7 @@ function Index() {
       setCurrentCoupon(data)
       setVisibleAlert(true)
     }).finally(() => {
-      setLoading(false)
+      setGetCouponLoading(false)
     })
   }
 
@@ -77,10 +82,11 @@ function Index() {
           </View>
         </View>)
         }
+        {loading && [1,2, 3, 4, 5].map(idx => <Skeleton key={idx} title avatar avatarShape='square' row={4} />)}
         
         {false && <View className='no-more'>没有更多了</View>}
       </ScrollView>
-      {couponList.length === 0 && <Nodata />}
+      {!loading && couponList.length === 0 && <Nodata />}
       {!!currentCoupon && <CustomAlert visible={visibleAlert} onClose={() => setVisibleAlert(false)}>
           <View className='pop-content'>
             <View className='title'>领取成功</View>

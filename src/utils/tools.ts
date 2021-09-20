@@ -162,25 +162,29 @@ const notOpenDate = () => {
 }
 
 const queryNewBook = () => {
-  http({
-    method: 'get',
-    url: '/api/shop/queryNew',
-    noLogin: true,
-    noMessage: true
-  }).then(data => {
-    setGlobalData('bookData', data || {})
-  }).catch((err) => {
-    // 排除无预约和未登录
-    if(err.data && err.data.data) {
-      if(+err.data.data.code !== 1002 || +err.data.data.code !== 2004) {
-        return
+  return new Promise((resolve, reject) => {
+    http({
+      method: 'get',
+      url: '/api/shop/queryNew',
+      noLogin: true,
+      noMessage: true
+    }).then(data => {
+      resolve(data)
+      setGlobalData('bookData', data || {})
+    }).catch((err) => {
+      reject(err)
+      // 排除无预约和未登录
+      if(err.data && err.data.data) {
+        if(+err.data.data.code !== 1002 || +err.data.data.code !== 2004) {
+          return
+        }
+        Taro.showToast({
+          title: err.data && err.data.data && err.data.data.message || '服务异常',
+          icon: 'none',
+          mask: true,
+        })
       }
-      Taro.showToast({
-        title: err.data && err.data.data && err.data.data.message || '服务异常',
-        icon: 'none',
-        mask: true,
-      })
-    }
+    })
   })
 }
 

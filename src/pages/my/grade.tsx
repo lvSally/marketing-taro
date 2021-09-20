@@ -19,7 +19,7 @@ export default function Grade() {
       method: 'get',
       url: '/api/credits/queryCreditsTrans',
       data: {
-        pageSize: 1,
+        pageSize: 100,
         pageNo: 1
       }
     }).then(data => {
