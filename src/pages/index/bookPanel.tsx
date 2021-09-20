@@ -28,7 +28,7 @@ export default function BookPanel(props: Iprops) {
   return (
     <View className={`custom-reserve-form  ${className || ''}`}>
       {
-        bookData.bookId ?
+        bookData.status === 'SUCCESS' ?
           <BookSuccess data={bookData} />
         :
           <View>

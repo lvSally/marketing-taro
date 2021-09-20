@@ -14,7 +14,6 @@ export default function Login() {
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         Taro.setStorageSync('code', res.code)
-        console.log(res.code)
       }
     })
   }, [])
@@ -22,7 +21,6 @@ export default function Login() {
   //微信手机号登录
   const getPhoneNumber = (e) => {
     const { iv, encryptedData } = e.detail
-    console.log(`${iv}***${encryptedData}***${Taro.getStorageSync('code')}`)
     const options = {
       method: 'post',
       url: '/api/user/simple/login',
@@ -56,7 +54,7 @@ export default function Login() {
   return (
     <View className='page-login'>
       <Image className='logo' src={logo} />
-      <View className='title'>来一桶足浴</View>
+      {/* <View className='title'>来一桶足浴</View> */}
       <AtButton type='primary' openType='getPhoneNumber' onGetPhoneNumber={getPhoneNumber}>微信一键登录</AtButton>
       {/* <View className='protocol-wrap'> <Image className='icon' src={selectIcon} /> 注册或登录即代表你同意<Text className='link' onClick={() => Taro.navigateTo({ url: '/pages/protocol/index?type=2' })}>《隐私协议》</Text></View> */}
     </View>

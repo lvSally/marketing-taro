@@ -22,10 +22,10 @@ export default function ProjectList(props: Iprops) {
       <Image className='left' src={item.pic || defaultImg} />
       <View className='flex-column'>
         <View>
-          <View>{item.name || '-'}</View>
-          <View>{item.desc}</View>
+          <View className='sub-title'>{item.name || '-'}</View>
+          <View>{(item.desc || '').length > 30 ? `${item.desc.substring(0, 30)}...` : item.desc}</View>
         </View>
-        <View>￥{item.price} / {item.duration}分钟</View>
+        <View className='sub-title'>￥{item.price} / {item.duration}分钟</View>
       </View>
     </View>)
     }

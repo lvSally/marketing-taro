@@ -80,7 +80,7 @@ export default function Discount() {
             <View className='left'>{item.discount}折</View>
             <View className='center'>
               <View className='inner-title'>{item.couponName}</View>
-              <View>券号：{item.couponId}</View>
+              <View className='inner-title'>券号：{item.couponId}</View>
             </View>
             <View className='right'></View>
             <View className='relative'>

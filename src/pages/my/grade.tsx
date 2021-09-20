@@ -3,12 +3,13 @@ import { View, ScrollView } from '@tarojs/components'
 import dayjs from 'dayjs'
 import http from '@http'
 import NoData from '@src/components/noData'
+import { useRouter } from '@tarojs/taro'
 
 import './grade.scss'
 
 export default function Grade() {
   const [dataList, setDataList] = useState([])
-  const [currentGrade, setCurrentGrade] = useState(0)
+  const params = useRouter().params
   useEffect(() => {
     queryCreditsTrans()
   }, [])
@@ -17,9 +18,11 @@ export default function Grade() {
     http({
       method: 'get',
       url: '/api/credits/queryCreditsTrans',
-      data: {}
+      data: {
+        pageSize: 1,
+        pageNo: 1
+      }
     }).then(data => {
-      setCurrentGrade(data.current)
       setDataList(data.records)
     })
   }
@@ -37,7 +40,7 @@ export default function Grade() {
         lowerThreshold={50}
         onScrollToLower={onScrollToLower}
       >
-        <View className='title'>当前积分：{currentGrade}</View>
+        <View className='title'>当前积分：{params.credits || '-'}</View>
         {dataList.map((item, idx) => <View key={idx} className='list-block'>
           <View className='left'>
             <View>{item.action}</View>

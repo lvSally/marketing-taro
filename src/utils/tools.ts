@@ -5,7 +5,7 @@ import { setGlobalData } from '@globalData'
 
 function formatDate(date?: number) {
   const newData = date ? new Date(date) : new Date()
-  const day =newData.getDate()
+  const day = newData.getDate()
   const dayStr = day >= 10 ? day + '' : '0'+ day
   const month = newData.getMonth() + 1
   const monthStr = month >= 10 ? month + '' : '0'+ month
@@ -20,7 +20,7 @@ function getTimeList(start, end, crossADay=false) {
   }
 
   const todayList: string[] = []
-  const tomorrowList: string[] = []
+  let tomorrowList: string[] = []
   if(crossADay) { // 存在跨天
     // first day
     if(_start.minute === 30) {
@@ -46,6 +46,19 @@ function getTimeList(start, end, crossADay=false) {
     } else {
       tomorrowList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:00`)
     }
+
+    // 次日添加第一天到凌晨的时间,然后去重
+    if(_start.minute === 30) {
+      tomorrowList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:30`)
+    } else {
+      tomorrowList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:00`)
+      tomorrowList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:30`)
+    }
+    for(let i=_start.hour+1; i<24; i++) {
+      tomorrowList.push(`${i < 10 ? '0' + i : i}:00`)
+      tomorrowList.push(`${i < 10 ? '0' + i : i}:30`)
+    }
+    tomorrowList = tomorrowList.filter((item, idx) => tomorrowList.indexOf(item) === idx)
   } else {
     // first day
     if(_start.minute === 30) {
@@ -61,11 +74,14 @@ function getTimeList(start, end, crossADay=false) {
     }
     // last day
     if(_end.minute === 30) {
+      todayList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:00`)
       todayList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:30`)
     } else {
       todayList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:00`)
-      todayList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:30`)
     }
+
+    // 次日与当天一样
+    tomorrowList = todayList
   }
 
   return {
@@ -101,7 +117,7 @@ function minutesFormat(time, type: 'start' | 'end') { // time: 22: 01
 }
 
 function encryptPhone(str) {
-  return str.length === 11 ? str.substr(0,4) + '***' + str.substr(7,11) : '--';
+  return str.length === 11 ? str.substr(0,3) + '****' + str.substr(7,11) : '--';
 }
 
 const hourToMillisecond = (timeStr) => {
@@ -149,9 +165,22 @@ const queryNewBook = () => {
   http({
     method: 'get',
     url: '/api/shop/queryNew',
-    data: {}
+    noLogin: true,
+    noMessage: true
   }).then(data => {
     setGlobalData('bookData', data || {})
+  }).catch((err) => {
+    // 排除无预约和未登录
+    if(err.data && err.data.data) {
+      if(+err.data.data.code !== 1002 || +err.data.data.code !== 2004) {
+        return
+      }
+      Taro.showToast({
+        title: err.data && err.data.data && err.data.data.message || '服务异常',
+        icon: 'none',
+        mask: true,
+      })
+    }
   })
 }
 

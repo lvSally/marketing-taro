@@ -43,8 +43,11 @@ export default function BookNormal(props:Iprops) {
   const queryShopList = () => {
     http({
       method: 'get',
-      url: '/admin/shop/list',
-      data: {}
+      url: '/api/shop/list',
+      data: {
+        pageNo: 1,
+        pageSize: 100,
+      }
     }).then(data => {
       setStoreList(data.records || [])
     })
@@ -111,13 +114,13 @@ export default function BookNormal(props:Iprops) {
     entryDate += hourToMillisecond(time.time)
 
     // {type: "todayList", time: "05:00"}
-    dayjs().startOf('d').valueOf()
     http({
       method: 'post',
       url: '/api/shop/book',
       data: {
         bookType: 'FAST',
         shopId: store.shopId,
+        shopName: store.name,
         entryDate,
       }
     }).then(() => {

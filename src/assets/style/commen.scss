@@ -115,7 +115,7 @@
   .desc {
     color: #666;
     margin: 40px 0 20px 0;
-    font-size: 30px;
+    font-size: 24px;
     text-align: center;
   }
   .content {
@@ -128,7 +128,7 @@
   .sub-title {
     color: #000;
     font-weight: 500;
-    margin-top: 12px;
+    margin-top: 14px;
   }
 }
 
@@ -137,7 +137,7 @@
   .title {
     font-weight: 500px;
     color: #333;
-    font-size: 30px;
+    font-size: 36px;
     margin-bottom: 32px;
   }
   .block-list {
@@ -145,7 +145,7 @@
     align-items: center;
     color: #666;
     line-height: 36px;
-    font-size: 26px;
+    font-size: 24px;
     margin-bottom: 24px;
     height: 180px;
     .sub-title {
@@ -193,7 +193,7 @@
     align-items: center;
     color: #666;
     line-height: 36px;
-    font-size: 26px;
+    font-size: 24px;
     margin-bottom: 24px;
     border: 1px solid #f0f0f0;
     padding: 24px;
@@ -273,7 +273,7 @@
     width: 100%;
   }
   .person-desc {
-    padding: 32px 32px 0 32px;
+    padding: 32px 32px 36px 32px;
     text-align: left;
     .img-wrap {
       display: flex;
@@ -296,22 +296,22 @@
   }
 
   .time-title {
-    padding: 32px 32px 0 32px;
+    padding: 0 32px;
     color: #333;
     text-align: left;
   }
   .time-btn-wrap {
-    padding: 32px 0;
+    padding: 24px 0;
     text-align: left;
     overflow-y: auto;
   }
 
   .time-btn {
     width: 176px;
-    font-size: 20px;
+    font-size: 22px;
     // height: 52px;
     // line-height: 52px;
-    padding: 4px;
+    padding: 8px 4px;
     text-align: center;
     background: #fff;
     color: #333;
@@ -327,6 +327,9 @@
     }
     &.disabled {
       background: #f2f2f2;
+    }
+    &.disabled-none {
+      display: none;
     }
     &.isbook {
       position: relative;
@@ -408,7 +411,7 @@
   .inner-title {
     font-size: 30px;
     color: #333;
-    margin-bottom: 16px;
+    margin-top: 16px;
   }
   .left {
     width: 180px;

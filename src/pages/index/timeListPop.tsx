@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import CustomPop from '@src/components/customPop'
 import Nodata from '@src/components/noData'
 import dayjs from 'dayjs'
-import { formatDate, getTimeList, hourToMillisecond } from '@src/utils/tools'
+import { getTimeList, hourToMillisecond } from '@src/utils/tools'
 
 type dayType = 'todayList'|'tomorrowList'
 export type selectTimeType = {type: dayType, time: string} | undefined
@@ -43,12 +43,8 @@ export default function TimeListPop(props: Iprops) {
     // timeStart='22:00' timeEnd='次日01:00'
     // 今天 08/26
     const isTowDays = timeEnd.indexOf('次日') > -1
-    const _dayList = ['今天' + formatDate()]
-    if(isTowDays) {
-      _dayList.push('明天' + formatDate(+new Date() + 24*60*60*1000))
-    }
     const {todayList, tomorrowList} = getTimeList(timeStart, timeEnd.replace('次日', ''), isTowDays)
-    setDayList(_dayList)
+    setDayList(['今天' + dayjs().format('MM/DD'), '明天' + dayjs(+new Date() + 24*60*60*1000).format('MM/DD')])
     setTimeList({todayList, tomorrowList})
   }, [timeStart, timeEnd])
 
@@ -79,7 +75,7 @@ export default function TimeListPop(props: Iprops) {
       {
         Object.values(dayMap).map(value => daySelect === value ? <View key={value} className='time-btn-wrap'>
           {
-            timeList[value].map((item, idx) => <Text onClick={() => selectFn(item)} key={`${idx}-time`} className={`time-btn ${(dayjs().startOf('d').valueOf() + hourToMillisecond(item) < +new Date()) && daySelect === 'todayList' ? 'disabled' : ''} ${select?.time === item ? 'active' : ''}`}>{item}</Text>)
+            timeList[value].map((item, idx) => <Text onClick={() => selectFn(item)} key={`${idx}-time`} className={`time-btn ${(dayjs().startOf('d').valueOf() + hourToMillisecond(item) < +new Date()) && daySelect === 'todayList' ? 'disabled-none' : ''} ${select?.time === item && select.type === value ? 'active' : ''}`}>{item}</Text>)
           }
         </View> : null)
       }

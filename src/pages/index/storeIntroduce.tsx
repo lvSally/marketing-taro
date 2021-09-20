@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
+import PhoneCall from '@src/components/phoneCall'
 import http from '@http'
 import './index.scss'
 
@@ -20,8 +21,11 @@ export default function StoreIntroduce() {
   const queryShopList = () => {
     http({
       method: 'get',
-      url: '/admin/shop/list',
-      data: {}
+      url: '/api/shop/list',
+      data: {
+        pageNo: 1,
+        pageSize: 100,
+      }
     }).then(data => {
       setDatalist(data.records || [])
     })
@@ -34,7 +38,7 @@ export default function StoreIntroduce() {
         <Image className='left' src={item.pic?.length ? item.pic[0].url :  defaultImg} />
         <View className='right'>
           <View className='sub-title'>{item.name}</View>
-          <View>联系电话：{item.phoneNum}</View>
+          <View>联系电话：<PhoneCall phone={item.phoneNum} /></View>
           <View>营业时间：{item.busiHours}</View>
           <View>地址：{item.address}</View>
         </View>

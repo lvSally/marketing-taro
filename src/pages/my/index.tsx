@@ -21,8 +21,10 @@ function Index() {
     httpRequest({
       method: 'get',
       url: '/api/user/myInfo',
-      data: {}
+      noLogin: true,
+      noMessage: true
     }).then(data => {
+      console.log(data)
       setUserInfo({
         couponCount: data?.couponCount,
         credits: data?.credits,
@@ -46,12 +48,12 @@ function Index() {
           <Text className='degree'>会员</Text>
         </View>
         <View className='bottom-content'>
-          <View className='block' onClick={() => linkTo('/pages/my/grade')}>
-            <View className='number'>{userInfo.credits || '-'}</View>
+          <View className='block' onClick={() => linkTo(`/pages/my/grade?credits=${userInfo.credits}`)}>
+            <View className='number'>{userInfo.credits === undefined ? '-' : userInfo.credits}</View>
             <View>积分</View>
           </View>
           <View className='block' onClick={() => linkTo('/pages/my/discount')}>
-            <View className='number'>{userInfo.couponCount || '-'}</View>
+            <View className='number'>{userInfo.couponCount === undefined ? '-' : userInfo.couponCount}</View>
             <View>优惠券</View>
           </View>
         </View>

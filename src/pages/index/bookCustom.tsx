@@ -56,8 +56,11 @@ export default function BookCustom(props:Iprops) {
   const queryShopList = () => {
     http({
       method: 'get',
-      url: '/admin/shop/list',
-      data: {}
+      url: '/api/shop/list',
+      data: {
+        pageNo: 1,
+        pageSize: 100,
+      }
     }).then(data => {
       setStoreList(data.records || [])
     })
@@ -146,6 +149,7 @@ export default function BookCustom(props:Iprops) {
       personAndTime: val
     }
     setSelect(postData)
+    const {personId, bookDate, bookTime} = postData.personAndTime
     http({
       method: 'post',
       url: '/api/shop/book',
@@ -153,9 +157,12 @@ export default function BookCustom(props:Iprops) {
         shopId: postData.shopId,
         projectId: postData.projectId,
         bookType: 'SPECIAL',
-        workerId: postData.personAndTime.personId,
-        bookDate: postData.personAndTime.bookDate,
-        bookTime: postData.personAndTime.bookTime
+        workerId: personId,
+        bookDate,
+        bookTime,
+        shopName: (storeList.find(item => item.shopId === postData.shopId) || {}).name,
+        projectName: (selectStoreInfo.shopProjects.find(item => item.projectId === postData.projectId) || {}).name,
+        workerName: (selectStoreInfo.shopWorkers.find(item => item.workerId === personId) || {}).name
       }
     }).then(() => {
       queryNewBook()

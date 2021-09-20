@@ -4,9 +4,17 @@ import mockDataMap from './mockDataMap'
 
 const baseUrl = 'https://api.utoohappy.com'
 
-export default (options = { method: 'GET', data: {}}) => {
+interface IOption {
+  method?: string
+  data?: any
+  noLogin?:boolean
+  noMessage?: boolean
+  url: string
+}
+export default (options: IOption) => {
+  const {method='GET', noLogin=false, noMessage=false} = options
   if(options.url.indexOf('/mock/') > -1) {
-    return Promise.resolve(mockDataMap[options.url].data)
+    return Promise.resolve(mockDataMap[options.url]?.data)
   }
   navigationLoading.start()
   return Taro.request({
@@ -16,7 +24,7 @@ export default (options = { method: 'GET', data: {}}) => {
       'content-Type': 'application/json',
       'token': Taro.getStorageSync('token')
     },
-    method: options.method.toUpperCase(),
+    method: method.toUpperCase() as any,
   }).then((res) => {
     navigationLoading.done()
     const { status, data } = res.data || {}
@@ -28,9 +36,10 @@ export default (options = { method: 'GET', data: {}}) => {
   }).catch((err) => {
     navigationLoading.done()
     let msg = '服务异常'
-    if (err.data && err.data.message) {
-      msg = err.data.message
-    } else if (err.status === 403) {
+    if (err.data && err.data.data && err.data.data.message) {
+      msg = err.data.data.message
+    }
+    if (!noLogin && err.data && err.data.data && +err.data.data.code === 1002) {
       msg = '登录过期, 请重新登录'
       setTimeout(() => {
         Taro.reLaunch({
@@ -38,11 +47,13 @@ export default (options = { method: 'GET', data: {}}) => {
         })
       }, 1000)
     }
-    Taro.showToast({
-      title: msg,
-      icon: 'none',
-      mask: true,
-    })
+    if(!noMessage) {
+      Taro.showToast({
+        title: msg,
+        icon: 'none',
+        mask: true,
+      })
+    }
     return Promise.reject(err)
   })
 }

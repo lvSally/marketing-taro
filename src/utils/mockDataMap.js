@@ -274,16 +274,16 @@ export default {
         {
           "workerId": "001",
           "shopId": "887850325471100928",
-          "name": "编号001",
+          "name": "中文001",
           "pic": "https://cdn.utoohappy.com/887085503469363200.jpg",
           "desc": "xx00",
           "status": 0,
           "workerSchedule": [
             {
-              "bookDate": 1631808000000,
+              "bookDate": 1632117476762,
               "bookDateTime": [
                 {
-                  "bookTime": "08:30-23:00",
+                  "bookTime": "22:30-23:00",
                   "isBooked": false
                 },
                 {
@@ -313,7 +313,7 @@ export default {
       ]
     }
   },
-  "/mock/admin/shop/list": {
+  "/mock/api/shop/list": {
     "data": {
       "asc": [
         "string"
@@ -331,17 +331,12 @@ export default {
       "records": [
         {
           "address": "string",
-          "busiHours": "string",
+          "busiHours": "8:00-次日5:32",
           "createTime": 0,
           "desc": "string",
           "name": "string",
           "phoneNum": "string",
-          "pic": [
-            {
-              "order": 0,
-              "url": "string"
-            }
-          ],
+          "pic": [],
           "shopId": "string",
           "status": 0,
           "updateTime": 0

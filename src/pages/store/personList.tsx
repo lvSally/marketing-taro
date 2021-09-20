@@ -21,7 +21,7 @@ export default function PersonList(props: Iprops) {
       <Image className='left' src={item.pic || defaultImg} />
       <View className='right'>
         <View className='sub-title'>{item.name || '-'}</View>
-        <View>{item.desc}</View>
+        <View>{(item.desc || '').length > 30 ? `${item.desc.substring(0, 30)}...` : item.desc}</View>
       </View>
     </View>)}
     {list.length === 0 && <Nodata className='custom-empty1' />}

@@ -15,7 +15,10 @@ export default function Record() {
     http({
       method: 'get',
       url: '/api/shop/bookHistory',
-      data: {}
+      // data: {
+      //   pageNo: 1,
+      //   pageSize: 1
+      // }
     }).then(data => {
       setDataList(data.records)
     })

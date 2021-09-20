@@ -9,7 +9,6 @@ const defaultImg = 'https://cdn.utoohappy.com/mini/default.png'
 export default function StoreDetail() {
   const history = useRouter()
   const paramData = useMemo(() => {
-    console.log(history)
     return {
       pageType: history.params.type,
       info: JSON.parse(history.params.obj || '{}'),
@@ -19,13 +18,14 @@ export default function StoreDetail() {
 
   return (
     <View className='page-store'>
-      <Image className='bg-img' src={paramData.storeFirstPic} mode='aspectFit' />
+      <Image className='bg-img' src={paramData.storeFirstPic} mode='widthFix' />
+      <View className='img-mask'></View>
       {paramData.pageType === 'project' && <View className='desc-card-wrap'>
         <View className='desc-card card-layout'>
           <Image className='left' src={paramData.info.pic || defaultImg} />
           <View className='flex-column'>
             <View className='sub-title'>{paramData.info.name}</View>
-            <View>￥{paramData.info.price} / {paramData.info.duration}分钟</View>
+            <View className='sub-title'>￥{paramData.info.price} / {paramData.info.duration}分钟</View>
           </View>
         </View>
         <View className='detail-content'>{paramData.info.desc}</View>

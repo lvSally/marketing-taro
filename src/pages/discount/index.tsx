@@ -26,7 +26,6 @@ function Index() {
     http({
       method: 'get',
       url: '/api/coupon/info/listConfigCoupon',
-      data: {}
     }).then(data => {
       setCouponList(data || [])
     })
@@ -89,7 +88,7 @@ function Index() {
               <View className='left'>{currentCoupon.discount}折</View>
               <View className='center'>
                 <View className='inner-title'>{currentCoupon.couponName}</View>
-                <View>券号：{currentCoupon.couponId}</View>
+                <View className='inner-title'>券号：{currentCoupon.couponId}</View>
               </View>
               <View className='right'></View>
               <View className='relative'>

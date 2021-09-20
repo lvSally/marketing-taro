@@ -36,7 +36,7 @@ export default function ProjectListPop(props: Iprops) {
               <View className='sub-title'>{item.name}</View>
               <View>{item.desc}</View>
             </View>
-            <View>￥{item.price} / {item.duration}分钟</View>
+            <View className='sub-title'>￥{item.price} / {item.duration}分钟</View>
           </View>
           <View className='right'><Image src={successIcon} /></View>
         </View>)
