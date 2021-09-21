@@ -45,7 +45,8 @@ export default function Login() {
         })
       } else {
         Taro.reLaunch({
-          url: '/pages/index/index'
+          // url: '/pages/index/index'
+          url: '/pages/discount/index'
         })
       }
     })
