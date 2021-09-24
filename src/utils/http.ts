@@ -2,7 +2,10 @@ import Taro from '@tarojs/taro'
 import navigationLoading from './navigation-loading'
 import mockDataMap from './mockDataMap'
 
-const baseUrl = 'https://api.utoohappy.com'
+let baseUrl = 'https://tapi.utoohappy.com'
+if (process.env.NODE_ENV === 'production') {
+  baseUrl = 'https://api.utoohappy.com'
+}
 
 interface IOption {
   method?: string
