@@ -3,7 +3,6 @@ import Taro, {useRouter} from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import httpRequest from '@http'
-import { setGlobalData } from '@globalData'
 import './index.scss'
 
 const logo = 'https://cdn.utoohappy.com/mini/logo.png'
@@ -32,11 +31,6 @@ export default function Login() {
     }
     httpRequest(options).then(data => {
       Taro.setStorageSync('token', data.token)
-      setGlobalData('userInfo', {
-        uid: data.externalAuthId,
-        phone: data.phone,
-        nickName: data.nickName
-      })
 
       const redirectUrl = history.params.redirect
       if (redirectUrl) {

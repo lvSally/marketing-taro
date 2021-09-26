@@ -40,11 +40,6 @@ export const event = (function() {
 })()
 
 const globalData = {
-  userInfo: {
-    uid: '',
-    phone: '',
-    nickName: ''
-  },
   bookData: {}, // 最新的预约记录
   isIPX: false,
   phoneModel: '', // 手机类型
