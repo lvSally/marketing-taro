@@ -24,7 +24,7 @@ export default function StoreIntroduce() {
     setLoading(true)
     http({
       method: 'get',
-      url: '/api/shop/list',
+      url: '/mock/api/shop/list',
       data: {
         pageNo: 1,
         pageSize: 100,

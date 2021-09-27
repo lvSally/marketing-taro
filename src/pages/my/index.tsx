@@ -11,7 +11,7 @@ function Index() {
   const [userInfo, setUserInfo] = useState({
     couponCount: '--',
     credits: '--',
-    phone: '--'
+    phone: undefined
   })
   useEffect(() => {
     getUserInfo()
@@ -24,7 +24,6 @@ function Index() {
       noLogin: true,
       noMessage: true
     }).then(data => {
-      console.log(data)
       setUserInfo({
         couponCount: data?.couponCount,
         credits: data?.credits,
@@ -32,7 +31,7 @@ function Index() {
       })
     })
   }
-  const linkTo = function(url) {
+  const linkTo = function(url?) {
     if(linkToLogin('pages/my/index')) return // 处理token为空
     Taro.navigateTo({
       url
@@ -42,11 +41,16 @@ function Index() {
   return (
     <View className='page-user'>
       <View className='user-card'>
-        <View className='user-basic'>
-          <Image src={avatar} />
-          <Text>{encryptPhone(userInfo.phone || '')}</Text>
-          <Text className='degree'>会员</Text>
-        </View>
+        {
+          userInfo.phone 
+          ? 
+            <View className='user-basic'>
+              <Image src={avatar} />
+              <Text>{encryptPhone(userInfo.phone || '')}</Text>
+              <Text className='degree'>会员</Text>
+            </View>
+           : <View className='no-login-tip' onClick={() => linkTo()}>点击登录后查看</View>
+        }
         <View className='bottom-content'>
           <View className='block' onClick={() => linkTo(`/pages/my/grade?credits=${userInfo.credits}`)}>
             <View className='number'>{userInfo.credits === undefined ? '-' : userInfo.credits}</View>

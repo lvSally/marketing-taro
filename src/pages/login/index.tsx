@@ -39,8 +39,7 @@ export default function Login() {
         })
       } else {
         Taro.reLaunch({
-          // url: '/pages/index/index'
-          url: '/pages/discount/index'
+          url: '/pages/index/index'
         })
       }
     })
@@ -49,7 +48,7 @@ export default function Login() {
   return (
     <View className='page-login'>
       <Image className='logo' src={logo} />
-      {/* <View className='title'>来一桶足浴</View> */}
+      <View className='title'>来一桶足浴</View>
       <AtButton type='primary' openType='getPhoneNumber' onGetPhoneNumber={getPhoneNumber}>微信一键登录</AtButton>
       {/* <View className='protocol-wrap'> <Image className='icon' src={selectIcon} /> 注册或登录即代表你同意<Text className='link' onClick={() => Taro.navigateTo({ url: '/pages/protocol/index?type=2' })}>《隐私协议》</Text></View> */}
     </View>

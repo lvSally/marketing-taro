@@ -12,81 +12,42 @@ function formatDate(date?: number) {
   return `${monthStr}/${dayStr}`
 }
 
-function getTimeList(start, end, crossADay=false) {
-  const _start = minutesFormat(start, 'start')
-  const _end = minutesFormat(end, 'end')
-  if(!_start || !_end) {
-    return {todayList: [], tomorrowList: []}
+function getTimeList(start, end, step=30, crossADay = false) {
+  const _start = minutesFormat(start, "start");
+  const _end = minutesFormat(end, "end");
+  if (!_start || !_end) {
+    return { todayList: [], tomorrowList: [] };
   }
 
-  const todayList: string[] = []
-  let tomorrowList: string[] = []
-  if(crossADay) { // 存在跨天
-    // first day
-    if(_start.minute === 30) {
-      todayList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:30`)
+  const timestamp = dayjs().startOf("d").valueOf(); // 当天凌晨的时间戳
+  let startTimestamp =
+    timestamp + hourToMillisecond(_start.hour, _start.minute);
+  let endTimestamp = timestamp + hourToMillisecond(_end.hour, _end.minute);
+  if (crossADay) {
+    endTimestamp += 86400000;
+  }
+  const todayList = [];
+  let tomorrowList = [];
+  while (startTimestamp <= endTimestamp) {
+    if (startTimestamp < timestamp + 86400000) {
+      todayList.push(startTimestamp);
     } else {
-      todayList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:00`)
-      todayList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:30`)
+      tomorrowList.push(startTimestamp);
     }
-
-    for(let i=_start.hour+1; i<24; i++) {
-      todayList.push(`${i < 10 ? '0' + i : i}:00`)
-      todayList.push(`${i < 10 ? '0' + i : i}:30`)
-    }
-
-    for(let i=0; i<_end.hour; i++) {
-      tomorrowList.push(`${i < 10 ? '0' + i : i}:00`)
-      tomorrowList.push(`${i < 10 ? '0' + i : i}:30`)
-    }
-    // last day
-    if(_end.minute === 30) {
-      tomorrowList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:00`)
-      tomorrowList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:30`)
-    } else {
-      tomorrowList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:00`)
-    }
-
-    // 次日添加第一天到凌晨的时间,然后去重
-    if(_start.minute === 30) {
-      tomorrowList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:30`)
-    } else {
-      tomorrowList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:00`)
-      tomorrowList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:30`)
-    }
-    for(let i=_start.hour+1; i<24; i++) {
-      tomorrowList.push(`${i < 10 ? '0' + i : i}:00`)
-      tomorrowList.push(`${i < 10 ? '0' + i : i}:30`)
-    }
+    startTimestamp += step * 60 * 1000;
+  }
+  // 添加第二天时间
+  if(crossADay) {
+    // 次日添加第一天到凌晨的时间(加一天),然后去重
+    const todayToTomorrow = todayList.filter(time => time <= (timestamp + 86400000)).map(time => time + 86400000)
+    tomorrowList = tomorrowList.concat(todayToTomorrow)
     tomorrowList = tomorrowList.filter((item, idx) => tomorrowList.indexOf(item) === idx)
   } else {
-    // first day
-    if(_start.minute === 30) {
-      todayList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:30`)
-    } else {
-      todayList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:00`)
-      todayList.push(`${_start.hour < 10 ? '0' + _start.hour : _start.hour}:30`)
-    }
-    // other
-    for(let i=_start.hour + 1; i<_end.hour; i++) {
-      todayList.push(`${i < 10 ? '0' + i : i}:00`)
-      todayList.push(`${i < 10 ? '0' + i : i}:30`)
-    }
-    // last day
-    if(_end.minute === 30) {
-      todayList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:00`)
-      todayList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:30`)
-    } else {
-      todayList.push(`${_end.hour < 10 ? '0' + _end.hour : _end.hour}:00`)
-    }
-
     // 次日与当天一样
-    tomorrowList = todayList
+    tomorrowList = todayList.map(time => time + 86400000)
   }
 
-  return {
-    todayList, tomorrowList
-  }
+  return { todayList, tomorrowList }
 }
 
 function minutesFormat(time, type: 'start' | 'end') { // time: 22: 01
@@ -116,17 +77,9 @@ function minutesFormat(time, type: 'start' | 'end') { // time: 22: 01
   return { hour, minute }
 }
 
-function encryptPhone(str) {
-  return str.length === 11 ? str.substr(0,3) + '****' + str.substr(7,11) : '--';
-}
-
-const hourToMillisecond = (timeStr) => {
-  const timeArr = timeStr.split(':')
-  if(timeArr.length !== 2) return 0
-  let hour = +timeArr[0]
-  let mins = +timeArr[1]
-  return hour*60*60*1000 + mins*60*1000
-}
+const hourToMillisecond = (hour, mins) => {
+  return hour * 60 * 60 * 1000 + mins * 60 * 1000;
+};
 
 const dateTypeStr = (date) => {
   if(!date) return ''
@@ -136,6 +89,10 @@ const dateTypeStr = (date) => {
   if(dayjs(date).startOf('d').valueOf() === (dayjs().startOf('d').valueOf() + 24*60*60*1000)) {
     return '明天'
   }
+}
+
+function encryptPhone(str) {
+  return str.length === 11 ? str.substr(0,3) + '****' + str.substr(7,11) : '--';
 }
 
 const linkToLogin = (redirect) => {

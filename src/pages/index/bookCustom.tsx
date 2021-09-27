@@ -27,7 +27,8 @@ export default function BookCustom(props:Iprops) {
   const [storeList, setStoreList] = useState([])
   const [selectStoreInfo, setSelectStoreInfo] = useState({
     shopProjects: [],
-    shopWorkers: []
+    shopWorkers: [],
+    detail: {} as any
   })
   const [select, setSelect] = useState({
     shopId: props.store?.shopId,
@@ -41,7 +42,8 @@ export default function BookCustom(props:Iprops) {
     if(!select.shopId) {
       setSelectStoreInfo({
         shopProjects: [],
-        shopWorkers: []
+        shopWorkers: [],
+        detail: {}
       })
 
       return
@@ -56,7 +58,7 @@ export default function BookCustom(props:Iprops) {
   const queryShopList = () => {
     http({
       method: 'get',
-      url: '/api/shop/list',
+      url: '/mock/api/shop/list',
       data: {
         pageNo: 1,
         pageSize: 100,
@@ -69,14 +71,15 @@ export default function BookCustom(props:Iprops) {
   const queryShopInfo = (shopId) => {
     http({
       method: 'get',
-      url: '/api/shop/queryById',
+      url: '/mock/api/shop/queryById',
       data: {
         shopId
       }
     }).then(data => {
       setSelectStoreInfo({
         shopProjects: data.shopProjects || [],
-        shopWorkers: data.shopWorkers || []
+        shopWorkers: data.shopWorkers || [],
+        detail: data
       })
     })
   }
@@ -149,7 +152,7 @@ export default function BookCustom(props:Iprops) {
       personAndTime: val
     }
     setSelect(postData)
-    const {personId, bookDate, bookTime} = postData.personAndTime
+    const {personId, entryDate} = postData.personAndTime
     http({
       method: 'post',
       url: '/api/shop/book',
@@ -158,8 +161,7 @@ export default function BookCustom(props:Iprops) {
         projectId: postData.projectId,
         bookType: 'SPECIAL',
         workerId: personId,
-        bookDate,
-        bookTime,
+        entryDate,
         shopName: (storeList.find(item => item.shopId === postData.shopId) || {}).name,
         projectName: (selectStoreInfo.shopProjects.find(item => item.projectId === postData.projectId) || {}).name,
         workerName: (selectStoreInfo.shopWorkers.find(item => item.workerId === personId) || {}).name
@@ -214,7 +216,7 @@ export default function BookCustom(props:Iprops) {
 
       <StoreListPop OkBtnTxt='确定，下一步' visible={showPop.store} list={storeList} maskClick onClose={() => setShowPopFn({'store': false})} onOk={storeFn} select={select.shopId} />
       <ProjectListPop onBack={props.store ? null : () => backFn('project')}  OkBtnTxt='确定，下一步' visible={showPop.project} list={selectStoreInfo.shopProjects} onClose={() => setShowPopFn({'project': false})} onOk={projectFn} select={select.projectId} />
-      <PersonAndTimePop list={selectStoreInfo.shopWorkers} onBack={() => backFn('personAndTime')} visible={showPop.personAndTime} select={select.personAndTime} onClose={() => setShowPopFn({'personAndTime': false})} onOk={personAndTimeFn} />
+      <PersonAndTimePop list={selectStoreInfo.shopWorkers} onBack={() => backFn('personAndTime')} visible={showPop.personAndTime} select={select.personAndTime} onClose={() => setShowPopFn({'personAndTime': false})} onOk={personAndTimeFn} busiHours={props.store?.busiHours || selectStoreInfo.detail.busiHours} />
     </View>
   )
 }

@@ -3,15 +3,13 @@ import { useState, useEffect } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import dayjs from 'dayjs'
 import CustomPop from '@src/components/customPop'
-import {hourToMillisecond, dateTypeStr} from '@src/utils/tools'
+import {getTimeList} from '@src/utils/tools'
 import Nodata from '@src/components/noData'
 
 const defaultImg = 'https://cdn.utoohappy.com/mini/default1.png'
-type dayType = 'todayList'|'tomorrowList'
 export interface ISelect {
   personId: string,
-  bookDate: number,
-  bookTime: string,
+  entryDate: number,
 }
 
 export interface ISelectPerson {
@@ -19,7 +17,6 @@ export interface ISelectPerson {
   name: string,
   pic: string,
   desc: string,
-  workerSchedule: any[]
 }
 
 interface Iprops {
@@ -29,52 +26,58 @@ interface Iprops {
   onBack?: () => void
   select?: ISelect | undefined
   OkBtnTxt?: string
-  list: any[]
+  list: any[],
+  busiHours: string
 }
 
 export default function PersonAndTimePop(props: Iprops) {
   const [person, setPerson] = useState<ISelectPerson | undefined>()
   const [select, setSelect] = useState<ISelect | undefined>(undefined)
   const [descCollapse, setDescCollapse] = useState(true)
+  const [dayList, setDayList] = useState<string[]>([])
+  const [timeList, setTimeList] = useState([[], []])
+  // todo: 切换不同技师时更新已预定和不可预约
 
   useEffect(() => {
     setSelect(props.select)
   }, [props.select])
 
   useEffect(() => {
-    if(props.list.length) {
+    const busiHoursArr = props.busiHours?.split('-')
+    if(busiHoursArr?.length === 2) {
+      const timeStart = busiHoursArr[0]
+      const timeEnd = busiHoursArr[1]
+      const isTowDays = timeEnd.indexOf('次日') > -1
+      const {todayList, tomorrowList} = getTimeList(timeStart, timeEnd.replace('次日', ''), 90, isTowDays)
+      setDayList(['今天 ' + dayjs().format('MM/DD'), '明天 ' + dayjs(+new Date() + 24*60*60*1000).format('MM/DD')])
+      setTimeList([todayList, tomorrowList])
+    }
+  }, [props.busiHours])
+
+  useEffect(() => {
+    if(props.list?.length) {
       selectPersonFn(props.list[0])
     }
   }, [props.list])
 
-  const selectTimeFn = (item,subItem) => {
-    if(subItem.isBooked || caculTimeLabelStatus(item.bookDate, subItem.bookTime) === 'disabled') {
-      Taro.showToast({
-        title: '该时间不可预约',
-        icon: 'none',
-        mask: false,
-      })
-      return
-    }
+  const selectTimeFn = (time) => {
+    // if(subItem.isBooked || caculTimeLabelStatus(item.bookDate) === 'disabled') {
+    //   Taro.showToast({
+    //     title: '该时间不可预约',
+    //     icon: 'none',
+    //     mask: false,
+    //   })
+    //   return
+    // }
     setSelect({
       personId: person.workerId,
-      bookDate: item.bookDate,
-      bookTime: subItem.bookTime,
+      entryDate: time,
     })
   }
 
   const selectPersonFn = (personObj) => {
     setPerson(personObj)
     setDescCollapse(true)
-  }
-
-  const caculTimeLabelStatus = (date, time) => {
-    const timeStart = (time || '').split('-')
-    if(!date || !timeStart[0]) {
-      return 'disabled'
-    }
-    const currentTime = dayjs(date).startOf('d').valueOf() + hourToMillisecond(timeStart[0])
-    return currentTime < +new Date() ? 'disabled' : ''
   }
 
   return <CustomPop title='选择技师、时段' onBack={props.onBack} headBorder={false} visible={props.visible} onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select)}>
@@ -99,11 +102,11 @@ export default function PersonAndTimePop(props: Iprops) {
           : <View>{person?.desc}</View> }
         </View>
         {
-          person?.workerSchedule.map((item, idx) => <View key={`bookList${idx}`}>
-            <View className='time-title'>{dateTypeStr(item.bookDate)} {dayjs(item.bookDate).format('MM/DD')}</View>
+          dayList.map((value, idx) => <View key={`${idx}-date`}>
+            <View className='time-title'>{value}</View>
             <View className='time-btn-wrap'>
               {
-                item.bookDateTime.map((subItem, subIdx) => <Text onClick={() => selectTimeFn(item, subItem)} key={`${subIdx}-time`} className={`time-btn ${subItem.isBooked ? 'disabled isbook' : ''} ${caculTimeLabelStatus(item.bookDate, subItem.bookTime)} ${(select?.bookDate === item.bookDate && select?.bookTime === subItem.bookTime &&  select?.personId === person?.workerId)? 'active' : ''}`}>{subItem.bookTime}</Text>)
+                timeList[idx].map(item => <Text onClick={() => selectTimeFn(item)} key={`${item}-time`} className={`time-btn ${item < +new Date() ? 'disabled' : ''} ${select?.entryDate === item ? 'active' : ''}`}>{dayjs(item).format('HH:mm')}</Text>)
               }
             </View>
           </View>)

@@ -4,9 +4,9 @@ import { AtButton } from 'taro-ui'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import http from '@http'
-import {hourToMillisecond, linkToLogin, notOpenDate, queryNewBook} from "@src/utils/tools"
+import {linkToLogin, notOpenDate, queryNewBook} from "@src/utils/tools"
 import StoreListPop from './storeListPop'
-import TimeListPop, {selectTimeType} from './TimeListPop'
+import TimeListPop from './TimeListPop'
 
 
 import './index.scss'
@@ -25,7 +25,7 @@ interface Iprops {
 }
 export default function BookNormal(props:Iprops) {
   const [store, setStore] = useState<IStore | undefined>(props.store)
-  const [time, setTime] = useState<selectTimeType>()
+  const [time, setTime] = useState()
   const [showStore, setShowStore] = useState(false)
   const [showTime, setShowTime] = useState(false)
   const [storeList, setStoreList] = useState([])
@@ -43,7 +43,7 @@ export default function BookNormal(props:Iprops) {
   const queryShopList = () => {
     http({
       method: 'get',
-      url: '/api/shop/list',
+      url: '/mock/api/shop/list',
       data: {
         pageNo: 1,
         pageSize: 100,
@@ -74,7 +74,7 @@ export default function BookNormal(props:Iprops) {
     setShowStore(true)
   }
 
-  const storeCloseFn = (val) => {
+  const storeCloseFn = (val, type: 'ok' | 'close') => {
     storeList.forEach(item => {
       if(item.shopId === val) {
         setStore(item)
@@ -82,6 +82,9 @@ export default function BookNormal(props:Iprops) {
     })
     
     setShowStore(false)
+    if(type === 'ok') {
+      setShowTime(true)
+    }
   }
 
   const timeCloseFn = (val) => {
@@ -89,29 +92,37 @@ export default function BookNormal(props:Iprops) {
     setShowTime(false)
   }
 
+  const timePopBack = () => {
+    setShowTime(false)
+    setShowStore(true)
+  }
+
   const bookBtn = () => {
     if(notOpenDate()) return // 校验是否到开放时间
     if(linkToLogin('pages/index/index')) return // 处理token为空
 
-    if(!store || !time) {
+    if(!store) {
       Taro.showToast({
-        title: '门店和到店时间不能为空',
+        title: '请先选择门店',
         icon: 'none',
         mask: false,
       })
       return
     }
+
+    if(!time) {
+      Taro.showToast({
+        title: '请选择时间',
+        icon: 'none',
+        mask: false,
+      })
+      return
+    }
+
     if(loading) {
       return
     }
     setLoading(true)
-    let entryDate = -1
-    if(time.type === 'todayList') {
-      entryDate = dayjs().startOf('d').valueOf() // 当天凌晨的时间戳
-    } else {
-      entryDate = dayjs(+new Date + 86400000).startOf('d').valueOf() // 次日凌晨的时间戳
-    }
-    entryDate += hourToMillisecond(time.time)
 
     // {type: "todayList", time: "05:00"}
     http({
@@ -121,7 +132,7 @@ export default function BookNormal(props:Iprops) {
         bookType: 'FAST',
         shopId: store.shopId,
         shopName: store.name,
-        entryDate,
+        entryDate: time,
       }
     }).then(() => {
       queryNewBook()
@@ -138,12 +149,12 @@ export default function BookNormal(props:Iprops) {
       </View>
       <View className='normal-list'>
         <View>到店时间:</View>
-        <View className={`${time?.time ? '' : 'empty'} content`} onClick={showTimeFn}>{time?.type === 'tomorrowList' ? '明天 ' : ''}{time?.time || '请选择'}</View>
+        <View className={`${time ? '' : 'empty'} content`} onClick={showTimeFn}>{(time && (time > dayjs().startOf('d').valueOf() + 86400000)) ? '明天 ' : ''}{(time && dayjs(time).format('HH:mm')) || '请选择'}</View>
       </View>
       <AtButton className='book-btn' type='primary' circle onClick={bookBtn}>预约</AtButton>
 
-      <StoreListPop visible={showStore} list={storeList} maskClick onClose={storeCloseFn} onOk={storeCloseFn} select={store?.shopId} />
-      {!!store && <TimeListPop visible={showTime} select={time} timeStart={(store.busiHours || '').split('-')[0]} timeEnd={(store.busiHours || '').split('-')[1]} onClose={timeCloseFn} onOk={timeCloseFn} />}
+      <StoreListPop visible={showStore} OkBtnTxt='确定，下一步' list={storeList} maskClick onClose={(val) => storeCloseFn(val, 'close')} onOk={(val) => storeCloseFn(val, 'ok')} select={store?.shopId} />
+      {!!store && <TimeListPop visible={showTime} select={time} timeStart={(store.busiHours || '').split('-')[0]} timeEnd={(store.busiHours || '').split('-')[1]} onBack={timePopBack} onClose={timeCloseFn} onOk={timeCloseFn} />}
     </View>
   )
 }

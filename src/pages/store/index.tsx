@@ -41,7 +41,7 @@ export default function Home() {
   const queryShopInfo = () => {
     http({
       method: 'get',
-      url: '/api/shop/queryById',
+      url: '/mock/api/shop/queryById',
       data: {
         shopId: history.params.shopId
       }

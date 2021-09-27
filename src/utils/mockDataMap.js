@@ -247,7 +247,7 @@ export default {
       shopId: "887850325471100928",
       name: "来一桶",
       desc: "来一桶",
-      busiHours: "00:00-21:00",
+      busiHours: "20:01-次日3:01",
       address: "北纬路甲一号",
       phoneNum: "110",
       pic: [
