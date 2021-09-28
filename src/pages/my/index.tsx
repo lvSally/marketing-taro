@@ -1,7 +1,7 @@
 import { View, Text, Image } from '@tarojs/components'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import CustomTabar from '@src/components/customTabar'
-import Taro from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import httpRequest from '@http'
 import { encryptPhone, linkToLogin } from '@src/utils/tools'
 import './index.scss'
@@ -13,9 +13,9 @@ function Index() {
     credits: '--',
     phone: undefined
   })
-  useEffect(() => {
+  useDidShow(() => {
     getUserInfo()
-  }, [])
+  })
 
   const getUserInfo = () => {
     httpRequest({
@@ -46,7 +46,7 @@ function Index() {
           ? 
             <View className='user-basic'>
               <Image src={avatar} />
-              <Text>{encryptPhone(userInfo.phone || '')}</Text>
+              <Text>{encryptPhone(userInfo.phone)}</Text>
               <Text className='degree'>会员</Text>
             </View>
            : <View className='no-login-tip' onClick={() => linkTo()}>点击登录后查看</View>
