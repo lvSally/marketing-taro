@@ -72,10 +72,9 @@ function Index() {
         {
           couponList.map(item => <View key={item.packageId} className='custom-discount-list-block'>
           <View className='left'>{item.discount}折</View>
-          <View className='center'>
-            <View className='inner-title'>{item.couponName}</View>
+          <View className='center2'>
+            <View className='inner-title mb16'>{item.couponName}</View>
             <View>剩余{item.currentStock}张</View>
-            <View>每人限领1张，到店前台使用</View>
           </View>
           <View className='right'>
             <Text className={item.currentStock === 0 ? 'none' : item.isReceive === 1 ? 'have' : 'active'} onClick={() => getCoupon(item)}>{item.currentStock === 0 ? '已抢光' : item.isReceive === 1 ? '已领取' : '立即领取'}</Text>
@@ -93,7 +92,7 @@ function Index() {
             <View className='custom-discount-list-block border'>
               <View className='left'>{currentCoupon.discount}折</View>
               <View className='center'>
-                <View className='inner-title'>{currentCoupon.couponName}</View>
+                <View className='inner-title mt16 mb16'>{currentCoupon.couponName}</View>
                 <View className='inner-title'>券号：{currentCoupon.couponId}</View>
               </View>
               <View className='right'></View>

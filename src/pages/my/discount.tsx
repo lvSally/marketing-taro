@@ -77,7 +77,7 @@ export default function Discount() {
           dataList[curentTab].list.map(item => <View key={item.couponId} className={`custom-discount-list-block ${classMap[item.status]}`}>
             <View className='left'>{item.discount}折</View>
             <View className='center'>
-              <View className='inner-title'>{item.couponName}</View>
+              <View className='inner-title mb16 mt16'>{item.couponName}</View>
               <View className='inner-title'>券号：{item.couponId}</View>
             </View>
             <View className='right'></View>

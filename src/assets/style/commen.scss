@@ -411,7 +411,12 @@
   .inner-title {
     font-size: 30px;
     color: #333;
+  }
+  .mt16 {
     margin-top: 16px;
+  }
+  .mb16 {
+    margin-bottom: 16px;
   }
   .left {
     width: 180px;
@@ -430,6 +435,14 @@
     color: #666;
     font-size: 24px;
     white-space: nowrap;
+  }
+  .center2 {
+    box-sizing: border-box;
+    padding: 24px;
+    color: #666;
+    font-size: 24px;
+    width: 332px;
+    min-width: 332px;
   }
   .right {
     text-align: center;

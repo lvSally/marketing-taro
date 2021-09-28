@@ -20,7 +20,7 @@ export default function Record() {
       //   pageSize: 1
       // }
     }).then(data => {
-      setDataList(data.records)
+      setDataList(data?.records || data || [])
     })
   }
   // TODO: 1 分页， 2 订单创建时间， 3 快速预约时间

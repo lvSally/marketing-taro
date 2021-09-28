@@ -3,6 +3,12 @@ page {
 }
 .page-user {
   padding: 24px 32px;
+  .no-login-tip {
+    font-size: 40px;
+    text-decoration-line: underline;
+    text-align: center;
+    padding: 20px 0;
+  }
   .user-card {
     padding: 48px 32px;
     border-radius: 16px;
