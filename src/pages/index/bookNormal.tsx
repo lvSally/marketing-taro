@@ -97,10 +97,14 @@ export default function BookNormal(props:Iprops) {
     setShowStore(true)
   }
 
-  const bookBtn = () => {
+  const bookBtn = (selectTime?) => {
     if(notOpenDate()) return // 校验是否到开放时间
     if(linkToLogin('pages/index/index')) return // 处理token为空
 
+    const currentTime = selectTime || time
+    if(selectTime) {
+      setTime(selectTime)
+    }
     if(!store) {
       Taro.showToast({
         title: '请先选择门店',
@@ -110,7 +114,7 @@ export default function BookNormal(props:Iprops) {
       return
     }
 
-    if(!time) {
+    if(!currentTime) {
       Taro.showToast({
         title: '请选择时间',
         icon: 'none',
@@ -124,7 +128,6 @@ export default function BookNormal(props:Iprops) {
     }
     setLoading(true)
 
-    // {type: "todayList", time: "05:00"}
     http({
       method: 'post',
       url: '/api/shop/book',
@@ -132,10 +135,13 @@ export default function BookNormal(props:Iprops) {
         bookType: 'FAST',
         shopId: store.shopId,
         shopName: store.name,
-        entryDate: time,
+        entryDate: currentTime,
       }
     }).then(() => {
       queryNewBook()
+      if(selectTime) {
+        setShowTime(false)
+      }
     }).finally(() => {
       setLoading(false)
     })
@@ -151,10 +157,10 @@ export default function BookNormal(props:Iprops) {
         <View>到店时间:</View>
         <View className={`${time ? '' : 'empty'} content`} onClick={showTimeFn}>{(time && (time > dayjs().startOf('d').valueOf() + 86400000)) ? '明天 ' : ''}{(time && dayjs(time).format('HH:mm')) || '请选择'}</View>
       </View>
-      <AtButton className='book-btn' type='primary' circle onClick={bookBtn}>预约</AtButton>
+      <AtButton className='book-btn' type='primary' circle onClick={() => bookBtn()}>预约</AtButton>
 
       <StoreListPop visible={showStore} OkBtnTxt='确定，下一步' list={storeList} maskClick onClose={(val) => storeCloseFn(val, 'close')} onOk={(val) => storeCloseFn(val, 'ok')} select={store?.shopId} />
-      {!!store && <TimeListPop visible={showTime} select={time} timeStart={(store.busiHours || '').split('-')[0]} timeEnd={(store.busiHours || '').split('-')[1]} onBack={timePopBack} onClose={timeCloseFn} onOk={timeCloseFn} />}
+      {!!store && <TimeListPop visible={showTime} select={time} timeStart={(store.busiHours || '').split('-')[0]} timeEnd={(store.busiHours || '').split('-')[1]} onBack={timePopBack} onClose={timeCloseFn} onOk={(val) => bookBtn(val)} />}
     </View>
   )
 }
