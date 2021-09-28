@@ -5,6 +5,7 @@ import CustomPop from '@src/components/customPop'
 import Nodata from '@src/components/noData'
 import dayjs from 'dayjs'
 import { getTimeList } from '@src/utils/tools'
+import forceUpdateFn from '@src/hook/forceUpdate'
 
 type dayType = 'todayList'|'tomorrowList'
 interface Iprops {
@@ -28,6 +29,9 @@ export default function TimeListPop(props: Iprops) {
     todayList: [],
     tomorrowList: []
   })
+
+  const forceUpdate = forceUpdateFn()
+
   const dayMap = {
     0: 'todayList',
     1: 'tomorrowList',
@@ -47,7 +51,8 @@ export default function TimeListPop(props: Iprops) {
   }, [timeStart, timeEnd])
 
   const selectFn = (val) => {
-    if(daySelect === 'todayList' && val < +new Date()) {
+    if(val < +new Date()) {
+      forceUpdate()
       Taro.showToast({
         title: '该时间不可预约',
         icon: 'none',
@@ -59,7 +64,7 @@ export default function TimeListPop(props: Iprops) {
     setSelect(val)
   }
 
-  return <CustomPop title='选择到店时间' maskClick headBorder={false} visible={props.visible} onBack={props.onBack} onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select)}>
+  return <CustomPop title='选择到店时间' maskClick headBorder={false} visible={props.visible} onBack={props.onBack} onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select)} OkBtnTxt='确认预约'>
     <View className='custom-book-pop-wrap2'>
       <View className='time-bar-wrap'>
         {

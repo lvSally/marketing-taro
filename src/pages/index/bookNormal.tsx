@@ -4,6 +4,7 @@ import { AtButton } from 'taro-ui'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import http from '@http'
+import forceUpdateFn from '@src/hook/forceUpdate'
 import {linkToLogin, notOpenDate, queryNewBook} from "@src/utils/tools"
 import StoreListPop from './storeListPop'
 import TimeListPop from './TimeListPop'
@@ -30,6 +31,8 @@ export default function BookNormal(props:Iprops) {
   const [showTime, setShowTime] = useState(false)
   const [storeList, setStoreList] = useState([])
   const [loading, setLoading] = useState(false)
+
+  const forceUpdate = forceUpdateFn()
 
   useEffect(() => {
     queryShopList()
@@ -117,6 +120,15 @@ export default function BookNormal(props:Iprops) {
     if(!currentTime) {
       Taro.showToast({
         title: '请选择时间',
+        icon: 'none',
+        mask: false,
+      })
+      return
+    }
+    if(currentTime < +new Date()) {
+      forceUpdate()
+      Taro.showToast({
+        title: '该时间不可预约',
         icon: 'none',
         mask: false,
       })
