@@ -105,19 +105,6 @@ const linkToLogin = (redirect) => {
   return false
 }
 
-const notOpenDate = () => {
-  return false
-  if(+new Date() < dayjs('2021-10-01').valueOf()) {
-    Taro.showToast({
-      title: '10月1日正式开放预约，敬请期待',
-      icon: 'none',
-      mask: false,
-    })
-    return true
-  }
-  return false
-}
-
 const queryNewBook = () => {
   return new Promise((resolve, reject) => {
     http({
@@ -145,4 +132,4 @@ const queryNewBook = () => {
   })
 }
 
-export { formatDate, getTimeList, encryptPhone, hourToMillisecond, linkToLogin, notOpenDate, queryNewBook, dateTypeStr }
+export { formatDate, getTimeList, encryptPhone, hourToMillisecond, linkToLogin, queryNewBook, dateTypeStr }

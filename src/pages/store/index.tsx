@@ -6,7 +6,7 @@ import { AtButton } from 'taro-ui'
 import CustomAlert from '@src/components/customAlert'
 import Reserve from '@src/pages/index/bookPanel'
 import PhoneCall from '@src/components/phoneCall'
-import {linkToLogin, notOpenDate} from "@src/utils/tools"
+import {linkToLogin} from "@src/utils/tools"
 import { event, getGlobalData } from '@globalData'
 import ProjectList from './projectList'
 import PersonList from './personList'
@@ -41,7 +41,7 @@ export default function Home() {
   const queryShopInfo = () => {
     http({
       method: 'get',
-      url: '/mock/api/shop/queryById',
+      url: '/api/shop/queryById',
       data: {
         shopId: history.params.shopId
       }
@@ -62,7 +62,6 @@ export default function Home() {
   }
 
   const showBookContent = () => {
-    if(notOpenDate()) return // 校验是否到开放时间
     if(linkToLogin('pages/index/index')) return // 处理token为空
     if(bookData.status === 'SUCCESS') {
       Taro.showToast({

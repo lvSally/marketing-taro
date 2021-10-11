@@ -5,7 +5,7 @@ import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import http from '@http'
 import forceUpdateFn from '@src/hook/forceUpdate'
-import {linkToLogin, notOpenDate, queryNewBook} from "@src/utils/tools"
+import {linkToLogin, queryNewBook} from "@src/utils/tools"
 import StoreListPop from './storeListPop'
 import TimeListPop from './TimeListPop'
 
@@ -46,7 +46,7 @@ export default function BookNormal(props:Iprops) {
   const queryShopList = () => {
     http({
       method: 'get',
-      url: '/mock/api/shop/list',
+      url: '/api/shop/list',
       data: {
         pageNo: 1,
         pageSize: 100,
@@ -57,7 +57,6 @@ export default function BookNormal(props:Iprops) {
   }
 
   const showTimeFn = () => {
-    if(notOpenDate()) return // 校验是否到开放时间
     if(linkToLogin('pages/index/index')) return // 处理token为空
     if(!store) {
       Taro.showToast({
@@ -71,13 +70,21 @@ export default function BookNormal(props:Iprops) {
   }
 
   const showStoreFn = () => {
-    if(notOpenDate()) return // 校验是否到开放时间
     if(linkToLogin('pages/index/index')) return // 处理token为空
     if(props.store) return // 如果由店铺进入禁用门店选择
     setShowStore(true)
   }
 
   const storeCloseFn = (val, type: 'ok' | 'close') => {
+    if(!val && type === 'ok') {
+      Taro.showToast({
+        title: '请先选择门店',
+        icon: 'none',
+        mask: false,
+      })
+      return
+    }
+    
     storeList.forEach(item => {
       if(item.shopId === val) {
         setStore(item)
@@ -101,7 +108,6 @@ export default function BookNormal(props:Iprops) {
   }
 
   const bookBtn = (selectTime?) => {
-    if(notOpenDate()) return // 校验是否到开放时间
     if(linkToLogin('pages/index/index')) return // 处理token为空
 
     const currentTime = selectTime || time

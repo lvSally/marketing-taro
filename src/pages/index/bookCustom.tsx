@@ -3,7 +3,7 @@ import { AtButton } from 'taro-ui'
 import { View, Text } from '@tarojs/components'
 import { useState, useEffect, useMemo } from 'react'
 import http from '@http'
-import {linkToLogin, notOpenDate, queryNewBook} from "@src/utils/tools"
+import {linkToLogin, queryNewBook} from "@src/utils/tools"
 import StoreListPop from './storeListPop'
 import ProjectListPop from './projectListPop'
 import PersonAndTimePop from './personAndTimePop'
@@ -58,7 +58,7 @@ export default function BookCustom(props:Iprops) {
   const queryShopList = () => {
     http({
       method: 'get',
-      url: '/mock/api/shop/list',
+      url: '/api/shop/list',
       data: {
         pageNo: 1,
         pageSize: 100,
@@ -71,7 +71,7 @@ export default function BookCustom(props:Iprops) {
   const queryShopInfo = (shopId) => {
     http({
       method: 'get',
-      url: '/mock/api/shop/queryById',
+      url: '/api/shop/queryById',
       data: {
         shopId
       }
@@ -85,7 +85,6 @@ export default function BookCustom(props:Iprops) {
   }
 
   const startBtnFn = () => {
-    if(notOpenDate()) return // 校验是否到开放时间
     if(linkToLogin('pages/index/index')) return // 处理token为空
 
     setShowPopFn({
