@@ -56,11 +56,12 @@
     border-radius: 32px;
   }
   .at-icon-close-circle {
-    font-size: 40px;
+    font-size: 60px;
     margin-top: 160px;
     color: #fff;
     position: relative;
     left: 50%;
+    transform: translate(-50%, 0);
   }
 }
 .custom-alert-mask {

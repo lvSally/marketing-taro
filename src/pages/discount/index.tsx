@@ -68,7 +68,7 @@ function Index() {
         lowerThreshold={50}
         onScrollToLower={onScrollToLower}
       >
-        <View className='title'>到店优惠券</View>
+        <View className='title'>到店优惠券<Text className='sub-title'>(仅限大桶大会员使用)</Text></View>
         {
           couponList.map(item => <View key={item.packageId} className='custom-discount-list-block'>
           <View className='left'>{item.discount}折</View>
@@ -77,7 +77,7 @@ function Index() {
             <View>剩余{item.currentStock}张</View>
           </View>
           <View className='right'>
-            <Text className={item.currentStock === 0 ? 'none' : item.isReceive === 1 ? 'have' : 'active'} onClick={() => getCoupon(item)}>{item.currentStock === 0 ? '已抢光' : item.isReceive === 1 ? '已领取' : '立即领取'}</Text>
+            <Text className={item.currentStock === 0 ? 'none' : item.isReceive === 1 ? 'have' : 'active'} onClick={() => getCoupon(item)}>{item.currentStock === 0 ? '已抢光' : item.isReceive === 1 ? '本周已领取' : '立即领取'}</Text>
           </View>
         </View>)
         }
@@ -101,9 +101,10 @@ function Index() {
               </View>
             </View>
             <View className='desc'>
-              <View>使用说明：</View>
-              <View>1、优惠券可在“我的”-“优惠券”中查看，领取成功即开始计算有效期，请尽快使用以免过期</View>
-              <View>2、到店付款时，请与前台说明并告知券号，核销优惠券享受优惠</View>
+              <View>说明：</View>
+              <View>1、单用户每周限领3张，数量有限，先到先得</View>
+              <View>2、优惠券可在“我的”-“优惠券”中查看，领取成功即开始计算有效期，请尽快使用以免过期</View>
+              <View>3、到店付款时，请与前台说明以便核销优惠券享受优惠</View>
             </View>
           </View>
         </CustomAlert>}

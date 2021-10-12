@@ -12,6 +12,11 @@ page {
   .title {
     font-size: 32px 24px;
     margin-bottom: 32px;
+    .sub-title {
+      font-size: 24px;
+      margin-left: 16px;
+      color: #666;
+    }
   }
   .no-more {
     padding: 32px;
