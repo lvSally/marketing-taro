@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import 'promise-prototype-finally';
 import { useEffect } from 'react'
 import { setGlobalData } from '@globalData'
 import 'taro-skeleton/dist/index.css'
