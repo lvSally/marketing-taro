@@ -4,6 +4,7 @@ import CustomTabar from '@src/components/customTabar'
 import Taro, { useDidShow } from '@tarojs/taro'
 import httpRequest from '@http'
 import { encryptPhone, linkToLogin } from '@src/utils/tools'
+import Skeleton from 'taro-skeleton'
 import './index.scss'
 
 const avatar = 'https://cdn.utoohappy.com/mini/avatar.png'
@@ -13,23 +14,26 @@ function Index() {
     credits: '--',
     phone: undefined
   })
+  const [loading, setLoading] = useState(false)
   useDidShow(() => {
     getUserInfo()
   })
 
   const getUserInfo = () => {
+    setLoading(true)
     httpRequest({
       method: 'get',
       url: '/api/user/myInfo',
       noLogin: true,
       noMessage: true
     }).then(data => {
-      console.log(data)
       setUserInfo({
         couponCount: data?.couponCount,
         credits: data?.credits,
         phone: data?.phone
       })
+    }).finally(() => {
+      setLoading(false)
     })
   }
   const linkTo = function(url?) {
@@ -41,7 +45,7 @@ function Index() {
 
   return (
     <View className='page-user'>
-      <View className='user-card'>
+      {!loading && <View className='user-card'>
         {
           userInfo.phone 
           ? 
@@ -62,7 +66,8 @@ function Index() {
             <View>优惠券</View>
           </View>
         </View>
-      </View>
+      </View>}
+      {loading && <Skeleton title avatarShape='square' row={4} rowHeight={48} />}
       <View className='book-record' onClick={() => linkTo('/pages/my/record')}>
         <Text>预约记录</Text>
         <Text className='at-icon at-icon-chevron-right'></Text>
