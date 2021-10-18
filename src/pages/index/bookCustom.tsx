@@ -34,7 +34,7 @@ export default function BookCustom(props:Iprops) {
     shopId: props.store?.shopId,
     projectId: undefined,
     personAndTime: undefined,
-    step: props.store ? 'project' : 'store'
+    step: props.store ? 'personAndTime' : 'store'
   })
   const [loading, setLoading] = useState(false)
 
@@ -64,7 +64,7 @@ export default function BookCustom(props:Iprops) {
         pageSize: 100,
       }
     }).then(data => {
-      setStoreList(data.records || [])
+      setStoreList((data.records || []).filter(item => item.canBook === 1))
     })
   }
 
@@ -77,7 +77,7 @@ export default function BookCustom(props:Iprops) {
       }
     }).then(data => {
       setSelectStoreInfo({
-        shopProjects: data.shopProjects || [],
+        shopProjects: [],
         shopWorkers: data.shopWorkers || [],
         detail: data
       })
@@ -109,7 +109,7 @@ export default function BookCustom(props:Iprops) {
     })
     setShowPopFn({
       'store': false,
-      'project': true,
+      'personAndTime': true,
     })
   }
 
@@ -122,33 +122,13 @@ export default function BookCustom(props:Iprops) {
       })
       return
     }
-    setSelect({
-      ...select,
-      projectId: val,
-      personAndTime: undefined,
-    })
-    setShowPopFn({
-      'project': false,
-      'personAndTime': true,
-    })
-  }
-
-  const personAndTimeFn = (val) => {
-    if(!val) {
-      Taro.showToast({
-        title: '请选择技师及时间',
-        icon: 'none',
-        mask: false,
-      })
-      return
-    }
     if(loading) {
       return
     }
     setLoading(true)
     const postData = {
       ...select,
-      personAndTime: val
+      projectId: val
     }
     setSelect(postData)
     const {personId, entryDate} = postData.personAndTime
@@ -167,9 +147,33 @@ export default function BookCustom(props:Iprops) {
       }
     }).then(() => {
       queryNewBook()
-      setShowPopFn({'personAndTime': false})
+      setShowPopFn({'project': false})
     }).finally(() => {
       setLoading(false)
+    })
+  }
+
+  const personAndTimeFn = (val, person) => {
+    if(!val) {
+      Taro.showToast({
+        title: '请选择技师及时间',
+        icon: 'none',
+        mask: false,
+      })
+      return
+    }
+    setSelect({
+      ...select,
+      personAndTime: val,
+      projectId: undefined,
+    })
+    setSelectStoreInfo({
+      ...selectStoreInfo,
+      shopProjects: person.workerProjects || []
+    })
+    setShowPopFn({
+      'personAndTime': false,
+      'project': true,
     })
   }
 
@@ -187,15 +191,14 @@ export default function BookCustom(props:Iprops) {
       case 'project':
         newSelect.projectId = undefined
         newShowPop.project = false
-        newShowPop.store = true
+        newShowPop.personAndTime = true
         break
       case 'personAndTime':
         newSelect.personAndTime = undefined
         newShowPop.personAndTime = false
-        newShowPop.project = true
+        newShowPop.store = true
         break
     }
-
     setSelect({
       ...select,
       ...newSelect
@@ -209,13 +212,14 @@ export default function BookCustom(props:Iprops) {
   return (
     <View className='custon-book-custom'>
       <View className='desc'>
-        可以<Text className='blod'>自由定制选择服务项目、技师和时间</Text>点击下方按钮立即开始定制吧~
+        <View>可以<Text className='blod'>自由定制服务</Text></View>
+        <View>点击下方按钮立即开始定制吧~</View>
       </View>
       <AtButton className='book-btn' type='primary' circle onClick={startBtnFn}>开始定制预约</AtButton>
 
-      <StoreListPop OkBtnTxt='确定，下一步' visible={showPop.store} list={storeList} maskClick onClose={() => setShowPopFn({'store': false})} onOk={storeFn} select={select.shopId} />
-      <ProjectListPop onBack={props.store ? null : () => backFn('project')}  OkBtnTxt='确定，下一步' visible={showPop.project} list={selectStoreInfo.shopProjects} onClose={() => setShowPopFn({'project': false})} onOk={projectFn} select={select.projectId} />
-      <PersonAndTimePop list={selectStoreInfo.shopWorkers} onBack={() => backFn('personAndTime')} visible={showPop.personAndTime} select={select.personAndTime} onClose={() => setShowPopFn({'personAndTime': false})} onOk={personAndTimeFn} busiHours={props.store?.busiHours || selectStoreInfo.detail.busiHours} />
+      {showPop.store && <StoreListPop OkBtnTxt='确定，下一步' list={storeList} maskClick onClose={() => setShowPopFn({'store': false})} onOk={storeFn} select={select.shopId} />}
+      {showPop.project && <ProjectListPop onBack={() => backFn('project')} OkBtnTxt='确定' list={selectStoreInfo.shopProjects} onClose={() => setShowPopFn({'project': false})} onOk={projectFn} select={select.projectId} />}
+      {showPop.personAndTime && <PersonAndTimePop  OkBtnTxt='确定，下一步' list={selectStoreInfo.shopWorkers} onBack={props.store ? null : () => backFn('personAndTime')} select={select.personAndTime} onClose={() => setShowPopFn({'personAndTime': false})} onOk={personAndTimeFn} />}
     </View>
   )
 }

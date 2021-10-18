@@ -17,17 +17,19 @@ export interface ISelectPerson {
   name: string,
   pic: string,
   desc: string,
+  bookedTime: number[],
+  canBookTime: string
 }
 
 interface Iprops {
   visible?: boolean
   onClose?: (id) => void
-  onOk?: (id) => void
+  onOk?: (id, curentPerson) => void
   onBack?: () => void
   select?: ISelect | undefined
   OkBtnTxt?: string
   list: any[],
-  busiHours: string
+  busiHours?: string
 }
 
 export default function PersonAndTimePop(props: Iprops) {
@@ -43,7 +45,9 @@ export default function PersonAndTimePop(props: Iprops) {
   }, [props.select])
 
   useEffect(() => {
-    const busiHoursArr = props.busiHours?.split('-')
+    if(!person) return
+    // 处理时间段
+    const busiHoursArr = person.canBookTime?.split('-')
     if(busiHoursArr?.length === 2) {
       const timeStart = busiHoursArr[0]
       const timeEnd = busiHoursArr[1]
@@ -52,7 +56,7 @@ export default function PersonAndTimePop(props: Iprops) {
       setDayList(['今天 ' + dayjs().format('MM/DD'), '明天 ' + dayjs(+new Date() + 24*60*60*1000).format('MM/DD')])
       setTimeList([todayList, tomorrowList])
     }
-  }, [props.busiHours])
+  }, [person])
 
   useEffect(() => {
     if(props.list?.length) {
@@ -61,14 +65,14 @@ export default function PersonAndTimePop(props: Iprops) {
   }, [props.list])
 
   const selectTimeFn = (time) => {
-    // if(subItem.isBooked || caculTimeLabelStatus(item.bookDate) === 'disabled') {
-    //   Taro.showToast({
-    //     title: '该时间不可预约',
-    //     icon: 'none',
-    //     mask: false,
-    //   })
-    //   return
-    // }
+    if(time < +new Date() || person.bookedTime.includes(time)) {
+      Taro.showToast({
+        title: '该时间不可预约',
+        icon: 'none',
+        mask: false,
+      })
+      return
+    }
     setSelect({
       personId: person.workerId,
       entryDate: time,
@@ -76,12 +80,13 @@ export default function PersonAndTimePop(props: Iprops) {
   }
 
   const selectPersonFn = (personObj) => {
+    personObj.bookedTime = personObj.bookedTime || []
     setPerson(personObj)
     setDescCollapse(true)
   }
 
-  return <CustomPop title='选择技师、时段' onBack={props.onBack} headBorder={false} visible={props.visible} onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select)}>
-    {person ? <View className='custom-book-pop-wrap2'>
+  return <CustomPop title='选择技师、时段' OkBtnTxt={props.OkBtnTxt} onBack={props.onBack} headBorder={false} visible onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select, person)}>
+    {(person && props.list.length >0) ? <View className='custom-book-pop-wrap2'>
       <View className='time-bar-wrap'>
         {
           props.list.map((item, idx) => <View onClick={() => selectPersonFn(item)} key={`${idx}-person`} className={`time-bar ${item?.workerId === person?.workerId ? 'active' : ''}`}>{item.name || '-'}</View>)
@@ -106,7 +111,7 @@ export default function PersonAndTimePop(props: Iprops) {
             <View className='time-title'>{value}</View>
             <View className='time-btn-wrap'>
               {
-                timeList[idx].map(item => <Text onClick={() => selectTimeFn(item)} key={`${item}-time`} className={`time-btn ${item < +new Date() ? 'disabled' : ''} ${select?.entryDate === item ? 'active' : ''}`}>{dayjs(item).format('HH:mm')}</Text>)
+                timeList[idx].map(item => <Text onClick={() => selectTimeFn(item)} key={`${item}-time`} className={`time-btn ${(item < +new Date() || person.bookedTime.includes(item)) ? 'disabled' : ''} ${select?.entryDate === item ? 'active' : ''}`}>{dayjs(item).format('HH:mm')}</Text>)
               }
             </View>
           </View>)

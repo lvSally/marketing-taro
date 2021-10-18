@@ -19,6 +19,7 @@ export interface IStore {
   pic: any[],
   phoneNum?: string
   busiHours?: string
+  canBookTime?: string
 }
 interface Iprops {
   className?: string
@@ -52,7 +53,7 @@ export default function BookNormal(props:Iprops) {
         pageSize: 100,
       }
     }).then(data => {
-      setStoreList(data.records || [])
+      setStoreList((data.records || []).filter(item => item.canBook === 1))
     })
   }
 
@@ -177,8 +178,8 @@ export default function BookNormal(props:Iprops) {
       </View>
       <AtButton className='book-btn' type='primary' circle onClick={() => bookBtn()}>预约</AtButton>
 
-      <StoreListPop visible={showStore} OkBtnTxt='确定，下一步' list={storeList} maskClick onClose={(val) => storeCloseFn(val, 'close')} onOk={(val) => storeCloseFn(val, 'ok')} select={store?.shopId} />
-      {!!store && <TimeListPop visible={showTime} select={time} timeStart={(store.busiHours || '').split('-')[0]} timeEnd={(store.busiHours || '').split('-')[1]} onBack={timePopBack} onClose={timeCloseFn} onOk={(val) => bookBtn(val)} />}
+      {showStore && <StoreListPop OkBtnTxt='确定，下一步' list={storeList} maskClick onClose={(val) => storeCloseFn(val, 'close')} onOk={(val) => storeCloseFn(val, 'ok')} select={store?.shopId} />}
+      {!!store && showTime && <TimeListPop select={time} timeStart={(store.canBookTime || '').split('-')[0]} timeEnd={(store.canBookTime || '').split('-')[1]} onBack={props.store ? null : timePopBack} onClose={timeCloseFn} onOk={(val) => bookBtn(val)} />}
     </View>
   )
 }

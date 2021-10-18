@@ -61,8 +61,13 @@
         padding-right: 32px;
       }
       .right {
-        width: 160px;
-        min-width: 160px;
+        width: 200px;
+        min-width: 200px;
+        &.at-button--disabled {
+          background: linear-gradient(to right,#dcdcdc,#b9b9b9);
+          border: 1Px solid #dcdcdc;
+          opacity: 1;
+        }
       }
     }
   }
@@ -94,6 +99,11 @@
       box-sizing: border-box;
       padding: 32px 0;
     }
+  }
+
+  .notice {
+    word-break: break-all;
+    padding: 20px 40px;
   }
 
   .detail-content {

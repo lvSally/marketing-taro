@@ -257,7 +257,7 @@
     overflow-y: auto;
   }
   .time-bar {
-    padding: 32px;
+    padding: 32px 20px;
     box-sizing: border-box;
     color: #333;
     width: 100%;
@@ -349,8 +349,12 @@
     }
   }
 
-  .custom-empty {
-    left: 66%;
+  // .custom-empty {
+  //   left: 66%;
+  // }
+
+  .no-data-txt {
+    padding: 40px;
   }
 }
 

@@ -90,17 +90,18 @@ export default function Home() {
               <View>营业时间：{shopInfo.info.busiHours}</View>
               <View>地址：{shopInfo.info.address}</View>
             </View>
-            <AtButton className='right' type='primary' onClick={showBookContent}>预约</AtButton>
+            <AtButton className='right' type='primary' disabled={shopInfo.info.canBook === 0} onClick={showBookContent}>{shopInfo.info.canBook === 0 ? '未开放预约' : '预约'}</AtButton>
           </View>
         </View>
-        <View className='p16'>
+        {!!shopInfo.info.notice && <View className='notice'>公告: {shopInfo.info.notice}</View>}
+        {(shopInfo.projectList.length>0 || shopInfo.personList.length>0) && <View className='p16'>
           <View className='custom-tab-wrap'>
-            <View className={`tab ${curentList === 'project' ? 'active' : ''}`} onClick={() => setCurentList('project')}>项目</View>
-            <View  className={`tab ${curentList === 'person' ? 'active' : ''}`} onClick={() => setCurentList('person')}>技师</View>
+            {shopInfo.projectList.length>0 && <View className={`tab ${curentList === 'project' ? 'active' : ''}`} onClick={() => setCurentList('project')}>项目</View>}
+            {shopInfo.personList.length>0 && <View  className={`tab ${curentList === 'person' ? 'active' : ''}`} onClick={() => setCurentList('person')}>技师</View>}
           </View>
           {curentList === 'project' && <ProjectList list={shopInfo.projectList} storeFirstPic={storeFirstPic} />}
           {curentList === 'person' && <PersonList list={shopInfo.personList} storeFirstPic={storeFirstPic} />}
-        </View>
+        </View>}
       </View>
       <CustomAlert visible={showBookAlert} onClose={() => setShowBookAlert(false)}>
         <Reserve className='form-wrap' store={shopInfo.info} />

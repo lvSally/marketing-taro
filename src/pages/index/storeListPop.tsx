@@ -27,7 +27,7 @@ export default function StoreListPop(props: Iprops) {
     setSelect(val)
   }
 
-  return <CustomPop title='选择门店' maskClick={props.maskClick} headBorder={false} OkBtnTxt={props.OkBtnTxt} visible={props.visible} onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select)}>
+  return <CustomPop title='选择门店' maskClick={props.maskClick} headBorder={false} OkBtnTxt={props.OkBtnTxt} visible onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select)}>
     <View className='custom-book-pop-wrap'>
       {
         list.map((item, idx) => <View className={`block-list ${select === item.shopId ? 'active' : ''}`} key={`${idx}-store`} onClick={() => selectFn(item.shopId)}>
