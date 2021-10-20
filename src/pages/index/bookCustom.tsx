@@ -24,7 +24,6 @@ export default function BookCustom(props:Iprops) {
     project: false,
     personAndTime: false,
   })
-  const [storeList, setStoreList] = useState([])
   const [selectStoreInfo, setSelectStoreInfo] = useState({
     shopProjects: [],
     shopWorkers: [],
@@ -37,36 +36,14 @@ export default function BookCustom(props:Iprops) {
     step: props.store ? 'personAndTime' : 'store'
   })
   const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    if(!select.shopId) {
-      setSelectStoreInfo({
-        shopProjects: [],
-        shopWorkers: [],
-        detail: {}
-      })
-
-      return
-    }
-    queryShopInfo(select.shopId)
-  }, [select.shopId])
+  const [loadingShopInfo, setLoadingShopInfo] = useState(false)
+  const [storeList, setStoreList] = useState([])
   
   useEffect(() => {
-    queryShopList()
+    if(props.store) {
+      queryShopInfo(props.store.shopId)
+    }
   }, [])
-
-  const queryShopList = () => {
-    http({
-      method: 'get',
-      url: '/api/shop/list',
-      data: {
-        pageNo: 1,
-        pageSize: 100,
-      }
-    }).then(data => {
-      setStoreList((data.records || []).filter(item => item.canBook === 1))
-    })
-  }
 
   const queryShopInfo = (shopId) => {
     http({
@@ -92,7 +69,7 @@ export default function BookCustom(props:Iprops) {
     })
   }
 
-  const storeFn = (val) => {
+  const storeFn = (val, list) => {
     if(!val) {
       Taro.showToast({
         title: '请选择门店',
@@ -101,15 +78,35 @@ export default function BookCustom(props:Iprops) {
       })
       return
     }
-    setSelect({
-      ...select,
-      shopId: val,
-      projectId: undefined,
-      personAndTime: undefined,
-    })
-    setShowPopFn({
-      'store': false,
-      'personAndTime': true,
+    setStoreList(list)
+    if(loadingShopInfo) {
+      return
+    }
+    setLoadingShopInfo(true)
+    http({
+      method: 'get',
+      url: '/api/shop/queryById',
+      data: {
+        shopId: val
+      }
+    }).then(data => {
+      setSelectStoreInfo({
+        shopProjects: [],
+        shopWorkers: data.shopWorkers || [],
+        detail: data
+      })
+      setSelect({
+        ...select,
+        shopId: val,
+        projectId: undefined,
+        personAndTime: undefined,
+      })
+      setShowPopFn({
+        'store': false,
+        'personAndTime': true,
+      })
+    }).finally(() => {
+      setLoadingShopInfo(false)
     })
   }
 
@@ -140,7 +137,7 @@ export default function BookCustom(props:Iprops) {
         projectId: postData.projectId,
         bookType: 'SPECIAL',
         workerId: personId,
-        entryDate,
+        bookTime: entryDate,
         shopName: (storeList.find(item => item.shopId === postData.shopId) || {}).name,
         projectName: (selectStoreInfo.shopProjects.find(item => item.projectId === postData.projectId) || {}).name,
         workerName: (selectStoreInfo.shopWorkers.find(item => item.workerId === personId) || {}).name
@@ -217,9 +214,9 @@ export default function BookCustom(props:Iprops) {
       </View>
       <AtButton className='book-btn' type='primary' circle onClick={startBtnFn}>开始定制预约</AtButton>
 
-      {showPop.store && <StoreListPop OkBtnTxt='确定，下一步' list={storeList} maskClick onClose={() => setShowPopFn({'store': false})} onOk={storeFn} select={select.shopId} />}
-      {showPop.project && <ProjectListPop onBack={() => backFn('project')} OkBtnTxt='确定' list={selectStoreInfo.shopProjects} onClose={() => setShowPopFn({'project': false})} onOk={projectFn} select={select.projectId} />}
-      {showPop.personAndTime && <PersonAndTimePop  OkBtnTxt='确定，下一步' list={selectStoreInfo.shopWorkers} onBack={props.store ? null : () => backFn('personAndTime')} select={select.personAndTime} onClose={() => setShowPopFn({'personAndTime': false})} onOk={personAndTimeFn} />}
+      {showPop.store && <StoreListPop btnLoading={loadingShopInfo} OkBtnTxt='确定，下一步' maskClick onClose={() => setShowPopFn({'store': false})} onOk={storeFn} select={select.shopId} />}
+      {showPop.project && <ProjectListPop btnLoading={loading} onBack={() => backFn('project')} OkBtnTxt='确定' list={selectStoreInfo.shopProjects} onClose={() => setShowPopFn({'project': false})} onOk={projectFn} select={select.projectId} />}
+      {showPop.personAndTime && <PersonAndTimePop canBookTime={props.store?.canBookTime || (storeList.find(item => item.shopId === select.shopId) || {}).canBookTime} OkBtnTxt='确定，下一步' list={selectStoreInfo.shopWorkers} onBack={props.store ? null : () => backFn('personAndTime')} select={select.personAndTime} onClose={() => setShowPopFn({'personAndTime': false})} onOk={personAndTimeFn} />}
     </View>
   )
 }

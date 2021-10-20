@@ -6,7 +6,7 @@ import { AtButton } from 'taro-ui'
 import CustomAlert from '@src/components/customAlert'
 import Reserve from '@src/pages/index/bookPanel'
 import PhoneCall from '@src/components/phoneCall'
-import {linkToLogin} from "@src/utils/tools"
+import {linkToLogin, queryNewBook} from "@src/utils/tools"
 import { event, getGlobalData } from '@globalData'
 import ProjectList from './projectList'
 import PersonList from './personList'
@@ -25,13 +25,10 @@ export default function Home() {
     personList: [],
   })
 
-  const [bookData, setBookData] = useState<any>(getGlobalData('bookData') || {}) // 预约数据
+  const [loading, setLoading] = useState(false) // loading
 
   useEffect(() => {
     queryShopInfo()
-    event.listen('bookData', data => {
-      setBookData(data || {})
-    })
   }, [])
 
   const storeFirstPic = useMemo(() => {
@@ -63,15 +60,25 @@ export default function Home() {
 
   const showBookContent = () => {
     if(linkToLogin('pages/index/index')) return // 处理token为空
-    if(bookData.status === 'SUCCESS') {
-      Taro.showToast({
-        title: '已有其他预约',
-        icon: 'none',
-        mask: false,
-      })
+
+    if(loading) {
       return
     }
-    setShowBookAlert(true)
+    setLoading(true)
+    queryNewBook().then((data:any) => {
+      if(data.status === 'SUCCESS') {
+        Taro.showToast({
+          title: '已有其他预约',
+          icon: 'none',
+          mask: false,
+        })
+        return
+      }
+      setShowBookAlert(true)
+    }).catch(() => {
+      setLoading(false)
+      setShowBookAlert(true)
+    })
   }
 
   return (
@@ -90,7 +97,7 @@ export default function Home() {
               <View>营业时间：{shopInfo.info.busiHours}</View>
               <View>地址：{shopInfo.info.address}</View>
             </View>
-            <AtButton className='right' type='primary' disabled={shopInfo.info.canBook === 0} onClick={showBookContent}>{shopInfo.info.canBook === 0 ? '未开放预约' : '预约'}</AtButton>
+            <AtButton className='right' type='primary' disabled={shopInfo.info.canBook === 0} onClick={showBookContent} loading={loading}>{shopInfo.info.canBook === 0 ? '未开放预约' : '预约'}</AtButton>
           </View>
         </View>
         {!!shopInfo.info.notice && <View className='notice'>公告: {shopInfo.info.notice}</View>}

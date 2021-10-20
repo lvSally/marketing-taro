@@ -14,9 +14,10 @@ interface Iprops {
   headBorder?: boolean
   showOkBtn?: boolean
   OkBtnTxt?: string
+  btnLoading?:boolean
 }
 export default function CustomPop(props: Iprops) {
-  let { visible=false, title='', maskClick=false, headBorder=true, showOkBtn=true, OkBtnTxt='确定' } = props
+  let { visible=false, title='', maskClick=false, headBorder=true, showOkBtn=true, OkBtnTxt='确定', btnLoading } = props
 
   const closeFn = () => {
     props.onClose && props.onClose()
@@ -46,7 +47,7 @@ export default function CustomPop(props: Iprops) {
           </View>
           <View className='pop-body'>{props.children}</View>
           {showOkBtn && <View className='footer-content'>
-            <AtButton type='primary' circle onClick={okFn}>{OkBtnTxt}</AtButton>
+            <AtButton loading={btnLoading} type='primary' circle onClick={okFn}>{OkBtnTxt}</AtButton>
           </View>}
         </View>
       }

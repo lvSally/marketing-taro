@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { View } from '@tarojs/components'
+import { useDidShow } from '@tarojs/taro'
 import Skeleton from 'taro-skeleton'
 import {queryNewBook} from '@src/utils/tools'
 import { event } from '@globalData'
@@ -20,17 +21,20 @@ export default function BookPanel(props: Iprops) {
   const [activeTab, setActiveTab] = useState<'normal' | 'custom'>('normal') 
   const [bookData, setBookData] = useState<any>({}) // 预约数据
   const [loading, setLoading] = useState(false) // loading
-  useEffect(() => {
+  useDidShow(() => {
     setLoading(true)
     queryNewBook().then(() => {
       setLoading(false)
     }).catch(() => {
       setLoading(false)
     })
+  })
+
+  useEffect(() => {
     event.listen('bookData', data => {
       setBookData(data || {})
     })
-  }, [])
+  })
 
   return (
     <View className={`custom-reserve-form ${className || ''}`}>

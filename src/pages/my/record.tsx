@@ -42,7 +42,7 @@ export default function Record() {
             ?  <View key={idx} className='list-block'>
               <View className='top'>
                 <View className='title orange'>定制预约</View>
-                <View className='light'>{item.status === 'SUCCESS' ? '预约成功' : '已取消'}</View>
+                <View className='light'>{(item.status === 'SUCCESS' || item.status === 'EXPIRE') ? '预约成功' : '已取消'}</View>
               </View>
               <View>{item.shopName}·{item.projectName}·{item.workerName}·{item.bookData ? dayjs(item.bookData).format('YYYY/MM/DD')  : ''} {item.bookTime}</View>
               <View className='light time'>{item.createTime ? dayjs(item.createTime).format('YYYY/MM/DD HH:mm')  : '--'}</View>
@@ -50,7 +50,7 @@ export default function Record() {
             : <View key={idx} className='list-block'>
               <View className='top'>
                 <View className='title blue'>快速预约</View>
-                <View className='light'>{item.status === 'SUCCESS' ? '预约成功' : '已取消'}</View>
+                <View className='light'>{(item.status === 'SUCCESS' || item.status === 'EXPIRE') ? '预约成功' : '已取消'}</View>
               </View>
               <View>{item.shopName}·{item.entryDate ? dayjs(item.entryDate).format('YYYY/MM/DD HH:mm')  : ''}</View>
               <View className='light time'>{item.createTime ? dayjs(item.createTime).format('YYYY/MM/DD HH:mm')  : '--'}</View>

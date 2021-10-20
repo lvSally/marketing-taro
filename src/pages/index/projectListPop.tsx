@@ -13,6 +13,7 @@ interface Iprops {
   list: any[]
   select?: string | undefined
   OkBtnTxt?: string
+  btnLoading?:boolean
 }
 export default function ProjectListPop(props: Iprops) {
   const {list} = props
@@ -26,7 +27,7 @@ export default function ProjectListPop(props: Iprops) {
     setSelect(val)
   }
 
-  return <CustomPop title='选择项目' onBack={props.onBack} headBorder={false} OkBtnTxt={props.OkBtnTxt} visible onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select)}>
+  return <CustomPop title='选择项目' btnLoading={props.btnLoading} onBack={props.onBack} headBorder={false} OkBtnTxt={props.OkBtnTxt} visible onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select)}>
     <View className='custom-book-pop-wrap'>
       {
         list.map((item, idx) => <View className={`block-list ${select === item.projectId ? 'active' : ''}`} key={`${idx}-store`} onClick={() => selectFn(item.projectId)}>

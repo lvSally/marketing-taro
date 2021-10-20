@@ -116,6 +116,7 @@ const queryNewBook = () => {
       resolve(data)
       setGlobalData('bookData', data || {})
     }).catch((err) => {
+      setGlobalData('bookData', {})
       reject(err)
       // 排除无预约和未登录
       if(err.data && err.data.data) {

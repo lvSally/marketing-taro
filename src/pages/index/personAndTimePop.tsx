@@ -30,12 +30,15 @@ interface Iprops {
   OkBtnTxt?: string
   list: any[],
   busiHours?: string
+  canBookTime?: string
+  btnLoading?:boolean
 }
 
 export default function PersonAndTimePop(props: Iprops) {
   const [person, setPerson] = useState<ISelectPerson | undefined>()
   const [select, setSelect] = useState<ISelect | undefined>(undefined)
   const [descCollapse, setDescCollapse] = useState(true)
+  const [showContent, setShowContent] = useState(true)
   const [dayList, setDayList] = useState<string[]>([])
   const [timeList, setTimeList] = useState([[], []])
   // todo: 切换不同技师时更新已预定和不可预约
@@ -45,9 +48,9 @@ export default function PersonAndTimePop(props: Iprops) {
   }, [props.select])
 
   useEffect(() => {
-    if(!person) return
+    if(!props.canBookTime) return
     // 处理时间段
-    const busiHoursArr = person.canBookTime?.split('-')
+    const busiHoursArr = props.canBookTime?.split('-')
     if(busiHoursArr?.length === 2) {
       const timeStart = busiHoursArr[0]
       const timeEnd = busiHoursArr[1]
@@ -56,7 +59,7 @@ export default function PersonAndTimePop(props: Iprops) {
       setDayList(['今天 ' + dayjs().format('MM/DD'), '明天 ' + dayjs(+new Date() + 24*60*60*1000).format('MM/DD')])
       setTimeList([todayList, tomorrowList])
     }
-  }, [person])
+  }, [props.canBookTime])
 
   useEffect(() => {
     if(props.list?.length) {
@@ -83,16 +86,18 @@ export default function PersonAndTimePop(props: Iprops) {
     personObj.bookedTime = personObj.bookedTime || []
     setPerson(personObj)
     setDescCollapse(true)
+    setShowContent(false)
+    setTimeout(() => setShowContent(true), 10)
   }
 
-  return <CustomPop title='选择技师、时段' OkBtnTxt={props.OkBtnTxt} onBack={props.onBack} headBorder={false} visible onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select, person)}>
-    {(person && props.list.length >0) ? <View className='custom-book-pop-wrap2'>
+  return <CustomPop btnLoading={props.btnLoading} title='选择技师、时段' OkBtnTxt={props.OkBtnTxt} onBack={props.onBack} headBorder={false} visible onClose={() => props.onClose && props.onClose(select)} onOk={() => props.onOk && props.onOk(select, person)}>
+    {(person && props.list.length > 0 && props.canBookTime) ? <View className='custom-book-pop-wrap2'>
       <View className='time-bar-wrap'>
         {
           props.list.map((item, idx) => <View onClick={() => selectPersonFn(item)} key={`${idx}-person`} className={`time-bar ${item?.workerId === person?.workerId ? 'active' : ''}`}>{item.name || '-'}</View>)
         }
       </View>
-      <View className='person-wrap'>
+      {showContent && <View className='person-wrap'>
         <View className='person-desc'>
           <View>技师介绍</View>
           <View className='img-wrap'>
@@ -116,7 +121,7 @@ export default function PersonAndTimePop(props: Iprops) {
             </View>
           </View>)
         }
-      </View>
+      </View>}
     </View> : <View className='custom-book-pop-wrap2 date-wrap'><Nodata /></View>}
   </CustomPop>
 }

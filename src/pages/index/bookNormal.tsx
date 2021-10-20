@@ -30,32 +30,14 @@ export default function BookNormal(props:Iprops) {
   const [time, setTime] = useState()
   const [showStore, setShowStore] = useState(false)
   const [showTime, setShowTime] = useState(false)
-  const [storeList, setStoreList] = useState([])
   const [loading, setLoading] = useState(false)
 
   const forceUpdate = forceUpdateFn()
-
-  useEffect(() => {
-    queryShopList()
-  }, [])
 
   // 监听store变化时清空time中的内容
   useEffect(() => {
     setTime(undefined)
   }, [store])
-
-  const queryShopList = () => {
-    http({
-      method: 'get',
-      url: '/api/shop/list',
-      data: {
-        pageNo: 1,
-        pageSize: 100,
-      }
-    }).then(data => {
-      setStoreList((data.records || []).filter(item => item.canBook === 1))
-    })
-  }
 
   const showTimeFn = () => {
     if(linkToLogin('pages/index/index')) return // 处理token为空
@@ -76,7 +58,7 @@ export default function BookNormal(props:Iprops) {
     setShowStore(true)
   }
 
-  const storeCloseFn = (val, type: 'ok' | 'close') => {
+  const storeCloseFn = (val, storeList, type: 'ok' | 'close') => {
     if(!val && type === 'ok') {
       Taro.showToast({
         title: '请先选择门店',
@@ -178,7 +160,7 @@ export default function BookNormal(props:Iprops) {
       </View>
       <AtButton className='book-btn' type='primary' circle onClick={() => bookBtn()}>预约</AtButton>
 
-      {showStore && <StoreListPop OkBtnTxt='确定，下一步' list={storeList} maskClick onClose={(val) => storeCloseFn(val, 'close')} onOk={(val) => storeCloseFn(val, 'ok')} select={store?.shopId} />}
+      {showStore && <StoreListPop OkBtnTxt='确定，下一步' maskClick onClose={(val, list) => storeCloseFn(val, list, 'close')} onOk={(val, list) => storeCloseFn(val, list, 'ok')} select={store?.shopId} />}
       {!!store && showTime && <TimeListPop select={time} timeStart={(store.canBookTime || '').split('-')[0]} timeEnd={(store.canBookTime || '').split('-')[1]} onBack={props.store ? null : timePopBack} onClose={timeCloseFn} onOk={(val) => bookBtn(val)} />}
     </View>
   )
