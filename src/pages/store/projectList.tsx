@@ -21,11 +21,9 @@ export default function ProjectList(props: Iprops) {
       list.map(item => <View key={item.projectId} className='block-list' onClick={() => linkTo(item)}>
       <Image className='left' src={item.pic || defaultImg} />
       <View className='flex-column'>
-        <View>
-          <View className='sub-title'>{item.name || '-'}</View>
-          <View>{(item.desc || '').length > 30 ? `${item.desc.substring(0, 30)}...` : item.desc}</View>
-        </View>
-        <View className='sub-title'>￥{item.price} / {item.duration}分钟</View>
+        <View className='sub-title2'>{item.name || '-'}</View>
+        <View>{(item.desc || '').length > 30 ? `${item.desc.substring(0, 30)}...` : item.desc}</View>
+        <View className='sub-title2'>￥{item.price} / {item.duration}分钟</View>
       </View>
     </View>)
     }
