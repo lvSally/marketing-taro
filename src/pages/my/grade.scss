@@ -3,6 +3,7 @@ page {
 }
 
 .page-grade {
+  height: 100vh;
   .title {
     height: 180px;
     line-height: 180px;
@@ -22,5 +23,10 @@ page {
       margin-top: 16px;
       color: #666;
     }
+  }
+  .no-more {
+    text-align: center;
+    color: #ccc;
+    padding: 40px;
   }
 }

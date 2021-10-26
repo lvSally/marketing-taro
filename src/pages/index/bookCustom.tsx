@@ -55,7 +55,7 @@ export default function BookCustom(props:Iprops) {
     }).then(data => {
       setSelectStoreInfo({
         shopProjects: [],
-        shopWorkers: data.shopWorkers || [],
+        shopWorkers: (data.shopWorkers || []).filter(item => item.canBook === 1),
         detail: data
       })
     })
@@ -92,7 +92,7 @@ export default function BookCustom(props:Iprops) {
     }).then(data => {
       setSelectStoreInfo({
         shopProjects: [],
-        shopWorkers: data.shopWorkers || [],
+        shopWorkers: (data.shopWorkers || []).filter(item => item.canBook === 1),
         detail: data
       })
       setSelect({

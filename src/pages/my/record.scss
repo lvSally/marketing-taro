@@ -5,6 +5,7 @@ page {
 .page-record {
   box-sizing: border-box;
   padding: 32px;
+  height: 100vh;
   .list-block {
     padding: 32px;
     border-bottom: 1px solid #f0f0f0;
@@ -42,5 +43,9 @@ page {
     .time {
       margin-top: 24px;
     }
+  }
+  .no-more {
+    text-align: center;
+    color: #ccc;
   }
 }

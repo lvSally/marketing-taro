@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { View, ScrollView } from '@tarojs/components'
 import dayjs from 'dayjs'
 import http from '@http'
@@ -10,25 +10,43 @@ import './grade.scss'
 export default function Grade() {
   const [dataList, setDataList] = useState([])
   const params = useRouter().params
+  const [loading, setLoading] = useState(false)
+  const pageObj = useRef({
+    pageNo: 10,
+    total: 0,
+    hasMore: true
+  })
   useEffect(() => {
-    queryCreditsTrans()
+    queryCreditsTrans(1)
   }, [])
 
-  const queryCreditsTrans = () => {
+  const queryCreditsTrans = (pageNo) => {
+    setLoading(true)
     http({
       method: 'get',
       url: '/api/credits/queryCreditsTrans',
       data: {
-        pageSize: 100,
-        pageNo: 1
+        pageSize: 10,
+        pageNo
       }
     }).then(data => {
-      setDataList(data.records)
+      const currentList = dataList.concat(data.records || [])
+      pageObj.current = {
+        pageNo: data.current,
+        total: data.total,
+        hasMore: data.total < currentList.length
+      }
+      setDataList(currentList)
+    }).finally(() => {
+      setLoading(false)
     })
   }
   
   const onScrollToLower = () => {
-    console.log('end')
+    if(loading || !pageObj.current.hasMore) {
+      return
+    }
+    queryCreditsTrans(pageObj.current.pageNo + 1)
   }
 
   return (
@@ -48,6 +66,8 @@ export default function Grade() {
           </View>
           <View className='right'>{item.amount > 0 ? `+${item.amount}` : item.amount}</View>
         </View>)}
+
+        {(pageObj.current.hasMore || dataList.length === 0) ? null : <View className='no-more'>没有更多了</View>}
       </ScrollView>
       {dataList.length === 0 && <NoData />}
     </View>
