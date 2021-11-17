@@ -35,7 +35,7 @@ export default function ProjectListPop(props: Iprops) {
           <View className='center direction-column'>
             <View>
               <View className='sub-title'>{item.name}</View>
-              <View>{item.desc}</View>
+              <View>{(item.desc || '').length > 30 ? `${item.desc.substring(0, 30)}...` : item.desc}</View>
             </View>
             <View className='sub-title'>￥{item.price} / {item.duration}分钟</View>
           </View>

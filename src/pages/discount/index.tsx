@@ -68,7 +68,7 @@ function Index() {
         lowerThreshold={50}
         onScrollToLower={onScrollToLower}
       >
-        <View className='title'>到店优惠券<Text className='sub-title'>(仅限大桶大会员使用)</Text></View>
+        <View className='title'>到店优惠券<Text className='sub-title'>(仅限大桶大森兰店会员使用)</Text></View>
         {
           couponList.map(item => <View key={item.packageId} className='custom-discount-list-block'>
           <View className='left'>{item.discount}折</View>

@@ -66,6 +66,7 @@ export default function Home() {
     }
     setLoading(true)
     queryNewBook().then((data:any) => {
+      setLoading(false)
       if(data.status === 'SUCCESS') {
         Taro.showToast({
           title: '已有其他预约',
@@ -74,6 +75,7 @@ export default function Home() {
         })
         return
       }
+      
       setShowBookAlert(true)
     }).catch(() => {
       setLoading(false)
